@@ -9,5 +9,5 @@ class AdDel(Connector):
     def new_cannajobs_entry(self, values):
         # job number, receive date, tests, status
         values_tuple = (values[0], values[1], values[2], values[3])
-        query = 'INSERT INTO cannajobs VALUES (?,?,?,?)'
+        query = 'INSERT INTO cannajobs (job_number, tests, receive_date, status) VALUES (?,?,?,?)'
         return self.connector(query, values_tuple)

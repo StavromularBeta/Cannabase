@@ -17,5 +17,5 @@ class CreateTb(Connector):
         query = self.table_dictionary[dictionary_index]
         return self.connector(query)
 
-#db = CreateTb()
-#db.create_table(1)
+db = CreateTb()
+db.create_table(1)

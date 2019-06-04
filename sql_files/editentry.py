@@ -13,7 +13,6 @@ class EditEntry(Connector):
                                       }
 
     def edit_cannajobs_entry(self, field, update, customer_id):
-        query = 'UPDATE cannajobs SET ' + self.rolodex_field_names[field] + " = '" + update + "' WHERE id = " +\
+        query = 'UPDATE cannajobs SET ' + self.cannajobs_field_names[field] + " = '" + str(update) + "' WHERE id = " +\
                 str(customer_id)
-        print(query)
         return self.connector(query)
