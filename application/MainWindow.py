@@ -52,4 +52,5 @@ class MainWindow(Tk.Frame):
         self.clear_main_window()
         self.JobpageWindow.generate_jobpage(customer)
         self.JobpageWindow.update_job_information(customer)
+        self.JobpageWindow.display_tests(customer)
         self.JobpageWindow.grid()
