@@ -89,14 +89,14 @@ class EditAddWindow(Tk.Frame):
                      test_list,
                      datetime.date.today(),
                      0,
-                     datetime.date.today())
+                     datetime.date(2000, 1, 1))
         self.add_delete_query.new_cannajobs_entry(job_entry)
         for item in self.generate_tests_list():
             test_entry = (job_number,
                           item,
                           datetime.date.today(),
                           0,
-                          datetime.date.today())
+                          datetime.date(2000, 1, 1))
             self.add_delete_query.new_cannajobs_tests_entry(test_entry)
         self.clear_edit_add_frame()
         self.edit_add()
