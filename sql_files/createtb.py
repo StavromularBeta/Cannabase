@@ -8,9 +8,17 @@ class CreateTb(Connector):
         self.table_dictionary = {1: """ CREATE TABLE IF NOT EXISTS cannajobs (
                                            id integer PRIMARY KEY,
                                            job_number text,
-                                           tests int,
+                                           tests text,
                                            receive_date date,
-                                           status BOOLEAN ) """
+                                           status int,
+                                           complete_date date) """,
+                                 2: """ CREATE TABLE IF NOT EXISTS cannajobs_tests (
+                                                   id integer PRIMARY KEY,
+                                                   job_number text,
+                                                   test_type int,
+                                                   submit_date date,
+                                                   status int,
+                                                   complete_date date) """
                                  }
 
     def create_table(self, dictionary_index):
@@ -19,3 +27,4 @@ class CreateTb(Connector):
 
 db = CreateTb()
 db.create_table(1)
+db.create_table(2)

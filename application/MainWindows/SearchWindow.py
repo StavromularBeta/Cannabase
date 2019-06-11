@@ -32,9 +32,10 @@ class SearchWindow(Tk.Frame):
         display_all_jobs_canvas.pack(side="left", fill='y')
         display_all_jobs_canvas.create_window((0, 0), window=self.all_jobs_display_frame, anchor='nw')
         Tk.Label(self.all_jobs_display_frame, text="Job Number").grid(row=0, column=0)
-        Tk.Label(self.all_jobs_display_frame, text="Date Submitted").grid(row=0, column=1)
-        Tk.Label(self.all_jobs_display_frame, text="Tests").grid(row=0, column=2)
+        Tk.Label(self.all_jobs_display_frame, text="Tests").grid(row=0, column=1)
+        Tk.Label(self.all_jobs_display_frame, text="Submission Date").grid(row=0, column=2)
         Tk.Label(self.all_jobs_display_frame, text="Status").grid(row=0, column=3)
+        Tk.Label(self.all_jobs_display_frame, text="Complete Date").grid(row=0, column=4)
         if search:
             self.return_jobs(search)
         else:
@@ -49,15 +50,17 @@ class SearchWindow(Tk.Frame):
         first_customer_row = 1
         for item in all_jobs_data:
             job_number = item[1]
-            date_submitted = item[2]
-            tests = item[3]
+            tests = item[2]
+            date_submitted = item[3]
             status = item[4]
+            complete_date = item[5]
             Tk.Button(self.all_jobs_display_frame,
                       text=job_number,
                       command=lambda item=item: self.parent.display_jobpage(item)).grid(row=first_customer_row, column=0)
-            Tk.Label(self.all_jobs_display_frame, text=date_submitted).grid(row=first_customer_row, column=1)
-            Tk.Label(self.all_jobs_display_frame, text=tests).grid(row=first_customer_row, column=2)
+            Tk.Label(self.all_jobs_display_frame, text=tests).grid(row=first_customer_row, column=1)
+            Tk.Label(self.all_jobs_display_frame, text=date_submitted).grid(row=first_customer_row, column=2)
             Tk.Label(self.all_jobs_display_frame, text=status).grid(row=first_customer_row, column=3)
+            Tk.Label(self.all_jobs_display_frame, text=complete_date).grid(row=first_customer_row, column=4)
             first_customer_row += 1
 
     def search_jobs(self):
