@@ -15,10 +15,10 @@ class MainApplication(Tk.Frame):
         self.MainWindow.pack(side='right', fill='both', expand=True)
         self.BannerBar.make_banner()
         self.NavigationBar.make_navbar()
-        self.MainWindow.display_homepage()
+        self.MainWindow.display_searchpage()
 
 
 root = Tk.Tk()
-root.geometry('1240x900')
+root.geometry('1200x900')
 MainApplication(root).grid()
 root.mainloop()

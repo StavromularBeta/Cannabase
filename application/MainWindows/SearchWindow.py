@@ -1,7 +1,9 @@
 import tkinter as Tk
+import datetime
 import sys
 sys.path.append("/Users/PeterLevett/PycharmProjects/Cannabase/Cannabase/sql_files")
 import selection as sel
+from tkinter import font as tkFont
 
 
 class SearchWindow(Tk.Frame):
@@ -12,6 +14,8 @@ class SearchWindow(Tk.Frame):
         self.search_frame = Tk.Frame(self)
         self.all_jobs_display_frame = Tk.Frame(self)
         self.selection = sel.Selection()
+        self.search_table_field_font = tkFont.Font(size=16, weight='bold')
+        self.job_id_font = tkFont.Font(size=15)
 
     def clear_search_window(self):
         for widget in self.winfo_children():
@@ -24,18 +28,18 @@ class SearchWindow(Tk.Frame):
         # job number, receive date, tests, status
     def display_all_jobs(self, search=None):
         self.clear_search_window()
-        display_all_jobs_canvas = Tk.Canvas(self.jobs_display_frame, width=450, height=800, scrollregion=(0, 0, 0, 2000))
+        display_all_jobs_canvas = Tk.Canvas(self.jobs_display_frame, width=520, height=800, scrollregion=(0, 0, 0, 2000))
         all_entries_scroll = Tk.Scrollbar(self.jobs_display_frame, orient="vertical", command=display_all_jobs_canvas.yview)
         self.all_jobs_display_frame = Tk.Frame(self)  # I don't understand why this needs to be here.
         display_all_jobs_canvas.configure(yscrollcommand=all_entries_scroll.set)
         all_entries_scroll.pack(side='right', fill='y')
         display_all_jobs_canvas.pack(side="left", fill='y')
         display_all_jobs_canvas.create_window((0, 0), window=self.all_jobs_display_frame, anchor='nw')
-        Tk.Label(self.all_jobs_display_frame, text="Job Number").grid(row=0, column=0)
-        Tk.Label(self.all_jobs_display_frame, text="Tests").grid(row=0, column=1)
-        Tk.Label(self.all_jobs_display_frame, text="Submission Date").grid(row=0, column=2)
-        Tk.Label(self.all_jobs_display_frame, text="Status").grid(row=0, column=3)
-        Tk.Label(self.all_jobs_display_frame, text="Complete Date").grid(row=0, column=4)
+        Tk.Label(self.all_jobs_display_frame, text="Job Number", font=self.search_table_field_font).grid(row=0, column=0)
+        Tk.Label(self.all_jobs_display_frame, text="Tests", font=self.search_table_field_font).grid(row=0, column=1)
+        Tk.Label(self.all_jobs_display_frame, text="Submission Date", font=self.search_table_field_font).grid(row=0, column=2)
+        Tk.Label(self.all_jobs_display_frame, text="Status", font=self.search_table_field_font).grid(row=0, column=3)
+        Tk.Label(self.all_jobs_display_frame, text="Complete Date", font=self.search_table_field_font).grid(row=0, column=4)
         if search:
             self.return_jobs(search)
         else:
@@ -53,7 +57,10 @@ class SearchWindow(Tk.Frame):
             tests = item[2]
             date_submitted = item[3]
             status = item[4]
-            complete_date = item[5]
+            if str(item[5]) == '2000-01-01':
+                complete_date = "Incomplete"
+            else:
+                complete_date = item[5]
             Tk.Button(self.all_jobs_display_frame,
                       text=job_number,
                       command=lambda item=item: self.parent.display_jobpage(item)).grid(row=first_customer_row, column=0)
@@ -74,8 +81,12 @@ class SearchWindow(Tk.Frame):
         search_options.grid(row=0)
         self.search_entry_field = Tk.Entry(search_result_frame)
         self.search_entry_field.grid(row=0, column=1)
-        Tk.Button(search_result_frame, text="search", command=self.search_database_for_jobs).grid(row=0, column=2)
-        Tk.Button(search_result_frame, text="all", command=self.parent.display_searchpage).grid(row=0, column=3)
+        Tk.Button(search_result_frame, text="search", command=self.search_database_for_jobs).grid(row=1,
+                                                                                                  column=0,
+                                                                                                  sticky=Tk.E)
+        Tk.Button(search_result_frame, text="all", command=self.parent.display_searchpage).grid(row=1,
+                                                                                                column=1,
+                                                                                                sticky=Tk.W)
         self.search_frame.grid(row=0, column=1, sticky=Tk.NW)
 
     def search_database_for_jobs(self):

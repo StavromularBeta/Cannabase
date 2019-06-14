@@ -4,6 +4,7 @@ sys.path.append("/Users/PeterLevett/PycharmProjects/Cannabase/Cannabase/sql_file
 import editentry
 import selection
 import datetime
+import addel
 
 
 class JobpageWindow(Tk.Frame):
@@ -16,6 +17,7 @@ class JobpageWindow(Tk.Frame):
         self.update_entry = Tk.Entry(self.update_information_frame)
         self.edit_entry = editentry.EditEntry()
         self.selection = selection.Selection()
+        self.addel = addel.AdDel()
         self.cannajobs_converter = {'Job Number': 2,
                                     'Tests': 4,
                                     'Receive Date': 3,
@@ -32,6 +34,9 @@ class JobpageWindow(Tk.Frame):
     def generate_jobpage(self, job):
         self.basic_information_window.grid(row=0, column=0)
         Tk.Label(self.basic_information_window, text="Job Number: " + str(job[1])).grid(row=1, column=0, sticky=Tk.W)
+        Tk.Button(self.basic_information_window,
+                  text="Delete Job",
+                  command=lambda: self.delete_job(job[0], job[1])).grid(row=1, column=3, sticky=Tk.W)
         Tk.Label(self.basic_information_window, text="Receive Date: " + str(job[3])).grid(row=3, column=0, sticky=Tk.W)
         if job[4] == 0:
             Tk.Label(self.basic_information_window, text="Status: Incomplete").grid(row=4, column=0, sticky=Tk.W)
@@ -41,16 +46,16 @@ class JobpageWindow(Tk.Frame):
 
     def update_job_information(self, job):
         self.update_information_frame.grid(row=1, column=0)
-        self.update_entry.grid(row=0, column=0, columnspan=2)
+        self.update_entry.grid(row=0, column=0, columnspan=2, sticky=Tk.W)
         option_variable = Tk.StringVar(self.update_information_frame)
         option_variable.set('Status')
         update_options = Tk.OptionMenu(self.update_information_frame,
                                        option_variable,
                                        "Status",
-                                       "Tests",).grid(row=1, column=0)
+                                       "Tests",).grid(row=1, column=0, sticky=Tk.W)
         update_entry_button = Tk.Button(self.update_information_frame,
                                         text="Update",
-                                        command=lambda: self.update_db(job, option_variable)).grid(row=1, column=1)
+                                        command=lambda: self.update_db(job, option_variable)).grid(row=1, column=1, sticky=Tk.W)
 
     def display_tests(self, job):
         self.test_display_frame.grid(row=2, column=0)
@@ -74,7 +79,10 @@ class JobpageWindow(Tk.Frame):
     def update_db(self, job, option_variable):
         desired_update = self.update_entry.get()
         self.edit_entry.edit_cannajobs_entry(self.cannajobs_converter[option_variable.get()], desired_update, job[0])
-        self.edit_entry.edit_cannajobs_entry(6, datetime.date.today(), job[0])
+        if int(desired_update) == 1:
+            self.edit_entry.edit_cannajobs_entry(6, datetime.date.today(), job[0])
+        else:
+            self.edit_entry.edit_cannajobs_entry(6, datetime.date(2000, 1, 1), job[0])
         self.clear_jobpage_window()
         self.parent.display_jobpage(job)
 
@@ -87,3 +95,8 @@ class JobpageWindow(Tk.Frame):
         self.edit_entry.edit_cannajobs_tests_entry(5, 0, id)
         self.edit_entry.edit_cannajobs_tests_entry(6, datetime.date(2000, 1, 1), id)
         self.parent.display_jobpage(job)
+
+    def delete_job(self, id, job):
+        self.addel.delete_cannajob_entry((id,))
+        self.addel.delete_cannajob_tests((job,))
+        self.parent.display_searchpage()

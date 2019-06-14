@@ -15,3 +15,11 @@ class AdDel(Connector):
         values_tuple = (values[0], values[1], values[2], values[3], values[4])
         query = 'INSERT INTO cannajobs_tests (job_number, test_type, submit_date, status, complete_date) VALUES (?,?,?,?,?)'
         return self.connector(query, values_tuple)
+
+    def delete_cannajob_entry(self, id):
+        query = 'DELETE FROM cannajobs WHERE id = ?'
+        return self.connector(query, id)
+
+    def delete_cannajob_tests(self, job_number):
+        query = 'DELETE FROM cannajobs_tests WHERE job_number = ?'
+        return self.connector(query, job_number)
