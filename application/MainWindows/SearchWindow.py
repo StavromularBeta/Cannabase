@@ -28,7 +28,7 @@ class SearchWindow(Tk.Frame):
         # job number, receive date, tests, status
     def display_all_jobs(self, search=None):
         self.clear_search_window()
-        display_all_jobs_canvas = Tk.Canvas(self.jobs_display_frame, width=850, height=800, scrollregion=(0, 0, 0, 2000))
+        display_all_jobs_canvas = Tk.Canvas(self.jobs_display_frame, width=1080, height=800, scrollregion=(0, 0, 0, 2000))
         all_entries_scroll = Tk.Scrollbar(self.jobs_display_frame, orient="vertical", command=display_all_jobs_canvas.yview)
         self.all_jobs_display_frame = Tk.Frame(self)  # I don't understand why this needs to be here.
         display_all_jobs_canvas.configure(yscrollcommand=all_entries_scroll.set)
