@@ -7,11 +7,11 @@ from tkinter import font as tkFont
 
 
 class SearchWindow(Tk.Frame):
-    def __init__(self, parent):
-        Tk.Frame.__init__(self, parent)
+    def __init__(self, parent, **kwargs):
+        Tk.Frame.__init__(self, parent, **kwargs)
         self.parent = parent
         self.jobs_display_frame = Tk.Frame(self)
-        self.search_frame = Tk.Frame(self)
+        self.search_frame = Tk.Frame(self, borderwidth=1, relief='solid')
         self.all_jobs_display_frame = Tk.Frame(self)
         self.selection = sel.Selection()
         self.search_table_field_font = tkFont.Font(size=16, weight='bold')
@@ -21,7 +21,7 @@ class SearchWindow(Tk.Frame):
         for widget in self.winfo_children():
             widget.destroy()
         self.jobs_display_frame = Tk.Frame(self)
-        self.search_frame = Tk.Frame(self)
+        self.search_frame = Tk.Frame(self, borderwidth=1, relief='solid')
         self.all_jobs_display_frame = Tk.Frame(self)
 
 
@@ -45,7 +45,7 @@ class SearchWindow(Tk.Frame):
             self.return_jobs(search)
         else:
             self.return_jobs()
-        self.jobs_display_frame.grid(row=1, column=0)
+        self.jobs_display_frame.grid(row=1, column=0, pady=5)
 
     def return_jobs(self, search=None):
         if search:
@@ -74,7 +74,7 @@ class SearchWindow(Tk.Frame):
             first_customer_row += 1
 
     def search_jobs(self):
-        self.search_frame = Tk.Frame(self)
+        self.search_frame = Tk.Frame(self, borderwidth=1, relief='solid')
         Tk.Label(self.search_frame, text="Search Jobs").grid(row=0, column=0)
         search_result_frame = Tk.Frame(self.search_frame)
         search_result_frame.grid(row=1, column=0, columnspan=3)

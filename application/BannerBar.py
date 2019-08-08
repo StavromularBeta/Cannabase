@@ -3,8 +3,8 @@ from tkinter import font as tkFont
 
 
 class BannerBar(Tk.Frame):
-    def __init__(self, parent):
-        Tk.Frame.__init__(self, parent)
+    def __init__(self, parent, **kwargs):
+        Tk.Frame.__init__(self, parent, **kwargs)
         self.banner_font = tkFont.Font(size=48, weight='bold')
 
     def make_banner(self):

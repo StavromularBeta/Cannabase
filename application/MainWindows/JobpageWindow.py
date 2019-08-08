@@ -8,8 +8,8 @@ import addel
 
 
 class JobpageWindow(Tk.Frame):
-    def __init__(self, parent):
-        Tk.Frame.__init__(self, parent)
+    def __init__(self, parent, **kwargs):
+        Tk.Frame.__init__(self, parent, **kwargs)
         self.parent = parent
         self.basic_information_window = Tk.Frame(self)
         self.update_information_frame = Tk.Frame(self)

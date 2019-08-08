@@ -2,8 +2,8 @@ import tkinter as Tk
 
 
 class GraphsWindow(Tk.Frame):
-    def __init__(self, parent):
-        Tk.Frame.__init__(self, parent)
+    def __init__(self, parent, **kwargs):
+        Tk.Frame.__init__(self, parent, **kwargs)
         self.parent = parent
 
     def graphs(self):

@@ -7,8 +7,8 @@ from MainWindows import HomepageWindow as Hpw,\
 
 
 class MainWindow(Tk.Frame):
-    def __init__(self, parent):
-        Tk.Frame.__init__(self, parent)
+    def __init__(self, parent, **kwargs):
+        Tk.Frame.__init__(self, parent, **kwargs)
         self.HomepageWindow = Hpw.HomepageWindow(self)
         self.GraphsWindow = Grw.GraphsWindow(self)
         self.SearchWindow = Srw.SearchWindow(self)
@@ -41,16 +41,16 @@ class MainWindow(Tk.Frame):
         else:
             self.SearchWindow.display_all_jobs()
         self.SearchWindow.search_jobs()
-        self.SearchWindow.grid()
+        self.SearchWindow.grid(padx=5, pady=5)
 
     def display_editaddpage(self):
         self.clear_main_window()
         self.EditAddWindow.edit_add()
-        self.EditAddWindow.grid()
+        self.EditAddWindow.grid(padx=5, pady=5)
 
     def display_jobpage(self, customer):
         self.clear_main_window()
         self.JobpageWindow.generate_jobpage(customer)
         self.JobpageWindow.update_job_information(customer)
         self.JobpageWindow.display_tests(customer)
-        self.JobpageWindow.grid()
+        self.JobpageWindow.grid(padx=5, pady=5)

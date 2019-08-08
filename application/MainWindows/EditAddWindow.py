@@ -6,8 +6,8 @@ import datetime
 
 
 class EditAddWindow(Tk.Frame):
-    def __init__(self, parent):
-        Tk.Frame.__init__(self, parent)
+    def __init__(self, parent, **kwargs):
+        Tk.Frame.__init__(self, parent, **kwargs)
         self.parent = parent
         self.add_delete_query = ad.AdDel()
         self.add_new_job_frame = Tk.Frame(self)

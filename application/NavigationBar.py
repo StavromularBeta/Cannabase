@@ -3,8 +3,8 @@ from tkinter import font as tkFont
 
 
 class NavigationBar(Tk.Frame):
-    def __init__(self, parent):
-        Tk.Frame.__init__(self, parent)
+    def __init__(self, parent, **kwargs):
+        Tk.Frame.__init__(self, parent, **kwargs)
         self.parent = parent
         self.nav_bar_button_font = tkFont.Font(size=18)
 
@@ -18,7 +18,7 @@ class NavigationBar(Tk.Frame):
                                     command=self.parent.MainWindow.display_editaddpage,
                                     font=self.nav_bar_button_font)
         search_button.grid(row=0)
-        edit_add_button.grid(row=1)
+        edit_add_button.grid(row=1, pady=5)
 
 
 
