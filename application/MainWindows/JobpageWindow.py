@@ -19,9 +19,10 @@ class JobpageWindow(Tk.Frame):
         self.selection = selection.Selection()
         self.addel = addel.AdDel()
         self.cannajobs_converter = {'Job Number': 2,
-                                    'Tests': 4,
-                                    'Receive Date': 3,
-                                    'Status': 5
+                                    'Tests': 3,
+                                    'Client Name': 4,
+                                    'Receive Date': 5,
+                                    'Status': 6
                                     }
 
     def clear_jobpage_window(self):
@@ -37,11 +38,12 @@ class JobpageWindow(Tk.Frame):
         Tk.Button(self.basic_information_window,
                   text="Delete Job",
                   command=lambda: self.delete_job(job[0], job[1])).grid(row=1, column=3, sticky=Tk.W)
-        Tk.Label(self.basic_information_window, text="Receive Date: " + str(job[3])).grid(row=3, column=0, sticky=Tk.W)
+        Tk.Label(self.basic_information_window, text="Client: " + str(job[3])).grid(row=3, column=0, sticky=Tk.W)
+        Tk.Label(self.basic_information_window, text="Recieve Date: " + str(job[4])).grid(row=4, column=0, sticky=Tk.W)
         if job[4] == 0:
-            Tk.Label(self.basic_information_window, text="Status: Incomplete").grid(row=4, column=0, sticky=Tk.W)
+            Tk.Label(self.basic_information_window, text="Status: Incomplete").grid(row=5, column=0, sticky=Tk.W)
         else:
-            Tk.Label(self.basic_information_window, text="Completed On: " + str(job[5])).grid(row=4, column=0, sticky=Tk.W)
+            Tk.Label(self.basic_information_window, text="Completed On: " + str(job[6])).grid(row=5, column=0, sticky=Tk.W)
 
 
     def update_job_information(self, job):
@@ -80,9 +82,9 @@ class JobpageWindow(Tk.Frame):
         desired_update = self.update_entry.get()
         self.edit_entry.edit_cannajobs_entry(self.cannajobs_converter[option_variable.get()], desired_update, job[0])
         if int(desired_update) == 1:
-            self.edit_entry.edit_cannajobs_entry(6, datetime.date.today(), job[0])
+            self.edit_entry.edit_cannajobs_entry(7, datetime.date.today(), job[0])
         else:
-            self.edit_entry.edit_cannajobs_entry(6, datetime.date(2000, 1, 1), job[0])
+            self.edit_entry.edit_cannajobs_entry(7, datetime.date(2000, 1, 1), job[0])
         self.clear_jobpage_window()
         self.parent.display_jobpage(job)
 

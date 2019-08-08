@@ -9,6 +9,7 @@ class CreateTb(Connector):
                                            id integer PRIMARY KEY,
                                            job_number text,
                                            tests text,
+                                           client_name text,
                                            receive_date date,
                                            status int,
                                            complete_date date) """,

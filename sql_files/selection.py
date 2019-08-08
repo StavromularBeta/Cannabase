@@ -10,9 +10,10 @@ class Selection(Connector):
         self.cannajobs_field_names = {1: 'id',
                                       2: 'job_number',
                                       3: 'tests',
-                                      4: 'receive_date',
-                                      5: 'status',
-                                      6: 'complete_date'
+                                      4: 'client_name',
+                                      5: 'receive_date',
+                                      6: 'status',
+                                      7: 'complete_date'
                                       }
         self.cannajobs_tests_field_names = {1: 'id',
                                             2: 'job_number',
