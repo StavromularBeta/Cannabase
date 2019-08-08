@@ -39,7 +39,6 @@ class SearchWindow(Tk.Frame):
         Tk.Label(self.all_jobs_display_frame, text="Tests", font=self.search_table_field_font).grid(row=0, column=1)
         Tk.Label(self.all_jobs_display_frame, text="Client", font=self.search_table_field_font).grid(row=0, column=2)
         Tk.Label(self.all_jobs_display_frame, text="Submission Date", font=self.search_table_field_font).grid(row=0, column=3)
-        Tk.Label(self.all_jobs_display_frame, text="Status", font=self.search_table_field_font).grid(row=0, column=4)
         Tk.Label(self.all_jobs_display_frame, text="Complete Date", font=self.search_table_field_font).grid(row=0, column=5)
         if search:
             self.return_jobs(search)
@@ -58,7 +57,6 @@ class SearchWindow(Tk.Frame):
             tests = item[2]
             client_name = item[3]
             date_submitted = item[4]
-            status = item[5]
             if str(item[6]) == '2000-01-01':
                 complete_date = "Incomplete"
             else:
@@ -69,7 +67,6 @@ class SearchWindow(Tk.Frame):
             Tk.Label(self.all_jobs_display_frame, text=tests).grid(row=first_customer_row, column=1)
             Tk.Label(self.all_jobs_display_frame, text=client_name).grid(row=first_customer_row, column=2)
             Tk.Label(self.all_jobs_display_frame, text=date_submitted).grid(row=first_customer_row, column=3)
-            Tk.Label(self.all_jobs_display_frame, text=status).grid(row=first_customer_row, column=4)
             Tk.Label(self.all_jobs_display_frame, text=complete_date).grid(row=first_customer_row, column=5)
             first_customer_row += 1
 
