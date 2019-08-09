@@ -8,5 +8,5 @@ class BannerBar(Tk.Frame):
         self.banner_font = tkFont.Font(size=48, weight='bold')
 
     def make_banner(self):
-        main_banner = Tk.Label(self, text="Cannabase", font=self.banner_font)
+        main_banner = Tk.Label(self, text="Cannabase", font=self.banner_font, bg='#60992d')
         main_banner.grid()

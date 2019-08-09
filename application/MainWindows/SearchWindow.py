@@ -72,9 +72,9 @@ class SearchWindow(Tk.Frame):
 
     def search_jobs(self):
         self.search_frame = Tk.Frame(self, borderwidth=1, relief='solid')
-        Tk.Label(self.search_frame, text="Search Jobs").grid(row=0, column=0)
+        Tk.Label(self.search_frame, text="Search Jobs", font=self.search_table_field_font).grid(row=0, column=0)
         search_result_frame = Tk.Frame(self.search_frame)
-        search_result_frame.grid(row=1, column=0, columnspan=3)
+        search_result_frame.grid(row=1, column=0, columnspan=3, padx=5, ipadx=2, ipady=2, pady=5)
         self.option_variable = Tk.StringVar(search_result_frame)
         self.option_variable.set('Job Number')
         search_options = Tk.OptionMenu(search_result_frame, self.option_variable, "Job Number", "Active", "Client Name")

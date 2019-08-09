@@ -17,8 +17,8 @@ class NavigationBar(Tk.Frame):
                                     text="Enter\nNew Job",
                                     command=self.parent.MainWindow.display_editaddpage,
                                     font=self.nav_bar_button_font)
-        search_button.grid(row=0)
-        edit_add_button.grid(row=1, pady=5)
+        search_button.grid(row=0, padx=5, pady=5)
+        edit_add_button.grid(row=1, padx=5)
 
 
 

@@ -13,9 +13,10 @@ class JobpageWindow(Tk.Frame):
         self.parent = parent
         self.title_font = tkFont.Font(size=16, weight='bold')
         self.basic_information_window = Tk.Frame(self, borderwidth=1, relief='solid')
-        self.update_information_frame = Tk.Frame(self)
+        self.update_information_frame = Tk.Frame(self, borderwidth=1, relief='solid')
         self.test_display_frame = Tk.Frame(self, borderwidth=1, relief='solid')
         self.update_entry = Tk.Entry(self.update_information_frame)
+        self.job_number_font = tkFont.Font(size=16, weight='bold')
         self.edit_entry = editentry.EditEntry()
         self.selection = selection.Selection()
         self.addel = addel.AdDel()
@@ -34,8 +35,8 @@ class JobpageWindow(Tk.Frame):
         self.test_display_frame = Tk.Frame(self, borderwidth=1, relief='solid')
 
     def generate_jobpage(self, job):
-        self.basic_information_window.grid(row=0, column=0, sticky=Tk.W)
-        Tk.Label(self.basic_information_window, text="Job Number: " + str(job[1])).grid(row=1, column=0, sticky=Tk.W)
+        self.basic_information_window.grid(row=0, column=0, sticky=Tk.W, padx=5, pady=5, ipadx=2, ipady=2)
+        Tk.Label(self.basic_information_window, text="Job Number: " + str(job[1]), font=self.job_number_font).grid(row=1, column=0, sticky=Tk.W)
         Tk.Button(self.basic_information_window,
                   text="Delete Job",
                   command=lambda: self.delete_job(job[0], job[1])).grid(row=1, column=3, sticky=Tk.W)
@@ -48,21 +49,23 @@ class JobpageWindow(Tk.Frame):
 
 
     def update_job_information(self, job):
-        self.update_information_frame.grid(row=1, column=0)
+        self.update_information_frame.grid(row=2, column=0, sticky=Tk.W, padx=5, pady=5, ipadx=2, ipady=2)
         if job[5] == 0:
             Tk.Label(self.update_information_frame, text="This Job is Incomplete.").grid(row=1, column=0, sticky=Tk.W)
             Tk.Button(self.update_information_frame,
                       text="Press To Complete",
-                      command=lambda: self.update_db(job, 1)).grid(row=1, column=1, sticky=Tk.W)
+                      command=lambda: self.update_db(job, 1)).grid(row=2, column=0, sticky=Tk.W)
         else:
             Tk.Label(self.update_information_frame, text="This Job is Complete.").grid(row=1, column=0, sticky=Tk.W)
             Tk.Button(self.update_information_frame,
                       text="Press To Reset",
-                      command=lambda: self.update_db(job, 0)).grid(row=1, column=1, sticky=Tk.W)
+                      command=lambda: self.update_db(job, 0)).grid(row=2, column=0, sticky=Tk.W)
 
+        self.filler_canvas = Tk.Canvas(self, width=1100, height=600)
+        self.filler_canvas.grid(row=3, column=0, columnspan=3)
 
     def display_tests(self, job):
-        self.test_display_frame.grid(row=0, column=1, sticky=Tk.NW, padx=5)
+        self.test_display_frame.grid(row=1, column=0, sticky=Tk.NW, padx=5, ipadx=2, ipady=2)
         active_tests = self.selection.select_from_cannajobs_tests__table_with_conditions(2, (str(job[1]),))
         Tk.Label(self.test_display_frame, text="Tests", font=self.title_font).grid(row=0, column=0, sticky=Tk.W)
         row_count = 1

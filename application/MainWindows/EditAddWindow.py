@@ -3,14 +3,16 @@ import sys
 sys.path.append("/Users/PeterLevett/PycharmProjects/Cannabase/Cannabase/sql_files")
 import addel as ad
 import datetime
+from tkinter import font as tkFont
 
 
 class EditAddWindow(Tk.Frame):
     def __init__(self, parent, **kwargs):
         Tk.Frame.__init__(self, parent, **kwargs)
         self.parent = parent
+        self.large_bold_font_choice = tkFont.Font(size=16, weight='bold')
         self.add_delete_query = ad.AdDel()
-        self.add_new_job_frame = Tk.Frame(self)
+        self.add_new_job_frame = Tk.Frame(self, borderwidth=1, relief='solid')
         self.jobnumber_entry = Tk.Entry(self.add_new_job_frame)
         self.client_name_entry = Tk.Entry(self.add_new_job_frame)
         # Checkboxes
@@ -38,7 +40,7 @@ class EditAddWindow(Tk.Frame):
     def clear_edit_add_frame(self):
         for widget in self.winfo_children():
             widget.destroy()
-        self.add_new_job_frame = Tk.Frame(self)
+        self.add_new_job_frame = Tk.Frame(self, borderwidth=1, relief='solid')
         self.jobnumber_entry = Tk.Entry(self.add_new_job_frame)
         self.client_name_entry = Tk.Entry(self.add_new_job_frame)
         self.metals = Tk.IntVar()
@@ -63,27 +65,28 @@ class EditAddWindow(Tk.Frame):
         self.other_checkbox = Tk.Checkbutton(self.add_new_job_frame, text='Other', variable=self.other)
 
     def edit_add(self):
-        edit_add_label = Tk.Label(self, text="Edit/Add")
         new_job_entry_frame = self.generate_new_job_frame()
-        edit_add_label.grid(row=0)
-        new_job_entry_frame.grid(row=1)
+        new_job_entry_frame.grid(row=0, sticky=Tk.W, padx=5, ipadx=2, ipady=2)
 
         # job number, receive date, tests, status
     def generate_new_job_frame(self):
-        Tk.Label(self.add_new_job_frame, text="New Job Entry").grid(row=0, columnspan=2)
+        Tk.Label(self.add_new_job_frame, text="New Job Entry", font=self.large_bold_font_choice).grid(row=0, columnspan=2, sticky= Tk.W)
         Tk.Label(self.add_new_job_frame, text="Job Number").grid(row=1, sticky=Tk.W)
         Tk.Label(self.add_new_job_frame, text="Client Name").grid(row=2, sticky=Tk.W)
         self.jobnumber_entry.grid(row=1, column=1, columnspan=2, sticky=Tk.W)
         self.client_name_entry.grid(row=2, column=1, columnspan=2, sticky=Tk.W)
-        self.metals_checkbox.grid(row=3, column=1, sticky=Tk.W)
-        self.basic_potency_checkbox.grid(row=4, column=1, sticky=Tk.W)
-        self.deluxe_potency_checkbox.grid(row=5, column=1, sticky=Tk.W)
-        self.toxins_checkbox.grid(row=6, column=1, sticky=Tk.W)
-        self.pesticides_checkbox.grid(row=7, column=1, sticky=Tk.W)
-        self.terpenes_checkbox.grid(row=8, column=1, sticky=Tk.W)
-        self.solvents_checkbox.grid(row=9, column=1, sticky=Tk.W)
-        self.other_checkbox.grid(row=10, column=1, sticky=Tk.W)
-        Tk.Button(self, text="Enter Job", command=self.input_entry).grid(row=2, column=0, columnspan=2, pady=10)
+        Tk.Label(self.add_new_job_frame, text="Requested Tests", font=self.large_bold_font_choice).grid(row=3, columnspan=2, sticky= Tk.W)
+        self.metals_checkbox.grid(row=4, column=0, sticky=Tk.W)
+        self.basic_potency_checkbox.grid(row=5, column=0, sticky=Tk.W)
+        self.deluxe_potency_checkbox.grid(row=6, column=0, sticky=Tk.W)
+        self.toxins_checkbox.grid(row=7, column=0, sticky=Tk.W)
+        self.pesticides_checkbox.grid(row=8, column=0, sticky=Tk.W)
+        self.terpenes_checkbox.grid(row=9, column=0, sticky=Tk.W)
+        self.solvents_checkbox.grid(row=10, column=0, sticky=Tk.W)
+        self.other_checkbox.grid(row=11, column=0, sticky=Tk.W)
+        Tk.Button(self, text="Enter Job", command=self.input_entry).grid(row=2, column=0, pady=10, sticky=Tk.W)
+        self.filler_canvas = Tk.Canvas(self, width=1100, height=600)
+        self.filler_canvas.grid(row=3, column=0)
         return self.add_new_job_frame
 
     def input_entry(self):
