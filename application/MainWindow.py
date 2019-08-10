@@ -3,7 +3,9 @@ from MainWindows import HomepageWindow as Hpw,\
                         GraphsWindow as Grw,\
                         SearchWindow as Srw,\
                         EditAddWindow as Eaw,\
-                        JobpageWindow as Jpw
+                        JobpageWindow as Jpw, \
+                        ArchiveWindow as Ach
+
 
 
 class MainWindow(Tk.Frame):
@@ -14,6 +16,7 @@ class MainWindow(Tk.Frame):
         self.SearchWindow = Srw.SearchWindow(self)
         self.EditAddWindow = Eaw.EditAddWindow(self)
         self.JobpageWindow = Jpw.JobpageWindow(self)
+        self.ArchiveWindow = Ach.ArchiveWindow(self)
 
     def clear_main_window(self):
         for widget in self.winfo_children():
@@ -23,6 +26,7 @@ class MainWindow(Tk.Frame):
         self.SearchWindow = Srw.SearchWindow(self)
         self.EditAddWindow = Eaw.EditAddWindow(self)
         self.JobpageWindow = Jpw.JobpageWindow(self)
+        self.ArchiveWindow = Ach.ArchiveWindow(self)
 
     def display_homepage(self):
         self.clear_main_window()
@@ -54,3 +58,8 @@ class MainWindow(Tk.Frame):
         self.JobpageWindow.update_job_information(customer)
         self.JobpageWindow.display_tests(customer)
         self.JobpageWindow.grid(padx=5, pady=5)
+
+    def display_archive(self):
+        self.clear_main_window()
+        self.ArchiveWindow.display_archive()
+        self.ArchiveWindow.grid(padx=5, pady=5)

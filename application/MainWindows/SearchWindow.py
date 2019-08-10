@@ -25,7 +25,6 @@ class SearchWindow(Tk.Frame):
         self.all_jobs_display_frame = Tk.Frame(self)
 
 
-        # job number, receive date, tests, status
     def display_all_jobs(self, search=None):
         self.clear_search_window()
         display_all_jobs_canvas = Tk.Canvas(self.jobs_display_frame, width=1080, height=700, scrollregion=(0, 0, 0, 2000))

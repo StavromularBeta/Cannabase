@@ -17,8 +17,13 @@ class NavigationBar(Tk.Frame):
                                     text="Enter\nNew Job",
                                     command=self.parent.MainWindow.display_editaddpage,
                                     font=self.nav_bar_button_font)
+        archive_button = Tk.Button(self,
+                                   text="Job\nArchives",
+                                   command=self.parent.MainWindow.display_archive,
+                                   font=self.nav_bar_button_font)
         search_button.grid(row=0, padx=5, pady=5)
         edit_add_button.grid(row=1, padx=5)
+        archive_button.grid(row=2, padx=5, pady=5)
 
 
 

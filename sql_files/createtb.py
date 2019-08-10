@@ -1,4 +1,5 @@
 from connector import Connector
+import datetime
 
 
 class CreateTb(Connector):
@@ -18,7 +19,21 @@ class CreateTb(Connector):
                                                    job_number text,
                                                    test_type int,
                                                    submit_date date,
-                                                   status int,
+                                                   complete_date date) """,
+                                 3: """ CREATE TABLE IF NOT EXISTS cannajobs""" + str(datetime.date.today().year) + """(
+                                                   id integer PRIMARY KEY,
+                                                   current_id int,
+                                                   job_number text,
+                                                   tests text,
+                                                   client_name text,
+                                                   receive_date date,
+                                                   complete_date date) """,
+                                 4: """ CREATE TABLE IF NOT EXISTS cannajobs_tests""" + str(datetime.date.today().year) + """ (
+                                                   id integer PRIMARY KEY,
+                                                   current_id int,
+                                                   job_number text,
+                                                   test_type int,
+                                                   submit_date date,
                                                    complete_date date) """
                                  }
 
@@ -26,6 +41,9 @@ class CreateTb(Connector):
         query = self.table_dictionary[dictionary_index]
         return self.connector(query)
 
+
 db = CreateTb()
 db.create_table(1)
 db.create_table(2)
+db.create_table(3)
+db.create_table(4)
