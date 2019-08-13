@@ -34,11 +34,11 @@ class SearchWindow(Tk.Frame):
         all_entries_scroll.pack(side='right', fill='y')
         display_all_jobs_canvas.pack(side="left", fill='y')
         display_all_jobs_canvas.create_window((0, 0), window=self.all_jobs_display_frame, anchor='nw')
-        Tk.Label(self.all_jobs_display_frame, text="Job Number", font=self.search_table_field_font).grid(row=0, column=0)
-        Tk.Label(self.all_jobs_display_frame, text="Tests", font=self.search_table_field_font).grid(row=0, column=1)
-        Tk.Label(self.all_jobs_display_frame, text="Client", font=self.search_table_field_font).grid(row=0, column=2)
-        Tk.Label(self.all_jobs_display_frame, text="Submission Date", font=self.search_table_field_font).grid(row=0, column=3)
-        Tk.Label(self.all_jobs_display_frame, text="Complete Date", font=self.search_table_field_font).grid(row=0, column=5)
+        Tk.Label(self.all_jobs_display_frame, text="W#", font=self.search_table_field_font).grid(row=0, column=0, sticky=Tk.W, padx=2, pady=2)
+        Tk.Label(self.all_jobs_display_frame, text="Tests", font=self.search_table_field_font).grid(row=0, column=1, sticky=Tk.W, padx=2, pady=2)
+        Tk.Label(self.all_jobs_display_frame, text="Client", font=self.search_table_field_font).grid(row=0, column=2, sticky=Tk.W, padx=2, pady=2)
+        Tk.Label(self.all_jobs_display_frame, text="Submission Date", font=self.search_table_field_font).grid(row=0, column=3, sticky=Tk.W, padx=2, pady=2)
+        Tk.Label(self.all_jobs_display_frame, text="Complete Date", font=self.search_table_field_font).grid(row=0, column=5, sticky=Tk.W, padx=2, pady=2)
         if search:
             self.return_jobs(search)
         else:
@@ -62,11 +62,11 @@ class SearchWindow(Tk.Frame):
                 complete_date = item[6]
             Tk.Button(self.all_jobs_display_frame,
                       text=job_number,
-                      command=lambda item=item: self.parent.display_jobpage(item)).grid(row=first_customer_row, column=0)
-            Tk.Label(self.all_jobs_display_frame, text=tests).grid(row=first_customer_row, column=1)
-            Tk.Label(self.all_jobs_display_frame, text=client_name).grid(row=first_customer_row, column=2)
-            Tk.Label(self.all_jobs_display_frame, text=date_submitted).grid(row=first_customer_row, column=3)
-            Tk.Label(self.all_jobs_display_frame, text=complete_date).grid(row=first_customer_row, column=5)
+                      command=lambda item=item: self.parent.display_jobpage(item)).grid(row=first_customer_row, column=0, sticky=Tk.W, padx=2, pady=2)
+            Tk.Label(self.all_jobs_display_frame, text=tests).grid(row=first_customer_row, column=1, sticky=Tk.W, padx=2, pady=2)
+            Tk.Label(self.all_jobs_display_frame, text=client_name).grid(row=first_customer_row, column=2, sticky=Tk.W, padx=2, pady=2)
+            Tk.Label(self.all_jobs_display_frame, text=date_submitted).grid(row=first_customer_row, column=3, sticky=Tk.W, padx=2, pady=2)
+            Tk.Label(self.all_jobs_display_frame, text=complete_date).grid(row=first_customer_row, column=5, sticky=Tk.W, padx=2, pady=2)
             first_customer_row += 1
 
     def search_jobs(self):

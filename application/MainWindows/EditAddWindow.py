@@ -13,8 +13,14 @@ class EditAddWindow(Tk.Frame):
         self.large_bold_font_choice = tkFont.Font(size=16, weight='bold')
         self.add_delete_query = ad.AdDel()
         self.add_new_job_frame = Tk.Frame(self, borderwidth=1, relief='solid')
+        self.job_notes_frame = Tk.Frame(self, borderwidth=1, relief='solid')
         self.jobnumber_entry = Tk.Entry(self.add_new_job_frame)
         self.client_name_entry = Tk.Entry(self.add_new_job_frame)
+        self.job_notes = Tk.Text(self.job_notes_frame,
+                                 borderwidth=1,
+                                 width=65,
+                                 height=20,
+                                 wrap="word")
         # Checkboxes
         self.metals = Tk.IntVar()
         self.metals_checkbox = Tk.Checkbutton(self.add_new_job_frame, text='2) metals', variable=self.metals)
@@ -41,8 +47,15 @@ class EditAddWindow(Tk.Frame):
         for widget in self.winfo_children():
             widget.destroy()
         self.add_new_job_frame = Tk.Frame(self, borderwidth=1, relief='solid')
+        self.job_notes_frame = Tk.Frame(self, borderwidth=1, relief='solid')
         self.jobnumber_entry = Tk.Entry(self.add_new_job_frame)
         self.client_name_entry = Tk.Entry(self.add_new_job_frame)
+        self.job_notes = Tk.Text(self.job_notes_frame,
+                                 borderwidth=2,
+                                 width=65,
+                                 height=20,
+                                 wrap="word")
+        # Checkboxes
         self.metals = Tk.IntVar()
         self.metals_checkbox = Tk.Checkbutton(self.add_new_job_frame, text='2) metals', variable=self.metals)
         self.basic_potency = Tk.IntVar()
@@ -66,7 +79,9 @@ class EditAddWindow(Tk.Frame):
 
     def edit_add(self):
         new_job_entry_frame = self.generate_new_job_frame()
-        new_job_entry_frame.grid(row=0, sticky=Tk.W, padx=5, ipadx=2, ipady=2)
+        new_job_entry_frame.grid(row=0, column=0, sticky=Tk.W, padx=5, ipadx=2, ipady=2)
+        self.generate_job_notes_frame()
+        self.job_notes_frame.grid(row=0, column=1, rowspan=3, sticky=Tk.W)
 
         # job number, receive date, tests, status
     def generate_new_job_frame(self):
@@ -86,12 +101,13 @@ class EditAddWindow(Tk.Frame):
         self.other_checkbox.grid(row=11, column=0, sticky=Tk.W)
         Tk.Button(self, text="Enter Job", command=self.input_entry).grid(row=2, column=0, pady=10, sticky=Tk.W)
         self.filler_canvas = Tk.Canvas(self, width=1100, height=600)
-        self.filler_canvas.grid(row=3, column=0)
+        self.filler_canvas.grid(row=3, column=1, columnspan=1, sticky=Tk.W)
         return self.add_new_job_frame
 
     def input_entry(self):
         job_number = self.jobnumber_entry.get()
         client_name = self.client_name_entry.get()
+        current_job_note = self.job_notes.get("1.0", 'end-1c')
         test_list = self.generate_tests_list(True)
         job_entry = (job_number,
                      test_list,
@@ -107,6 +123,10 @@ class EditAddWindow(Tk.Frame):
                           0,
                           datetime.date(2000, 1, 1))
             self.add_delete_query.new_cannajobs_tests_entry(test_entry)
+        note_entry = (job_number,
+                      current_job_note,
+                      datetime.date.today())
+        self.add_delete_query.new_cannajobs_test_notes_entry(note_entry)
         self.clear_edit_add_frame()
         self.edit_add()
 
@@ -133,5 +153,12 @@ class EditAddWindow(Tk.Frame):
             return active_test_string[:-1]
         else:
             return active_tests
+
+    def generate_job_notes_frame(self):
+        Tk.Label(self.job_notes_frame, text='Job Notes', font=self.large_bold_font_choice).grid(row=0, column=0, sticky=Tk.W)
+        self.job_notes.grid(row=1, column=0, padx=5, pady=5)
+        start_note = 'Space for job notes!'
+        self.job_notes.insert('end-1c', start_note)
+
 
 
