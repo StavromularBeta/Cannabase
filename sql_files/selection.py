@@ -8,8 +8,10 @@ class Selection(Connector):
         super(self.__class__, self).__init__()
         self.table_names = {1: 'cannajobs',
                             2: 'cannajobs_tests',
-                            3: 'cannajobs' + str(datetime.date.today().year),
-                            4: 'cannajobs_tests' + str(datetime.date.today().year)}
+                            3: 'cannajobs_test_notes',
+                            4: 'cannajobs' + str(datetime.date.today().year),
+                            5: 'cannajobs_tests' + str(datetime.date.today().year),
+                            6: 'cannajobs_test_notes' + str(datetime.date.today().year)}
         self.cannajobs_field_names = {1: 'id',
                                       2: 'job_number',
                                       3: 'tests',
@@ -80,3 +82,12 @@ class Selection(Connector):
                 print(item)
         else:
             return self.connector(query, condition)
+
+    def select_latest_cannajobs_test_notes_for_job(self, job, print_view=None):
+        job = (str(job),)
+        query = "SELECT * FROM cannajobs_test_notes WHERE job_number = (?) ORDER BY id DESC LIMIT 1 "
+        if print_view:
+            for item in self.connector(query, job):
+                print(item)
+        else:
+            return self.connector(query, job)

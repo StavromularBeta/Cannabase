@@ -11,6 +11,12 @@ class JobpageWindow(Tk.Frame):
     def __init__(self, parent, **kwargs):
         Tk.Frame.__init__(self, parent, **kwargs)
         self.parent = parent
+        self.notes_for_job_frame = Tk.Frame(self, borderwidth=1, relief='solid')
+        self.job_notes = Tk.Text(self.notes_for_job_frame,
+                                 borderwidth=1,
+                                 width=65,
+                                 height=20,
+                                 wrap="word")
         self.title_font = tkFont.Font(size=16, weight='bold')
         self.basic_information_window = Tk.Frame(self, borderwidth=1, relief='solid')
         self.update_information_frame = Tk.Frame(self, borderwidth=1, relief='solid')
@@ -33,9 +39,15 @@ class JobpageWindow(Tk.Frame):
         self.basic_information_window = Tk.Frame(self, borderwidth=1, relief='solid')
         self.update_information_frame = Tk.Frame(self)
         self.test_display_frame = Tk.Frame(self, borderwidth=1, relief='solid')
+        self.notes_for_job_frame = Tk.Frame(self, borderwidth=1, relief='solid')
+        self.job_notes = Tk.Text(self.notes_for_job_frame,
+                                 borderwidth=1,
+                                 width=65,
+                                 height=20,
+                                 wrap="word")
 
     def generate_jobpage(self, job):
-        self.basic_information_window.grid(row=0, column=0, sticky=Tk.W, padx=5, pady=5, ipadx=2, ipady=2)
+        self.basic_information_window.grid(row=0, column=0, sticky=Tk.NW, padx=5, pady=5, ipadx=2, ipady=2)
         Tk.Label(self.basic_information_window, text="Job Number: " + str(job[1]), font=self.job_number_font).grid(row=1, column=0, sticky=Tk.W)
         Tk.Button(self.basic_information_window,
                   text="Delete Job",
@@ -49,20 +61,20 @@ class JobpageWindow(Tk.Frame):
 
 
     def update_job_information(self, job):
-        self.update_information_frame.grid(row=2, column=0, sticky=Tk.W, padx=5, pady=5, ipadx=2, ipady=2)
+        self.update_information_frame.grid(row=0, column=1, sticky=Tk.W, padx=5, pady=5, ipadx=2, ipady=2)
         if job[5] == 0:
             Tk.Label(self.update_information_frame, text="This Job is Incomplete.").grid(row=1, column=0, sticky=Tk.W)
             Tk.Button(self.update_information_frame,
                       text="Press To Complete",
-                      command=lambda: self.update_db(job, 1)).grid(row=2, column=0, sticky=Tk.W)
+                      command=lambda: self.update_db(job, 1)).grid(row=0, column=1, sticky=Tk.NW)
         else:
-            Tk.Label(self.update_information_frame, text="This Job is Complete.").grid(row=1, column=0, sticky=Tk.W)
+            Tk.Label(self.update_information_frame, text="This Job is Complete.").grid(row=0, column=0, sticky=Tk.W)
             Tk.Button(self.update_information_frame,
                       text="Press To Reset",
-                      command=lambda: self.update_db(job, 0)).grid(row=2, column=0, sticky=Tk.W)
+                      command=lambda: self.update_db(job, 0)).grid(row=1, column=0, sticky=Tk.NW)
 
-        self.filler_canvas = Tk.Canvas(self, width=1100, height=600)
-        self.filler_canvas.grid(row=3, column=0, columnspan=3)
+        #self.filler_canvas = Tk.Canvas(self, width=1100, height=600)
+        #self.filler_canvas.grid(row=3, column=0, columnspan=3)
 
     def display_tests(self, job):
         self.test_display_frame.grid(row=1, column=0, sticky=Tk.NW, padx=5, ipadx=2, ipady=2)
@@ -83,6 +95,18 @@ class JobpageWindow(Tk.Frame):
                                          text='Reset',
                                          command=lambda i=[test[0], job]: self.reset_test_db(i[0], i[1])).grid(row=row_count, column=2)
                 row_count += 1
+
+    def display_job_notes(self, job):
+        self.notes_for_job_frame.grid(row=2, column=0, rowspan=1, columnspan=3, sticky=Tk.NW, pady=5,  padx=5, ipadx=2, ipady=2)
+        try:
+            for item in self.selection.select_latest_cannajobs_test_notes_for_job(job[1]):
+                latest_job_note = item[2]
+            self.job_notes.insert('end-1c', latest_job_note)
+        except UnboundLocalError:
+            bummer_note = "Didn't find a startup note :("
+            self.job_notes.insert('end-1c', bummer_note)
+        Tk.Label(self.notes_for_job_frame, text="Job Notes", font=self.title_font).grid(row=0, column=0, sticky=Tk.W)
+        self.job_notes.grid(row=1, column=0, sticky=Tk.W, padx=2, pady=2)
 
     def update_db(self, job, desired_update):
         self.edit_entry.edit_cannajobs_entry(6, desired_update, job[0])
@@ -106,4 +130,5 @@ class JobpageWindow(Tk.Frame):
     def delete_job(self, id, job):
         self.addel.delete_cannajob_entry((id,))
         self.addel.delete_cannajob_tests((job,))
+        self.addel.delete_cannajob_test_notes((job,))
         self.parent.display_searchpage()
