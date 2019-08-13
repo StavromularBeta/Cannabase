@@ -66,15 +66,15 @@ class JobpageWindow(Tk.Frame):
             Tk.Label(self.update_information_frame, text="This Job is Incomplete.").grid(row=1, column=0, sticky=Tk.W)
             Tk.Button(self.update_information_frame,
                       text="Press To Complete",
-                      command=lambda: self.update_db(job, 1)).grid(row=0, column=1, sticky=Tk.NW)
+                      command=lambda: self.update_db(job, 1)).grid(row=0, column=0, sticky=Tk.NW)
         else:
             Tk.Label(self.update_information_frame, text="This Job is Complete.").grid(row=0, column=0, sticky=Tk.W)
             Tk.Button(self.update_information_frame,
                       text="Press To Reset",
                       command=lambda: self.update_db(job, 0)).grid(row=1, column=0, sticky=Tk.NW)
 
-        #self.filler_canvas = Tk.Canvas(self, width=1100, height=600)
-        #self.filler_canvas.grid(row=3, column=0, columnspan=3)
+        self.filler_canvas = Tk.Canvas(self, width=1100, height=600)
+        self.filler_canvas.grid(row=3, column=1, columnspan=1)
 
     def display_tests(self, job):
         self.test_display_frame.grid(row=1, column=0, sticky=Tk.NW, padx=5, ipadx=2, ipady=2)
@@ -106,6 +106,10 @@ class JobpageWindow(Tk.Frame):
             bummer_note = "Didn't find a startup note :("
             self.job_notes.insert('end-1c', bummer_note)
         Tk.Label(self.notes_for_job_frame, text="Job Notes", font=self.title_font).grid(row=0, column=0, sticky=Tk.W)
+        Tk.Button(self.notes_for_job_frame, text="Update Notes", command=lambda: self.update_notes(job)).grid(row=3,
+                                                                                                              column=0,
+                                                                                                              pady=5,
+                                                                                                              sticky=Tk.W)
         self.job_notes.grid(row=1, column=0, sticky=Tk.W, padx=2, pady=2)
 
     def update_db(self, job, desired_update):
@@ -132,3 +136,10 @@ class JobpageWindow(Tk.Frame):
         self.addel.delete_cannajob_tests((job,))
         self.addel.delete_cannajob_test_notes((job,))
         self.parent.display_searchpage()
+
+    def update_notes(self, job):
+        entry = (job[1],
+                 self.job_notes.get("1.0", 'end-1c'),
+                 datetime.date.today())
+        self.addel.new_cannajobs_test_notes_entry(entry)
+        self.parent.display_jobpage(job)
