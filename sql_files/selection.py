@@ -51,6 +51,14 @@ class Selection(Connector):
         else:
             return self.connector(query)
 
+    def select_all_from_table_descending(self, table_number, print_view=None):
+        query = "SELECT * FROM " + self.table_names[table_number] + " ORDER BY id DESC"
+        if print_view:
+            for item in self.connector(query):
+                print(item)
+        else:
+            return self.connector(query)
+
     def select_from_cannajobs_table_with_conditions(self, field_number, condition, print_view=None):
         query = "SELECT * FROM cannajobs WHERE " + self.cannajobs_field_names[field_number] + " = (?)"
         if print_view:

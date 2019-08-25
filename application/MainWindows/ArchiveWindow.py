@@ -1,6 +1,10 @@
 import tkinter as Tk
-import sys
-sys.path.append("/Users/PeterLevett/PycharmProjects/Cannabase/Cannabase/sql_files")
+import os, sys, inspect
+# below 3 lines add the parent directory to the path, so that SQL_functions can be found.
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+parentdir = os.path.dirname(parentdir)
+sys.path.insert(0, parentdir+'/sql_files/')
 
 
 class ArchiveWindow(Tk.Frame):

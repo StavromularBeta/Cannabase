@@ -1,7 +1,11 @@
 import tkinter as Tk
 import datetime
-import sys
-sys.path.append("/Users/PeterLevett/PycharmProjects/Cannabase/Cannabase/sql_files")
+import os, sys, inspect
+# below 3 lines add the parent directory to the path, so that SQL_functions can be found.
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+parentdir = os.path.dirname(parentdir)
+sys.path.insert(0, parentdir+'/sql_files/')
 import selection as sel
 from tkinter import font as tkFont
 
@@ -16,6 +20,15 @@ class SearchWindow(Tk.Frame):
         self.selection = sel.Selection()
         self.search_table_field_font = tkFont.Font(size=16, weight='bold')
         self.job_id_font = tkFont.Font(size=15)
+        self.test_converter = {2: "Metal",
+                               3: "Potency",
+                               33: "dPotency",
+                               4: "Toxins",
+                               5: "Pests",
+                               7: "Terps",
+                               8: "Solv",
+                               9: "Oth"
+                               }
 
     def clear_search_window(self):
         for widget in self.winfo_children():
@@ -36,9 +49,9 @@ class SearchWindow(Tk.Frame):
         display_all_jobs_canvas.create_window((0, 0), window=self.all_jobs_display_frame, anchor='nw')
         Tk.Label(self.all_jobs_display_frame, text="W#", font=self.search_table_field_font).grid(row=0, column=0, sticky=Tk.W, padx=2, pady=2)
         Tk.Label(self.all_jobs_display_frame, text="Tests", font=self.search_table_field_font).grid(row=0, column=1, sticky=Tk.W, padx=2, pady=2)
-        Tk.Label(self.all_jobs_display_frame, text="Client", font=self.search_table_field_font).grid(row=0, column=2, sticky=Tk.W, padx=2, pady=2)
-        Tk.Label(self.all_jobs_display_frame, text="Submission Date", font=self.search_table_field_font).grid(row=0, column=3, sticky=Tk.W, padx=2, pady=2)
-        Tk.Label(self.all_jobs_display_frame, text="Complete Date", font=self.search_table_field_font).grid(row=0, column=5, sticky=Tk.W, padx=2, pady=2)
+        Tk.Label(self.all_jobs_display_frame, text="Client", font=self.search_table_field_font).grid(row=0, column=4, sticky=Tk.W, padx=2, pady=2)
+        Tk.Label(self.all_jobs_display_frame, text="Submission Date", font=self.search_table_field_font).grid(row=0, column=2, sticky=Tk.E, padx=2, pady=2)
+        Tk.Label(self.all_jobs_display_frame, text="Complete Date", font=self.search_table_field_font).grid(row=0, column=3, sticky=Tk.W, padx=2, pady=2)
         if search:
             self.return_jobs(search)
         else:
@@ -49,11 +62,12 @@ class SearchWindow(Tk.Frame):
         if search:
             all_jobs_data = search
         else:
-            all_jobs_data = self.selection.select_all_from_table(1)
+            all_jobs_data = self.selection.select_all_from_table_descending(1)
         first_customer_row = 1
         for item in all_jobs_data:
             job_number = item[1]
             tests = item[2]
+            tests = self.convert_testnumber_to_string(tests)
             client_name = item[3]
             date_submitted = item[4]
             if str(item[6]) == '2000-01-01':
@@ -64,9 +78,9 @@ class SearchWindow(Tk.Frame):
                       text=job_number,
                       command=lambda item=item: self.parent.display_jobpage(item)).grid(row=first_customer_row, column=0, sticky=Tk.W, padx=2, pady=2)
             Tk.Label(self.all_jobs_display_frame, text=tests).grid(row=first_customer_row, column=1, sticky=Tk.W, padx=2, pady=2)
-            Tk.Label(self.all_jobs_display_frame, text=client_name).grid(row=first_customer_row, column=2, sticky=Tk.W, padx=2, pady=2)
-            Tk.Label(self.all_jobs_display_frame, text=date_submitted).grid(row=first_customer_row, column=3, sticky=Tk.W, padx=2, pady=2)
-            Tk.Label(self.all_jobs_display_frame, text=complete_date).grid(row=first_customer_row, column=5, sticky=Tk.W, padx=2, pady=2)
+            Tk.Label(self.all_jobs_display_frame, text=client_name).grid(row=first_customer_row, column=4, sticky=Tk.W, padx=2, pady=2)
+            Tk.Label(self.all_jobs_display_frame, text=date_submitted).grid(row=first_customer_row, column=2, sticky=Tk.E, padx=2, pady=2)
+            Tk.Label(self.all_jobs_display_frame, text=complete_date).grid(row=first_customer_row, column=3, sticky=Tk.W, padx=2, pady=2)
             first_customer_row += 1
 
     def search_jobs(self):
@@ -98,4 +112,11 @@ class SearchWindow(Tk.Frame):
         elif search_type == "Client Name":
             search_results = self.selection.select_from_cannajobs_table_with_conditions(4, (entry_field,))
         self.parent.display_searchpage(search_results)
+
+    def convert_testnumber_to_string(self, tests):
+        tests_list_numbers = tests.split(",")
+        tests_list_strings = []
+        for item in tests_list_numbers:
+            tests_list_strings.append(self.test_converter[int(item)])
+        return ', '.join(tests_list_strings)
 

@@ -1,6 +1,10 @@
 import tkinter as Tk
-import sys
-sys.path.append("/Users/PeterLevett/PycharmProjects/Cannabase/Cannabase/sql_files")
+import os, sys, inspect
+# below 3 lines add the parent directory to the path, so that SQL_functions can be found.
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+parentdir = os.path.dirname(parentdir)
+sys.path.insert(0, parentdir+'/sql_files/')
 import editentry
 import selection
 import datetime
@@ -32,6 +36,15 @@ class JobpageWindow(Tk.Frame):
                                     'Receive Date': 5,
                                     'Status': 6
                                     }
+        self.test_converter = {2: "Metals (ICP)",
+                               3: "Basic Potency",
+                               33: "Deluxe Potency",
+                               4: "Afloxtoxins",
+                               5: "Pesticides",
+                               7: "Terpenes",
+                               8: "Solvents",
+                               9: "Other Tests"
+                               }
 
     def clear_jobpage_window(self):
         for widget in self.winfo_children():
@@ -83,13 +96,13 @@ class JobpageWindow(Tk.Frame):
         row_count = 1
         for test in active_tests:
             if int(test[4]) == 0:
-                test_label = Tk.Label(self.test_display_frame, text=test[2]).grid(row=row_count, column=0)
+                test_label = Tk.Label(self.test_display_frame, text=self.test_converter[int(test[2])]).grid(row=row_count, column=0)
                 test_button = Tk.Button(self.test_display_frame,
                                         text='Complete',
                                         command=lambda i=[test[0], job]: self.update_test_db(i[0], i[1])).grid(row=row_count, column=1)
                 row_count += 1
             else:
-                test_label = Tk.Label(self.test_display_frame, text=str(test[2])).grid(row=row_count, column=0)
+                test_label = Tk.Label(self.test_display_frame, text=self.test_converter[int(test[2])]).grid(row=row_count, column=0)
                 completed_on = Tk.Label(self.test_display_frame, text='Completed on: ' + str(test[5])).grid(row=row_count, column=1)
                 reset_button = Tk.Button(self.test_display_frame,
                                          text='Reset',

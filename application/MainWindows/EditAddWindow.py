@@ -1,6 +1,10 @@
 import tkinter as Tk
-import sys
-sys.path.append("/Users/PeterLevett/PycharmProjects/Cannabase/Cannabase/sql_files")
+import os, sys, inspect
+# below 3 lines add the parent directory to the path, so that SQL_functions can be found.
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+parentdir = os.path.dirname(parentdir)
+sys.path.insert(0, parentdir+'/sql_files/')
 import addel as ad
 import datetime
 from tkinter import font as tkFont
@@ -106,6 +110,11 @@ class EditAddWindow(Tk.Frame):
 
     def input_entry(self):
         job_number = self.jobnumber_entry.get()
+        if self.test_for_blank_job(job_number) is True:
+            #This prevents you from entering a blank job number.
+            self.clear_edit_add_frame()
+            self.edit_add()
+            return False
         client_name = self.client_name_entry.get()
         current_job_note = self.job_notes.get("1.0", 'end-1c')
         test_list = self.generate_tests_list(True)
@@ -159,6 +168,10 @@ class EditAddWindow(Tk.Frame):
         self.job_notes.grid(row=1, column=0, padx=5, pady=5)
         start_note = 'Space for job notes!'
         self.job_notes.insert('end-1c', start_note)
+
+    def test_for_blank_job(self, job_number):
+        if len(job_number) == 0:
+            return True
 
 
 
