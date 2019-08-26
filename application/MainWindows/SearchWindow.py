@@ -15,16 +15,16 @@ class SearchWindow(Tk.Frame):
         Tk.Frame.__init__(self, parent, **kwargs)
         self.parent = parent
         self.config(bg="#e0fcf4")
-        self.jobs_display_frame = Tk.Frame(self, bg="#7afdd6")
+        self.jobs_display_frame = Tk.Frame(self, bg="#e0fcf4")
         self.search_frame = Tk.Frame(self, borderwidth=1, relief='solid', bg='#e0fcf4')
-        self.all_jobs_display_frame = Tk.Frame(self, bg="#7afdd6")
+        self.all_jobs_display_frame = Tk.Frame(self, bg="#e0fcf4")
         self.selection = sel.Selection()
         self.search_table_field_font = tkFont.Font(size=18, weight='bold')
         self.search_table_results_font = tkFont.Font(size=12, weight='bold')
         self.job_id_font = tkFont.Font(size=15)
         self.test_converter = {2: "Metal",
                                3: "Potency",
-                               33: "dPotency",
+                               33: "Potency+",
                                4: "Toxins",
                                5: "Pests",
                                7: "Terps",
@@ -35,9 +35,9 @@ class SearchWindow(Tk.Frame):
     def clear_search_window(self):
         for widget in self.winfo_children():
             widget.destroy()
-        self.jobs_display_frame = Tk.Frame(self, bg="#7afdd6")
+        self.jobs_display_frame = Tk.Frame(self, bg="#e0fcf4")
         self.search_frame = Tk.Frame(self, borderwidth=1, relief='solid', bg='#e0fcf4')
-        self.all_jobs_display_frame = Tk.Frame(self, bg="#7afdd6")
+        self.all_jobs_display_frame = Tk.Frame(self, bg="#e0fcf4")
 
 
     def display_all_jobs(self, search=None):

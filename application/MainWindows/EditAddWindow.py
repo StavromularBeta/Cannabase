@@ -14,10 +14,13 @@ class EditAddWindow(Tk.Frame):
     def __init__(self, parent, **kwargs):
         Tk.Frame.__init__(self, parent, **kwargs)
         self.parent = parent
+        self.config(bg="#e0fcf4")
         self.large_bold_font_choice = tkFont.Font(size=16, weight='bold')
         self.add_delete_query = ad.AdDel()
-        self.add_new_job_frame = Tk.Frame(self, borderwidth=1, relief='solid')
-        self.job_notes_frame = Tk.Frame(self, borderwidth=1, relief='solid')
+        self.add_new_job_frame = Tk.Frame(self,
+                                          bg='#e0fcf4')
+        self.job_notes_frame = Tk.Frame(self,
+                                        bg='#e0fcf4')
         self.jobnumber_entry = Tk.Entry(self.add_new_job_frame)
         self.client_name_entry = Tk.Entry(self.add_new_job_frame)
         self.job_notes = Tk.Text(self.job_notes_frame,
@@ -104,7 +107,7 @@ class EditAddWindow(Tk.Frame):
         self.solvents_checkbox.grid(row=10, column=0, sticky=Tk.W)
         self.other_checkbox.grid(row=11, column=0, sticky=Tk.W)
         Tk.Button(self, text="Enter Job", command=self.input_entry).grid(row=2, column=0, pady=10, sticky=Tk.W)
-        self.filler_canvas = Tk.Canvas(self, width=1100, height=600)
+        self.filler_canvas = Tk.Canvas(self, width=1100, height=600, bg="#e0fcf4", highlightbackground="#e0fcf4")
         self.filler_canvas.grid(row=3, column=1, columnspan=1, sticky=Tk.W)
         return self.add_new_job_frame
 
