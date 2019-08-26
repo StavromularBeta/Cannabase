@@ -8,7 +8,7 @@ class MainApplication(Tk.Frame):
     def __init__(self, parent, **kwargs):
         Tk.Frame.__init__(self, parent, **kwargs)
         self.BannerBar = Bb.BannerBar(self, bg='#60992d', width=1200)
-        self.MainWindow = Mw.MainWindow(self)
+        self.MainWindow = Mw.MainWindow(self, bg='#e0fcf4')
         self.NavigationBar = Nb.NavigationBar(self, bg='#a1e44d', height=900)
         self.BannerBar.pack(side='top', fill='x')
         self.BannerBar.pack_propagate(0)
