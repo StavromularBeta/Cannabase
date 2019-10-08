@@ -28,18 +28,18 @@ class CreateTb(Connector):
                                                    note_date date)""",
                                  4: """ CREATE TABLE IF NOT EXISTS cannajobs""" + str(datetime.date.today().year) + """(
                                                    id integer PRIMARY KEY,
-                                                   current_id int,
                                                    job_number text,
                                                    tests text,
                                                    client_name text,
                                                    receive_date date,
+                                                   status int,
                                                    complete_date date) """,
                                  5: """ CREATE TABLE IF NOT EXISTS cannajobs_tests""" + str(datetime.date.today().year) + """ (
                                                    id integer PRIMARY KEY,
-                                                   current_id int,
                                                    job_number text,
                                                    test_type int,
                                                    submit_date date,
+                                                   status int,
                                                    complete_date date) """,
                                  6: """ CREATE TABLE IF NOT EXISTS cannajobs_test_notes""" + str(datetime.date.today().year) + """ (
                                                    id integer PRIMARY KEY,

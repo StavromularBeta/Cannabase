@@ -28,18 +28,18 @@ class Selection(Connector):
                                             6: 'complete_date',
                                             }
         self.cannajobs_archive_field_names = {1: 'id',
-                                              2: 'current_id',
-                                              3: 'job_number',
-                                              4: 'tests',
-                                              5: 'client_name',
-                                              6: 'receive_date',
+                                              2: 'job_number',
+                                              3: 'tests',
+                                              4: 'client_name',
+                                              5: 'receive_date',
+                                              6: 'status',
                                               7: 'complete_date'
                                               }
         self.cannajobs_tests_archive_field_names = {1: 'id',
-                                                    2: 'current_id',
-                                                    3: 'job_number',
-                                                    4: 'test_type',
-                                                    5: 'submit_date',
+                                                    2: 'job_number',
+                                                    3: 'test_type',
+                                                    4: 'submit_date',
+                                                    5: 'status',
                                                     6: 'complete_date',
                                                     }
 

@@ -7,6 +7,7 @@ parentdir = os.path.dirname(currentdir)
 parentdir = os.path.dirname(parentdir)
 sys.path.insert(0, parentdir+'/sql_files/')
 import selection as sel
+import addel as addel
 from tkinter import font as tkFont
 
 
@@ -19,6 +20,7 @@ class SearchWindow(Tk.Frame):
         self.search_frame = Tk.Frame(self, borderwidth=1, relief='solid', bg='#e0fcf4')
         self.all_jobs_display_frame = Tk.Frame(self, bg="#7afdd6")
         self.selection = sel.Selection()
+        self.add_delete = addel.AdDel()
         self.search_table_field_font = tkFont.Font(size=18, weight='bold')
         self.search_table_results_font = tkFont.Font(size=12, weight='bold')
         self.job_id_font = tkFont.Font(size=15)
@@ -39,8 +41,7 @@ class SearchWindow(Tk.Frame):
         self.search_frame = Tk.Frame(self, borderwidth=1, relief='solid', bg='#e0fcf4')
         self.all_jobs_display_frame = Tk.Frame(self, bg="#7afdd6")
 
-
-    def display_all_jobs(self, search=None):
+    def display_all_jobs(self, search=None, archive=None):
         self.clear_search_window()
         display_all_jobs_canvas = Tk.Canvas(self.jobs_display_frame,
                                             width=1080,
@@ -94,13 +95,17 @@ class SearchWindow(Tk.Frame):
                  bg="#e0fcf4").grid(row=0, column=3, sticky=Tk.W, padx=2, pady=2)
         if search:
             self.return_jobs(search)
+        if archive:
+            self.return_jobs(archive=True)
         else:
             self.return_jobs()
         self.jobs_display_frame.grid(row=1, column=0, pady=5)
 
-    def return_jobs(self, search=None):
+    def return_jobs(self, search=None, archive=None):
         if search:
             all_jobs_data = search
+        if archive:
+            all_jobs_data = self.selection.select_all_from_table_descending(4)
         else:
             all_jobs_data = self.selection.select_all_from_table_descending(1)
         first_customer_row = 1
@@ -200,13 +205,20 @@ class SearchWindow(Tk.Frame):
                              bg="#e0fcf4").grid(row=first_customer_row, column=3, sticky=Tk.W, padx=2, pady=2)
                 first_customer_row += 1
 
-    def search_jobs(self):
+    def search_jobs(self, archive=None):
         self.search_frame = Tk.Frame(self, bg='#e0fcf4')
-        Tk.Label(self.search_frame,
-                 text="Search Jobs",
-                 font=self.search_table_field_font,
-                 fg="#613a3a",
-                 bg="#e0fcf4").grid(row=0, column=0)
+        if archive:
+            Tk.Label(self.search_frame,
+                     text="Search Archived Jobs",
+                     font=self.search_table_field_font,
+                     fg="#613a3a",
+                     bg="#e0fcf4").grid(row=0, column=0)
+        else:
+            Tk.Label(self.search_frame,
+                     text="Search Current Jobs",
+                     font=self.search_table_field_font,
+                     fg="#613a3a",
+                     bg="#e0fcf4").grid(row=0, column=0)
         search_result_frame = Tk.Frame(self.search_frame, bg="#e0fcf4")
         search_result_frame.grid(row=1, column=0, columnspan=3, padx=5, ipadx=2, ipady=2, pady=5)
         self.option_variable = Tk.StringVar(search_result_frame)
@@ -222,6 +234,11 @@ class SearchWindow(Tk.Frame):
                                            highlightbackground="#e0fcf4",
                                            font=self.search_table_results_font)
         self.search_entry_field.grid(row=0, column=1)
+        Tk.Button(search_result_frame,
+                  text="Archive Jobs",
+                  command= lambda: self.archive_jobs,
+                  highlightbackground="#e0fcf4",
+                  font=self.search_table_results_font).grid(row=0, column=2, sticky=Tk.E)
         Tk.Button(search_result_frame,
                   text="search",
                   command=self.search_database_for_jobs,
@@ -251,4 +268,8 @@ class SearchWindow(Tk.Frame):
         for item in tests_list_numbers:
             tests_list_strings.append(self.test_converter[int(item)])
         return ', '.join(tests_list_strings)
+
+    def archive_jobs(self):
+        self.add_delete.archive_cannajob_entry()
+
 
