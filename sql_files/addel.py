@@ -46,13 +46,13 @@ class AdDel(Connector):
             "'01-01-2000' < complete_date <= '" + str(datetime.date.today() - datetime.timedelta(days=3))+"'"
         return self.connector(query)
 
-    def archive_cannajob_tests_entry(self, job_number):
-        query = 'INSERT INTO cannajobs_tests' + str(datetime.date.today().year) + ' SELECT * FROM cannajobs_tests WHERE ' +\
-            'job_number = ?'
-        return self.connector(query, job_number)
+    def archive_cannajob_tests_entry(self):
+        query = 'INSERT OR IGNORE INTO cannajobs_tests' + str(datetime.date.today().year) + ' SELECT * FROM cannajobs_tests WHERE ' +\
+            'job_number IN (SELECT job_number FROM cannajobs' + str(datetime.date.today().year) + ')'
+        return self.connector(query)
 
-    def archive_cannajob_test_notes_entry(self, job_number):
-        query = 'INSERT INTO cannajobs_test_notes' + str(datetime.date.today().year) + ' SELECT * FROM cannajobs_tests_notes WHERE ' +\
-            'job_number = ?'
-        return self.connector(query, job_number)
+    def archive_cannajob_test_notes_entry(self):
+        query = 'INSERT OR IGNORE INTO cannajobs_test_notes' + str(datetime.date.today().year) + ' SELECT * FROM cannajobs_test_notes WHERE ' +\
+            'job_number IN (SELECT job_number FROM cannajobs' + str(datetime.date.today().year) + ')'
+        return self.connector(query)
 

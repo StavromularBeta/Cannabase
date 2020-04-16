@@ -44,7 +44,7 @@ class SearchWindow(Tk.Frame):
     def display_all_jobs(self, search=None, archive=None):
         self.clear_search_window()
         display_all_jobs_canvas = Tk.Canvas(self.jobs_display_frame,
-                                            width=1080,
+                                            width=1180,
                                             height=700,
                                             scrollregion=(0, 0, 0, 2000),
                                             bg="#e0fcf4",
@@ -104,7 +104,7 @@ class SearchWindow(Tk.Frame):
     def return_jobs(self, search=None, archive=None):
         if search:
             all_jobs_data = search
-        if archive:
+        elif archive:
             all_jobs_data = self.selection.select_all_from_table_descending(4)
         else:
             all_jobs_data = self.selection.select_all_from_table_descending(1)
@@ -236,7 +236,7 @@ class SearchWindow(Tk.Frame):
         self.search_entry_field.grid(row=0, column=1)
         Tk.Button(search_result_frame,
                   text="Archive Jobs",
-                  command= lambda: self.archive_jobs,
+                  command=self.archive_jobs,
                   highlightbackground="#e0fcf4",
                   font=self.search_table_results_font).grid(row=0, column=2, sticky=Tk.E)
         Tk.Button(search_result_frame,
@@ -271,5 +271,7 @@ class SearchWindow(Tk.Frame):
 
     def archive_jobs(self):
         self.add_delete.archive_cannajob_entry()
+        self.add_delete.archive_cannajob_tests_entry()
+        self.add_delete.archive_cannajob_test_notes_entry()
 
 
