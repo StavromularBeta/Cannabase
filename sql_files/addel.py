@@ -25,7 +25,7 @@ class AdDel(Connector):
         return self.connector(query, values_tuple)
 
 
-    # Delete Entries
+    # Delete Entries and archive entries
 
     def delete_cannajob_entry(self, id):
         query = 'DELETE FROM cannajobs WHERE id = ?'
@@ -39,11 +39,24 @@ class AdDel(Connector):
         query = 'DELETE FROM cannajobs_test_notes WHERE job_number = ?'
         return self.connector(query, job_number)
 
-    # Archive
+    def delete_cannajob_entry_archive(self, id, table_name):
+        query = 'DELETE FROM cannajobs' + table_name + ' WHERE id = (?)'
+        return self.connector(query, id)
+
+    def delete_cannajob_tests_archive(self, job_number, table_name):
+        query = 'DELETE FROM cannajobs_tests' + table_name + ' WHERE job_number = (?)'
+        return self.connector(query, job_number)
+
+    def delete_cannajob_test_notes_archive(self, job_number, table_name):
+        query = 'DELETE FROM cannajobs_test_notes' + table_name + ' WHERE job_number = (?)'
+        return self.connector(query, job_number)
+
+    # Archive entries
 
     def archive_cannajob_entry(self):
         query = 'INSERT OR IGNORE INTO cannajobs' + str(datetime.date.today().year) + ' SELECT * FROM cannajobs WHERE ' +\
-            "'01-01-2000' < complete_date <= '" + str(datetime.date.today() - datetime.timedelta(days=3))+"'"
+            "('2000-01-02' < complete_date )"
+        print(query)
         return self.connector(query)
 
     def archive_cannajob_tests_entry(self):

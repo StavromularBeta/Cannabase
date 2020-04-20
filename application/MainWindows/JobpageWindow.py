@@ -11,6 +11,7 @@ import datetime
 import addel
 from tkinter import font as tkFont
 
+
 class JobpageWindow(Tk.Frame):
     def __init__(self, parent, **kwargs):
         Tk.Frame.__init__(self, parent, **kwargs)
@@ -59,12 +60,17 @@ class JobpageWindow(Tk.Frame):
                                  height=20,
                                  wrap="word")
 
-    def generate_jobpage(self, job):
+    def generate_jobpage(self, job, archive=None):
         self.basic_information_window.grid(row=0, column=0, sticky=Tk.NW, padx=5, pady=5, ipadx=2, ipady=2)
         Tk.Label(self.basic_information_window, text="Job Number: " + str(job[1]), font=self.job_number_font).grid(row=1, column=0, sticky=Tk.W)
-        Tk.Button(self.basic_information_window,
-                  text="Delete Job",
-                  command=lambda: self.delete_job(job[0], job[1])).grid(row=1, column=3, sticky=Tk.W)
+        if archive:
+            Tk.Button(self.basic_information_window,
+                      text="Delete Job",
+                      command=lambda: self.delete_job(job[0], job[1], archive=True)).grid(row=1, column=3, sticky=Tk.W)
+        else:
+            Tk.Button(self.basic_information_window,
+                      text="Delete Job",
+                      command=lambda: self.delete_job(job[0], job[1])).grid(row=1, column=3, sticky=Tk.W)
         Tk.Label(self.basic_information_window, text="Client: " + str(job[3])).grid(row=3, column=0, sticky=Tk.W)
         Tk.Label(self.basic_information_window, text="Recieve Date: " + str(job[4])).grid(row=4, column=0, sticky=Tk.W)
         if job[5] == 0:
@@ -72,24 +78,28 @@ class JobpageWindow(Tk.Frame):
         else:
             Tk.Label(self.basic_information_window, text="Completed On: " + str(job[6])).grid(row=5, column=0, sticky=Tk.W)
 
-
-    def update_job_information(self, job):
+    def update_job_information(self, job, archive=None):
         self.update_information_frame.grid(row=0, column=1, sticky=Tk.W, padx=5, pady=5, ipadx=2, ipady=2)
         if job[5] == 0:
             Tk.Label(self.update_information_frame, text="This Job is Incomplete.").grid(row=1, column=0, sticky=Tk.W)
-            Tk.Button(self.update_information_frame,
-                      text="Press To Complete",
-                      command=lambda: self.update_db(job, 1)).grid(row=0, column=0, sticky=Tk.NW)
+            if archive:
+                pass
+            else:
+                Tk.Button(self.update_information_frame,
+                          text="Press To Complete",
+                          command=lambda: self.update_db(job, 1)).grid(row=0, column=0, sticky=Tk.NW)
         else:
             Tk.Label(self.update_information_frame, text="This Job is Complete.").grid(row=0, column=0, sticky=Tk.W)
-            Tk.Button(self.update_information_frame,
-                      text="Press To Reset",
-                      command=lambda: self.update_db(job, 0)).grid(row=1, column=0, sticky=Tk.NW)
-
+            if archive:
+                pass
+            else:
+                Tk.Button(self.update_information_frame,
+                          text="Press To Reset",
+                          command=lambda: self.update_db(job, 0)).grid(row=1, column=0, sticky=Tk.NW)
         self.filler_canvas = Tk.Canvas(self, width=1100, height=600)
         self.filler_canvas.grid(row=3, column=1, columnspan=1)
 
-    def display_tests(self, job):
+    def display_tests(self, job, archive=None):
         self.test_display_frame.grid(row=1, column=0, sticky=Tk.NW, padx=5, ipadx=2, ipady=2)
         active_tests = self.selection.select_from_cannajobs_tests__table_with_conditions(2, (str(job[1]),))
         Tk.Label(self.test_display_frame, text="Tests", font=self.title_font).grid(row=0, column=0, sticky=Tk.W)
@@ -109,7 +119,7 @@ class JobpageWindow(Tk.Frame):
                                          command=lambda i=[test[0], job]: self.reset_test_db(i[0], i[1])).grid(row=row_count, column=2)
                 row_count += 1
 
-    def display_job_notes(self, job):
+    def display_job_notes(self, job, archive=None):
         self.notes_for_job_frame.grid(row=2, column=0, rowspan=1, columnspan=3, sticky=Tk.NW, pady=5,  padx=5, ipadx=2, ipady=2)
         try:
             for item in self.selection.select_latest_cannajobs_test_notes_for_job(job[1]):
@@ -144,10 +154,17 @@ class JobpageWindow(Tk.Frame):
         self.edit_entry.edit_cannajobs_tests_entry(6, datetime.date(2000, 1, 1), id)
         self.parent.display_jobpage(job)
 
-    def delete_job(self, id, job):
-        self.addel.delete_cannajob_entry((id,))
-        self.addel.delete_cannajob_tests((job,))
-        self.addel.delete_cannajob_test_notes((job,))
+    def delete_job(self, id, job, archive=None):
+        if archive:
+            archive_years = ['2020']
+            for item in archive_years:
+                self.addel.delete_cannajob_entry_archive((id,), item)
+                self.addel.delete_cannajob_tests_archive((job,), item)
+                self.addel.delete_cannajob_test_notes_archive((job,), item)
+        else:
+            self.addel.delete_cannajob_entry((id,))
+            self.addel.delete_cannajob_tests((job,))
+            self.addel.delete_cannajob_test_notes((job,))
         self.parent.display_searchpage()
 
     def update_notes(self, job):

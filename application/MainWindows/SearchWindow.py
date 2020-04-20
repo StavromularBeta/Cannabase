@@ -120,16 +120,28 @@ class SearchWindow(Tk.Frame):
             else:
                 complete_date = item[6]
             if (first_customer_row % 2) == 1:
-                Tk.Button(self.all_jobs_display_frame,
-                          text=job_number,
-                          command=lambda item=item: self.parent.display_jobpage(item),
-                          highlightbackground="#e0fcf4",
-                          font=self.search_table_results_font,
-                          bg="#e0fcf4").grid(row=first_customer_row,
-                                             column=0,
-                                             sticky=Tk.W,
-                                             padx=2,
-                                             pady=2)
+                if archive:
+                    Tk.Button(self.all_jobs_display_frame,
+                              text=job_number,
+                              command=lambda item=item: self.parent.display_jobpage(item, archive=True),
+                              highlightbackground="#e0fcf4",
+                              font=self.search_table_results_font,
+                              bg="#e0fcf4").grid(row=first_customer_row,
+                                                 column=0,
+                                                 sticky=Tk.W,
+                                                 padx=2,
+                                                 pady=2)
+                else:
+                    Tk.Button(self.all_jobs_display_frame,
+                              text=job_number,
+                              command=lambda item=item: self.parent.display_jobpage(item),
+                              highlightbackground="#e0fcf4",
+                              font=self.search_table_results_font,
+                              bg="#e0fcf4").grid(row=first_customer_row,
+                                                 column=0,
+                                                 sticky=Tk.W,
+                                                 padx=2,
+                                                 pady=2)
                 Tk.Label(self.all_jobs_display_frame,
                          text=tests,
                          highlightbackground="#e0fcf4",
@@ -160,17 +172,30 @@ class SearchWindow(Tk.Frame):
                              bg="#e0fcf4").grid(row=first_customer_row, column=3, sticky=Tk.W, padx=2, pady=2)
                 first_customer_row += 1
             else:
-                Tk.Button(self.all_jobs_display_frame,
-                          text=job_number,
-                          command=lambda item=item: self.parent.display_jobpage(item),
-                          fg='#613a3a',
-                          highlightbackground="#e0fcf4",
-                          font=self.search_table_results_font,
-                          bg="#e0fcf4").grid(row=first_customer_row,
-                                             column=0,
-                                             sticky=Tk.W,
-                                             padx=2,
-                                             pady=2)
+                if archive:
+                    Tk.Button(self.all_jobs_display_frame,
+                              text=job_number,
+                              command=lambda item=item: self.parent.display_jobpage(item, archive=True),
+                              fg='#613a3a',
+                              highlightbackground="#e0fcf4",
+                              font=self.search_table_results_font,
+                              bg="#e0fcf4").grid(row=first_customer_row,
+                                                 column=0,
+                                                 sticky=Tk.W,
+                                                 padx=2,
+                                                 pady=2)
+                else:
+                    Tk.Button(self.all_jobs_display_frame,
+                              text=job_number,
+                              command=lambda item=item: self.parent.display_jobpage(item, archive=True),
+                              fg='#613a3a',
+                              highlightbackground="#e0fcf4",
+                              font=self.search_table_results_font,
+                              bg="#e0fcf4").grid(row=first_customer_row,
+                                                 column=0,
+                                                 sticky=Tk.W,
+                                                 padx=2,
+                                                 pady=2)
                 Tk.Label(self.all_jobs_display_frame,
                          text=tests,
                          fg='#613a3a',

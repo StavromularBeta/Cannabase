@@ -6,7 +6,6 @@ from MainWindows import HomepageWindow as Hpw,\
                         JobpageWindow as Jpw
 
 
-
 class MainWindow(Tk.Frame):
     def __init__(self, parent, **kwargs):
         Tk.Frame.__init__(self, parent, **kwargs)
@@ -52,10 +51,16 @@ class MainWindow(Tk.Frame):
         self.EditAddWindow.edit_add()
         self.EditAddWindow.grid(padx=5, pady=5)
 
-    def display_jobpage(self, customer):
+    def display_jobpage(self, customer, archive=None):
         self.clear_main_window()
-        self.JobpageWindow.generate_jobpage(customer)
-        self.JobpageWindow.update_job_information(customer)
-        self.JobpageWindow.display_job_notes(customer)
-        self.JobpageWindow.display_tests(customer)
+        if archive:
+            self.JobpageWindow.generate_jobpage(customer, archive=True)
+            self.JobpageWindow.update_job_information(customer, archive=True)
+            self.JobpageWindow.display_job_notes(customer, archive=True)
+            self.JobpageWindow.display_tests(customer, archive=True)
+        else:
+            self.JobpageWindow.generate_jobpage(customer)
+            self.JobpageWindow.update_job_information(customer)
+            self.JobpageWindow.display_job_notes(customer)
+            self.JobpageWindow.display_tests(customer)
         self.JobpageWindow.grid(padx=5, pady=5)
