@@ -101,38 +101,65 @@ class JobpageWindow(Tk.Frame):
 
     def display_tests(self, job, archive=None):
         self.test_display_frame.grid(row=1, column=0, sticky=Tk.NW, padx=5, ipadx=2, ipady=2)
-        active_tests = self.selection.select_from_cannajobs_tests__table_with_conditions(2, (str(job[1]),))
+        if archive:
+            years = ['2020']
+            for item in years:
+                active_tests = self.selection.select_from_cannajobs_tests_archive__table_with_conditions(item,
+                                                                                                         2,
+                                                                                                         (str(job[1]),))
+                if active_tests:
+                    break
+        else:
+            active_tests = self.selection.select_from_cannajobs_tests__table_with_conditions(2, (str(job[1]),))
         Tk.Label(self.test_display_frame, text="Tests", font=self.title_font).grid(row=0, column=0, sticky=Tk.W)
         row_count = 1
         for test in active_tests:
             if int(test[4]) == 0:
                 test_label = Tk.Label(self.test_display_frame, text=self.test_converter[int(test[2])]).grid(row=row_count, column=0)
-                test_button = Tk.Button(self.test_display_frame,
-                                        text='Complete',
-                                        command=lambda i=[test[0], job]: self.update_test_db(i[0], i[1])).grid(row=row_count, column=1)
+                if archive:
+                    pass
+                else:
+                    test_button = Tk.Button(self.test_display_frame,
+                                            text='Complete',
+                                            command=lambda i=[test[0], job]: self.update_test_db(i[0], i[1])).grid(row=row_count, column=1)
                 row_count += 1
             else:
                 test_label = Tk.Label(self.test_display_frame, text=self.test_converter[int(test[2])]).grid(row=row_count, column=0)
                 completed_on = Tk.Label(self.test_display_frame, text='Completed on: ' + str(test[5])).grid(row=row_count, column=1)
-                reset_button = Tk.Button(self.test_display_frame,
-                                         text='Reset',
-                                         command=lambda i=[test[0], job]: self.reset_test_db(i[0], i[1])).grid(row=row_count, column=2)
+                if archive:
+                    pass
+                else:
+                    reset_button = Tk.Button(self.test_display_frame,
+                                             text='Reset',
+                                             command=lambda i=[test[0], job]: self.reset_test_db(i[0], i[1])).grid(row=row_count, column=2)
                 row_count += 1
 
     def display_job_notes(self, job, archive=None):
         self.notes_for_job_frame.grid(row=2, column=0, rowspan=1, columnspan=3, sticky=Tk.NW, pady=5,  padx=5, ipadx=2, ipady=2)
         try:
-            for item in self.selection.select_latest_cannajobs_test_notes_for_job(job[1]):
-                latest_job_note = item[2]
-            self.job_notes.insert('end-1c', latest_job_note)
+            if archive:
+                years = ['2020']
+                for year in years:
+                    for item in self.selection.select_from_archive_cannajob_test_notes(year, job[1]):
+                        latest_job_note = item[2]
+                        self.job_notes.insert('end-1c', latest_job_note)
+                        if latest_job_note:
+                            break
+            else:
+                for item in self.selection.select_latest_cannajobs_test_notes_for_job(job[1]):
+                    latest_job_note = item[2]
+                    self.job_notes.insert('end-1c', latest_job_note)
         except UnboundLocalError:
             bummer_note = "Didn't find a startup note :("
             self.job_notes.insert('end-1c', bummer_note)
         Tk.Label(self.notes_for_job_frame, text="Job Notes", font=self.title_font).grid(row=0, column=0, sticky=Tk.W)
-        Tk.Button(self.notes_for_job_frame, text="Update Notes", command=lambda: self.update_notes(job)).grid(row=3,
-                                                                                                              column=0,
-                                                                                                              pady=5,
-                                                                                                              sticky=Tk.W)
+        if archive:
+            pass
+        else:
+            Tk.Button(self.notes_for_job_frame, text="Update Notes", command=lambda: self.update_notes(job)).grid(row=3,
+                                                                                                                  column=0,
+                                                                                                                  pady=5,
+                                                                                                                  sticky=Tk.W)
         self.job_notes.grid(row=1, column=0, sticky=Tk.W, padx=2, pady=2)
 
     def update_db(self, job, desired_update):

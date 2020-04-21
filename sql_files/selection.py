@@ -76,15 +76,16 @@ class Selection(Connector):
             return self.connector(query, condition)
 
     def select_from_cannajobs_archive_table_with_conditions(self, field_number, condition, print_view=None):
-        query = "SELECT * FROM cannajobs2019 WHERE " + self.cannajobs_archive_field_names[field_number] + " = (?)"
+        query = "SELECT * FROM cannajobs2020 WHERE " + self.cannajobs_archive_field_names[field_number] + " = (?)"
         if print_view:
             for item in self.connector(query, condition):
                 print(item)
         else:
             return self.connector(query, condition)
 
-    def select_from_cannajobs_tests_archive__table_with_conditions(self, field_number, condition, print_view=None):
-        query = "SELECT * FROM cannajobs_tests2019 WHERE " + self.cannajobs_tests_archive_field_names[field_number] + " = (?)"
+    def select_from_cannajobs_tests_archive__table_with_conditions(self, year, field_number, condition, print_view=None):
+        query = "SELECT * FROM cannajobs_tests" + year + " WHERE " +\
+                self.cannajobs_tests_archive_field_names[field_number] + " = (?)"
         if print_view:
             for item in self.connector(query, condition):
                 print(item)
@@ -94,6 +95,15 @@ class Selection(Connector):
     def select_latest_cannajobs_test_notes_for_job(self, job, print_view=None):
         job = (str(job),)
         query = "SELECT * FROM cannajobs_test_notes WHERE job_number = (?) ORDER BY id DESC LIMIT 1 "
+        if print_view:
+            for item in self.connector(query, job):
+                print(item)
+        else:
+            return self.connector(query, job)
+
+    def select_from_archive_cannajob_test_notes(self, year, job, print_view=None):
+        job = (str(job),)
+        query = "SELECT * FROM cannajobs_test_notes" + year + " WHERE job_number = (?) ORDER BY id DESC LIMIT 1 "
         if print_view:
             for item in self.connector(query, job):
                 print(item)

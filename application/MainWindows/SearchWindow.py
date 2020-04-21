@@ -46,7 +46,7 @@ class SearchWindow(Tk.Frame):
         display_all_jobs_canvas = Tk.Canvas(self.jobs_display_frame,
                                             width=1180,
                                             height=700,
-                                            scrollregion=(0, 0, 0, 2000),
+                                            scrollregion=(0, 0, 0, 20000),
                                             bg="#e0fcf4",
                                             highlightbackground="#e0fcf4")
         all_entries_scroll = Tk.Scrollbar(self.jobs_display_frame,
@@ -187,7 +187,7 @@ class SearchWindow(Tk.Frame):
                 else:
                     Tk.Button(self.all_jobs_display_frame,
                               text=job_number,
-                              command=lambda item=item: self.parent.display_jobpage(item, archive=True),
+                              command=lambda item=item: self.parent.display_jobpage(item),
                               fg='#613a3a',
                               highlightbackground="#e0fcf4",
                               font=self.search_table_results_font,
@@ -265,6 +265,11 @@ class SearchWindow(Tk.Frame):
                   highlightbackground="#e0fcf4",
                   font=self.search_table_results_font).grid(row=0, column=2, sticky=Tk.E)
         Tk.Button(search_result_frame,
+                  text="Delete Archived Jobs",
+                  command=self.delete_archived_jobs_from_current_table,
+                  highlightbackground="#e0fcf4",
+                  font=self.search_table_results_font).grid(row=0, column=3, sticky=Tk.W)
+        Tk.Button(search_result_frame,
                   text="search",
                   command=self.search_database_for_jobs,
                   highlightbackground="#e0fcf4",
@@ -298,5 +303,10 @@ class SearchWindow(Tk.Frame):
         self.add_delete.archive_cannajob_entry()
         self.add_delete.archive_cannajob_tests_entry()
         self.add_delete.archive_cannajob_test_notes_entry()
+
+    def delete_archived_jobs_from_current_table(self):
+        self.add_delete.delete_archived_cannjob_entry_from_current()
+        self.add_delete.delete_archived_cannjob_test__entry_from_current()
+        self.add_delete.delete_archived_cannjob_test_notes_entry_from_current()
 
 

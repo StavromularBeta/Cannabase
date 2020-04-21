@@ -51,6 +51,21 @@ class AdDel(Connector):
         query = 'DELETE FROM cannajobs_test_notes' + table_name + ' WHERE job_number = (?)'
         return self.connector(query, job_number)
 
+    def delete_archived_cannjob_entry_from_current(self):
+        query = 'DELETE FROM cannajobs WHERE job_number IN (SELECT job_number FROM cannajobs' +\
+                str(datetime.date.today().year) + ')'
+        return self.connector(query)
+
+    def delete_archived_cannjob_test__entry_from_current(self):
+        query = 'DELETE FROM cannajobs_tests WHERE job_number IN (SELECT job_number FROM cannajobs' +\
+                str(datetime.date.today().year) + ')'
+        return self.connector(query)
+
+    def delete_archived_cannjob_test_notes_entry_from_current(self):
+        query = 'DELETE FROM cannajobs_test_notes WHERE job_number IN (SELECT job_number FROM cannajobs' +\
+                str(datetime.date.today().year) + ')'
+        return self.connector(query)
+
     # Archive entries
 
     def archive_cannajob_entry(self):
