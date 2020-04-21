@@ -10,12 +10,16 @@ import selection
 import datetime
 import addel
 from tkinter import font as tkFont
+from PIL import Image, ImageTk
+import glob
 
 
 class JobpageWindow(Tk.Frame):
     def __init__(self, parent, **kwargs):
         Tk.Frame.__init__(self, parent, **kwargs)
         self.parent = parent
+        self.picture_frame = Tk.Frame(self, borderwidth=1, relief='solid')
+        self.picture_sub_frame = Tk.Frame(self.picture_frame)
         self.notes_for_job_frame = Tk.Frame(self, borderwidth=1, relief='solid')
         self.job_notes = Tk.Text(self.notes_for_job_frame,
                                  borderwidth=1,
@@ -50,6 +54,8 @@ class JobpageWindow(Tk.Frame):
     def clear_jobpage_window(self):
         for widget in self.winfo_children():
             widget.destroy()
+        self.picture_frame = Tk.Frame(self, borderwidth=1, relief='solid')
+        self.picture_sub_frame = Tk.Frame(self.picture_frame)
         self.basic_information_window = Tk.Frame(self, borderwidth=1, relief='solid')
         self.update_information_frame = Tk.Frame(self)
         self.test_display_frame = Tk.Frame(self, borderwidth=1, relief='solid')
@@ -135,7 +141,7 @@ class JobpageWindow(Tk.Frame):
                 row_count += 1
 
     def display_job_notes(self, job, archive=None):
-        self.notes_for_job_frame.grid(row=2, column=0, rowspan=1, columnspan=3, sticky=Tk.NW, pady=5,  padx=5, ipadx=2, ipady=2)
+        self.notes_for_job_frame.grid(row=2, column=0, sticky=Tk.NW, pady=5,  padx=5, ipadx=2, ipady=2)
         try:
             if archive:
                 years = ['2020']
@@ -200,3 +206,39 @@ class JobpageWindow(Tk.Frame):
                  datetime.date.today())
         self.addel.new_cannajobs_test_notes_entry(entry)
         self.parent.display_jobpage(job)
+
+    def get_relevant_intake_photos(self, job):
+        self.picture_frame.grid(row=2, column=1, sticky=Tk.NW, pady=5,  padx=5, ipadx=2, ipady=2)
+        self.picture_sub_frame.pack()
+        display_all_jobs_canvas = Tk.Canvas(self.picture_frame,
+                                            width=500,
+                                            height=500,
+                                            scrollregion=(0, 0, 0, 10000),)
+        all_entries_scroll = Tk.Scrollbar(self.picture_frame,
+                                          orient="vertical",
+                                          command=display_all_jobs_canvas.yview,)
+        self.picture_sub_frame = Tk.Frame(self.picture_frame)
+        display_all_jobs_canvas.configure(yscrollcommand=all_entries_scroll.set)
+        all_entries_scroll.pack(side='right',
+                                fill='y')
+        display_all_jobs_canvas.pack(side="left",
+                                     fill='y')
+        display_all_jobs_canvas.create_window((0, 0),
+                                              window=self.picture_sub_frame,
+                                              anchor='nw')
+        path = r"""T:\ANALYST WORK FILES\Peter\Easy Interactive Tools\ """
+        path = path[:-1]
+        image_search_token = path + job[1] + "*.jpg"
+        picture_list = []
+        for infile in glob.glob(image_search_token):
+            im = Image.open(infile)
+            filename = im.filename
+            im = im.resize((400, 400), Image.ANTIALIAS)
+            render = ImageTk.PhotoImage(im)
+            img = Tk.Label(self.picture_sub_frame, image=render)
+            img.image = render
+            picture_list.append([img, filename])
+        for item in picture_list:
+            Tk.Label(self.picture_sub_frame, text=item[1]).pack()
+            item[0].pack()
+
