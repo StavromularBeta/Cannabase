@@ -153,14 +153,24 @@ class JobpageWindow(Tk.Frame):
                             break
             else:
                 for item in self.selection.select_latest_cannajobs_test_notes_for_job(job[1]):
-                    latest_job_note = item[2]
+                    latest_job_note = item[2] + '\n\n'
                     self.job_notes.insert('end-1c', latest_job_note)
         except UnboundLocalError:
             bummer_note = "Didn't find a startup note :("
             self.job_notes.insert('end-1c', bummer_note)
         Tk.Label(self.notes_for_job_frame, text="Job Notes", font=self.title_font).grid(row=0, column=0, sticky=Tk.W)
         if archive:
-            pass
+            target = r'T:\ANALYST WORK FILES\Peter\Rover\reports\ '
+            jobnumber = str(job[1])
+            first_3_digits = jobnumber[0:3]
+            last_digits = '000x'
+            filename = target[:-1] + first_3_digits + last_digits + '\\' + jobnumber + '\\' + jobnumber + '.txt'
+            filename = filename.replace('/', '-')
+            try:
+                with open(filename, 'r') as f:
+                    self.job_notes.insert("current", f.read())
+            except FileNotFoundError:
+                pass
         else:
             Tk.Button(self.notes_for_job_frame, text="Update Notes", command=lambda: self.update_notes(job)).grid(row=3,
                                                                                                                   column=0,
@@ -211,8 +221,8 @@ class JobpageWindow(Tk.Frame):
         self.picture_frame.grid(row=2, column=1, sticky=Tk.NW, pady=5,  padx=5, ipadx=2, ipady=2)
         self.picture_sub_frame.pack()
         display_all_jobs_canvas = Tk.Canvas(self.picture_frame,
-                                            width=500,
-                                            height=500,
+                                            width=450,
+                                            height=390,
                                             scrollregion=(0, 0, 0, 10000),)
         all_entries_scroll = Tk.Scrollbar(self.picture_frame,
                                           orient="vertical",
@@ -233,7 +243,7 @@ class JobpageWindow(Tk.Frame):
         for infile in glob.glob(image_search_token):
             im = Image.open(infile)
             filename = im.filename
-            im = im.resize((400, 400), Image.ANTIALIAS)
+            im = im.resize((350, 350), Image.ANTIALIAS)
             render = ImageTk.PhotoImage(im)
             img = Tk.Label(self.picture_sub_frame, image=render)
             img.image = render
@@ -241,4 +251,3 @@ class JobpageWindow(Tk.Frame):
         for item in picture_list:
             Tk.Label(self.picture_sub_frame, text=item[1]).pack()
             item[0].pack()
-
