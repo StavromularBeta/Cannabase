@@ -13,7 +13,7 @@ class MainWindow(Tk.Frame):
         self.GraphsWindow = Grw.GraphsWindow(self)
         self.SearchWindow = Srw.SearchWindow(self)
         self.EditAddWindow = Eaw.EditAddWindow(self)
-        self.JobpageWindow = Jpw.JobpageWindow(self)
+        self.JobpageWindow = Jpw.JobpageWindow(self, bg="#e0fcf4")
 
     def clear_main_window(self):
         for widget in self.winfo_children():
@@ -22,7 +22,7 @@ class MainWindow(Tk.Frame):
         self.GraphsWindow = Grw.GraphsWindow(self)
         self.SearchWindow = Srw.SearchWindow(self)
         self.EditAddWindow = Eaw.EditAddWindow(self)
-        self.JobpageWindow = Jpw.JobpageWindow(self)
+        self.JobpageWindow = Jpw.JobpageWindow(self, bg="#e0fcf4")
 
     def display_homepage(self):
         self.clear_main_window()

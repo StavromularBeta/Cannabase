@@ -18,18 +18,44 @@ class JobpageWindow(Tk.Frame):
     def __init__(self, parent, **kwargs):
         Tk.Frame.__init__(self, parent, **kwargs)
         self.parent = parent
-        self.picture_frame = Tk.Frame(self, borderwidth=1, relief='solid')
-        self.picture_sub_frame = Tk.Frame(self.picture_frame)
-        self.notes_for_job_frame = Tk.Frame(self, borderwidth=1, relief='solid')
+        self.picture_frame = Tk.Frame(self,
+                                      bg="#e0fcf4",
+                                      highlightbackground='#613a3a',
+                                      highlightcolor='#613a3a',
+                                      highlightthickness=2)
+        self.picture_sub_frame = Tk.Frame(self.picture_frame,
+                                          bg="#e0fcf4")
+        self.notes_for_job_frame = Tk.Frame(self,
+                                            bg="#e0fcf4",
+                                            highlightbackground='#613a3a',
+                                            highlightcolor='#613a3a',
+                                            highlightthickness=2)
         self.job_notes = Tk.Text(self.notes_for_job_frame,
                                  borderwidth=1,
-                                 width=65,
-                                 height=20,
+                                 width=55,
+                                 height=10,
                                  wrap="word")
+        self.text_reports = Tk.Text(self.notes_for_job_frame,
+                                    borderwidth=1,
+                                    width=55,
+                                    height=15,
+                                    wrap="word")
         self.title_font = tkFont.Font(size=16, weight='bold')
-        self.basic_information_window = Tk.Frame(self, borderwidth=1, relief='solid')
-        self.update_information_frame = Tk.Frame(self, borderwidth=1, relief='solid')
-        self.test_display_frame = Tk.Frame(self, borderwidth=1, relief='solid')
+        self.basic_information_window = Tk.Frame(self,
+                                                 bg="#e0fcf4",
+                                                 highlightbackground='#613a3a',
+                                                 highlightcolor='#613a3a',
+                                                 highlightthickness=2)
+        self.update_information_frame = Tk.Frame(self,
+                                                 bg="#e0fcf4",
+                                                 highlightbackground='#613a3a',
+                                                 highlightcolor='#613a3a',
+                                                 highlightthickness=2)
+        self.test_display_frame = Tk.Frame(self,
+                                           bg="#e0fcf4",
+                                           highlightbackground='#613a3a',
+                                           highlightcolor='#613a3a',
+                                           highlightthickness=2)
         self.update_entry = Tk.Entry(self.update_information_frame)
         self.job_number_font = tkFont.Font(size=16, weight='bold')
         self.edit_entry = editentry.EditEntry()
@@ -54,21 +80,49 @@ class JobpageWindow(Tk.Frame):
     def clear_jobpage_window(self):
         for widget in self.winfo_children():
             widget.destroy()
-        self.picture_frame = Tk.Frame(self, borderwidth=1, relief='solid')
-        self.picture_sub_frame = Tk.Frame(self.picture_frame)
-        self.basic_information_window = Tk.Frame(self, borderwidth=1, relief='solid')
-        self.update_information_frame = Tk.Frame(self)
-        self.test_display_frame = Tk.Frame(self, borderwidth=1, relief='solid')
-        self.notes_for_job_frame = Tk.Frame(self, borderwidth=1, relief='solid')
+        self.picture_frame = Tk.Frame(self,
+                                      bg="#e0fcf4",
+                                      highlightbackground='#613a3a',
+                                      highlightcolor='#613a3a',
+                                      highlightthickness=2)
+        self.picture_sub_frame = Tk.Frame(self.picture_frame, bg="#e0fcf4")
+        self.basic_information_window = Tk.Frame(self,
+                                                 bg="#e0fcf4",
+                                                 highlightbackground='#613a3a',
+                                                 highlightcolor='#613a3a',
+                                                 highlightthickness=2)
+        self.update_information_frame = Tk.Frame(self,
+                                                 bg="#e0fcf4",
+                                                 highlightbackground='#613a3a',
+                                                 highlightcolor='#613a3a',
+                                                 highlightthickness=2)
+        self.test_display_frame = Tk.Frame(self,
+                                           bg="#e0fcf4",
+                                           highlightbackground='#613a3a',
+                                           highlightcolor='#613a3a',
+                                           highlightthickness=2)
+        self.notes_for_job_frame = Tk.Frame(self,
+                                            bg="#e0fcf4",
+                                            highlightbackground='#613a3a',
+                                            highlightcolor='#613a3a',
+                                            highlightthickness=2)
         self.job_notes = Tk.Text(self.notes_for_job_frame,
                                  borderwidth=1,
-                                 width=65,
+                                 width=55,
                                  height=20,
                                  wrap="word")
+        self.text_reports = Tk.Text(self.notes_for_job_frame,
+                                    borderwidth=1,
+                                    width=55,
+                                    height=10,
+                                    wrap="word")
 
     def generate_jobpage(self, job, archive=None):
-        self.basic_information_window.grid(row=0, column=0, sticky=Tk.NW, padx=5, pady=5, ipadx=2, ipady=2)
-        Tk.Label(self.basic_information_window, text="Job Number: " + str(job[1]), font=self.job_number_font).grid(row=1, column=0, sticky=Tk.W)
+        self.basic_information_window.grid(row=0, column=0, sticky=Tk.NW, padx=2, pady=5, ipadx=2, ipady=2)
+        Tk.Label(self.basic_information_window,
+                 text="Job Number: " + str(job[1]),
+                 font=self.job_number_font,
+                 bg="#e0fcf4").grid(row=1, column=0, sticky=Tk.W)
         if archive:
             Tk.Button(self.basic_information_window,
                       text="Delete Job",
@@ -77,17 +131,27 @@ class JobpageWindow(Tk.Frame):
             Tk.Button(self.basic_information_window,
                       text="Delete Job",
                       command=lambda: self.delete_job(job[0], job[1])).grid(row=1, column=3, sticky=Tk.W)
-        Tk.Label(self.basic_information_window, text="Client: " + str(job[3])).grid(row=3, column=0, sticky=Tk.W)
-        Tk.Label(self.basic_information_window, text="Recieve Date: " + str(job[4])).grid(row=4, column=0, sticky=Tk.W)
+        Tk.Label(self.basic_information_window,
+                 text="Client: " + str(job[3]),
+                 bg="#e0fcf4").grid(row=3, column=0, sticky=Tk.W)
+        Tk.Label(self.basic_information_window,
+                 text="Recieve Date: " + str(job[4]),
+                 bg="#e0fcf4").grid(row=4, column=0, sticky=Tk.W)
         if job[5] == 0:
-            Tk.Label(self.basic_information_window, text="Status: Incomplete").grid(row=5, column=0, sticky=Tk.W)
+            Tk.Label(self.basic_information_window,
+                     text="Status: Incomplete",
+                     bg="#e0fcf4").grid(row=5, column=0, sticky=Tk.W)
         else:
-            Tk.Label(self.basic_information_window, text="Completed On: " + str(job[6])).grid(row=5, column=0, sticky=Tk.W)
+            Tk.Label(self.basic_information_window,
+                     text="Completed On: " + str(job[6]),
+                     bg="#e0fcf4").grid(row=5, column=0, sticky=Tk.W)
 
     def update_job_information(self, job, archive=None):
-        self.update_information_frame.grid(row=0, column=1, sticky=Tk.W, padx=5, pady=5, ipadx=2, ipady=2)
+        self.update_information_frame.grid(row=0, column=1, sticky=Tk.W, padx=2, pady=5, ipadx=15, ipady=25)
         if job[5] == 0:
-            Tk.Label(self.update_information_frame, text="This Job is Incomplete.").grid(row=1, column=0, sticky=Tk.W)
+            Tk.Label(self.update_information_frame,
+                     text="This Job is Incomplete.",
+                     bg="#e0fcf4").grid(row=1, column=0, sticky=Tk.W)
             if archive:
                 pass
             else:
@@ -95,18 +159,20 @@ class JobpageWindow(Tk.Frame):
                           text="Press To Complete",
                           command=lambda: self.update_db(job, 1)).grid(row=0, column=0, sticky=Tk.NW)
         else:
-            Tk.Label(self.update_information_frame, text="This Job is Complete.").grid(row=0, column=0, sticky=Tk.W)
+            Tk.Label(self.update_information_frame,
+                     text="This Job is Complete.",
+                     bg="#e0fcf4").grid(row=0, column=0, sticky=Tk.W)
             if archive:
                 pass
             else:
                 Tk.Button(self.update_information_frame,
                           text="Press To Reset",
                           command=lambda: self.update_db(job, 0)).grid(row=1, column=0, sticky=Tk.NW)
-        self.filler_canvas = Tk.Canvas(self, width=1100, height=600)
-        self.filler_canvas.grid(row=3, column=1, columnspan=1)
+        self.filler_canvas = Tk.Canvas(self, bg="#e0fcf4", highlightbackground="#e0fcf4", width=1100, height=600)
+        self.filler_canvas.grid(row=3, column=3, columnspan=1)
 
     def display_tests(self, job, archive=None):
-        self.test_display_frame.grid(row=1, column=0, sticky=Tk.NW, padx=5, ipadx=2, ipady=2)
+        self.test_display_frame.grid(row=1, column=3, sticky=Tk.NW, padx=5, pady=5, ipadx=2, ipady=2)
         if archive:
             years = ['2020']
             for item in years:
@@ -117,31 +183,40 @@ class JobpageWindow(Tk.Frame):
                     break
         else:
             active_tests = self.selection.select_from_cannajobs_tests__table_with_conditions(2, (str(job[1]),))
-        Tk.Label(self.test_display_frame, text="Tests", font=self.title_font).grid(row=0, column=0, sticky=Tk.W)
+        Tk.Label(self.test_display_frame,
+                 text="Tests",
+                 font=self.title_font,
+                 bg="#e0fcf4").grid(row=0, column=0, sticky=Tk.W)
         row_count = 1
         for test in active_tests:
             if int(test[4]) == 0:
-                test_label = Tk.Label(self.test_display_frame, text=self.test_converter[int(test[2])]).grid(row=row_count, column=0)
+                Tk.Label(self.test_display_frame,
+                         text=self.test_converter[int(test[2])],
+                         bg="#e0fcf4").grid(row=row_count, column=0)
                 if archive:
                     pass
                 else:
-                    test_button = Tk.Button(self.test_display_frame,
-                                            text='Complete',
-                                            command=lambda i=[test[0], job]: self.update_test_db(i[0], i[1])).grid(row=row_count, column=1)
+                    Tk.Button(self.test_display_frame,
+                              text='Complete',
+                              command=lambda i=[test[0], job]: self.update_test_db(i[0], i[1])).grid(row=row_count, column=1)
                 row_count += 1
             else:
-                test_label = Tk.Label(self.test_display_frame, text=self.test_converter[int(test[2])]).grid(row=row_count, column=0)
-                completed_on = Tk.Label(self.test_display_frame, text='Completed on: ' + str(test[5])).grid(row=row_count, column=1)
+                Tk.Label(self.test_display_frame,
+                         text=self.test_converter[int(test[2])],
+                         bg="#e0fcf4").grid(row=row_count, column=0)
+                Tk.Label(self.test_display_frame,
+                         text='Completed on: ' + str(test[5]),
+                         bg="#e0fcf4").grid(row=row_count, column=1)
                 if archive:
                     pass
                 else:
-                    reset_button = Tk.Button(self.test_display_frame,
-                                             text='Reset',
-                                             command=lambda i=[test[0], job]: self.reset_test_db(i[0], i[1])).grid(row=row_count, column=2)
+                    Tk.Button(self.test_display_frame,
+                              text='Reset',
+                              command=lambda i=[test[0], job]: self.reset_test_db(i[0], i[1])).grid(row=row_count, column=2)
                 row_count += 1
 
     def display_job_notes(self, job, archive=None):
-        self.notes_for_job_frame.grid(row=2, column=0, sticky=Tk.NW, pady=5,  padx=5, ipadx=2, ipady=2)
+        self.notes_for_job_frame.grid(row=1, column=0, columnspan=2, sticky=Tk.NW, pady=5,  padx=2, ipadx=2, ipady=2)
         try:
             if archive:
                 years = ['2020']
@@ -158,25 +233,33 @@ class JobpageWindow(Tk.Frame):
         except UnboundLocalError:
             bummer_note = "Didn't find a startup note :("
             self.job_notes.insert('end-1c', bummer_note)
-        Tk.Label(self.notes_for_job_frame, text="Job Notes", font=self.title_font).grid(row=0, column=0, sticky=Tk.W)
-        if archive:
-            target = r'T:\ANALYST WORK FILES\Peter\Rover\reports\ '
-            jobnumber = str(job[1])
-            first_3_digits = jobnumber[0:3]
-            last_digits = '000x'
-            filename = target[:-1] + first_3_digits + last_digits + '\\' + jobnumber + '\\' + jobnumber + '.txt'
-            filename = filename.replace('/', '-')
-            try:
-                with open(filename, 'r') as f:
-                    self.job_notes.insert("current", f.read())
-            except FileNotFoundError:
-                pass
-        else:
-            Tk.Button(self.notes_for_job_frame, text="Update Notes", command=lambda: self.update_notes(job)).grid(row=3,
-                                                                                                                  column=0,
-                                                                                                                  pady=5,
-                                                                                                                  sticky=Tk.W)
-        self.job_notes.grid(row=1, column=0, sticky=Tk.W, padx=2, pady=2)
+        Tk.Label(self.notes_for_job_frame,
+                 text="Job Notes",
+                 font=self.title_font,
+                 bg="#e0fcf4").grid(row=0, column=0, sticky=Tk.W)
+        target = r'T:\ANALYST WORK FILES\Peter\Rover\reports\ '
+        jobnumber = str(job[1])
+        first_3_digits = jobnumber[0:3]
+        last_digits = '000x'
+        filename = target[:-1] + first_3_digits + last_digits + '\\' + jobnumber + '\\' + jobnumber + '.txt'
+        filename = filename.replace('/', '-')
+        try:
+            with open(filename, 'r') as f:
+                self.text_reports.insert("current", f.read())
+        except FileNotFoundError:
+            pass
+        Tk.Button(self.notes_for_job_frame, text="Update Notes", command=lambda: self.update_notes(job)).grid(row=2,
+                                                                                                              column=0,
+                                                                                                              pady=5,
+                                                                                                              sticky=Tk.W)
+        self.job_notes.grid(row=1, column=0, columnspan=3, sticky=Tk.W, padx=2, pady=2)
+        Tk.Label(self.notes_for_job_frame,
+                 text="Analytical Reports",
+                 font=self.title_font,
+                 bg="#e0fcf4").grid(row=3,
+                                    column=0,
+                                    sticky=Tk.W)
+        self.text_reports.grid(row=4, column=0, columnspan=3, sticky=Tk.W, padx=2, pady=2)
 
     def update_db(self, job, desired_update):
         self.edit_entry.edit_cannajobs_entry(6, desired_update, job[0])
@@ -218,16 +301,19 @@ class JobpageWindow(Tk.Frame):
         self.parent.display_jobpage(job)
 
     def get_relevant_intake_photos(self, job):
-        self.picture_frame.grid(row=2, column=1, sticky=Tk.NW, pady=5,  padx=5, ipadx=2, ipady=2)
+        self.picture_frame.grid(row=1, column=2, sticky=Tk.NW, pady=5,  padx=2, ipadx=2, ipady=2)
         self.picture_sub_frame.pack()
         display_all_jobs_canvas = Tk.Canvas(self.picture_frame,
-                                            width=450,
-                                            height=390,
+                                            width=330,
+                                            height=505,
+                                            bg="#e0fcf4",
+                                            highlightbackground = '#e0fcf4',
                                             scrollregion=(0, 0, 0, 10000),)
         all_entries_scroll = Tk.Scrollbar(self.picture_frame,
                                           orient="vertical",
+                                          bg="#e0fcf4",
                                           command=display_all_jobs_canvas.yview,)
-        self.picture_sub_frame = Tk.Frame(self.picture_frame)
+        self.picture_sub_frame = Tk.Frame(self.picture_frame, bg="#e0fcf4")
         display_all_jobs_canvas.configure(yscrollcommand=all_entries_scroll.set)
         all_entries_scroll.pack(side='right',
                                 fill='y')
@@ -243,11 +329,11 @@ class JobpageWindow(Tk.Frame):
         for infile in glob.glob(image_search_token):
             im = Image.open(infile)
             filename = im.filename
-            im = im.resize((350, 350), Image.ANTIALIAS)
+            im = im.resize((300, 300), Image.ANTIALIAS)
             render = ImageTk.PhotoImage(im)
-            img = Tk.Label(self.picture_sub_frame, image=render)
+            img = Tk.Label(self.picture_sub_frame, image=render, bg="#e0fcf4")
             img.image = render
-            picture_list.append([img, filename])
+            picture_list.append([img, filename[-16:]])
         for item in picture_list:
-            Tk.Label(self.picture_sub_frame, text=item[1]).pack()
+            Tk.Label(self.picture_sub_frame, text=item[1], bg="#e0fcf4").pack()
             item[0].pack()
