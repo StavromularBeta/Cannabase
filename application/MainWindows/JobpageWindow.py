@@ -18,6 +18,8 @@ class JobpageWindow(Tk.Frame):
     def __init__(self, parent, **kwargs):
         Tk.Frame.__init__(self, parent, **kwargs)
         self.parent = parent
+        self.jobpage_text_font = tkFont.Font(size=10, weight='bold')
+        self.jobpage_font = tkFont.Font(size=10, weight='bold')
         self.picture_frame = Tk.Frame(self,
                                       bg="#e0fcf4",
                                       highlightbackground='#613a3a',
@@ -32,13 +34,15 @@ class JobpageWindow(Tk.Frame):
                                             highlightthickness=2)
         self.job_notes = Tk.Text(self.notes_for_job_frame,
                                  borderwidth=1,
-                                 width=55,
+                                 width=70,
                                  height=10,
+                                 font=self.jobpage_text_font,
                                  wrap="word")
         self.text_reports = Tk.Text(self.notes_for_job_frame,
                                     borderwidth=1,
-                                    width=55,
+                                    width=70,
                                     height=15,
+                                    font=self.jobpage_text_font,
                                     wrap="word")
         self.title_font = tkFont.Font(size=16, weight='bold')
         self.basic_information_window = Tk.Frame(self,
@@ -108,13 +112,15 @@ class JobpageWindow(Tk.Frame):
                                             highlightthickness=2)
         self.job_notes = Tk.Text(self.notes_for_job_frame,
                                  borderwidth=1,
-                                 width=55,
-                                 height=20,
+                                 width=70,
+                                 height=10,
+                                 font=self.jobpage_text_font,
                                  wrap="word")
         self.text_reports = Tk.Text(self.notes_for_job_frame,
                                     borderwidth=1,
-                                    width=55,
-                                    height=10,
+                                    width=70,
+                                    height=15,
+                                    font=self.jobpage_text_font,
                                     wrap="word")
 
     def generate_jobpage(self, job, archive=None):
@@ -133,17 +139,21 @@ class JobpageWindow(Tk.Frame):
                       command=lambda: self.delete_job(job[0], job[1])).grid(row=1, column=3, sticky=Tk.W)
         Tk.Label(self.basic_information_window,
                  text="Client: " + str(job[3]),
+                 font=self.jobpage_font,
                  bg="#e0fcf4").grid(row=3, column=0, sticky=Tk.W)
         Tk.Label(self.basic_information_window,
                  text="Recieve Date: " + str(job[4]),
+                 font=self.jobpage_font,
                  bg="#e0fcf4").grid(row=4, column=0, sticky=Tk.W)
         if job[5] == 0:
             Tk.Label(self.basic_information_window,
                      text="Status: Incomplete",
+                     font=self.jobpage_font,
                      bg="#e0fcf4").grid(row=5, column=0, sticky=Tk.W)
         else:
             Tk.Label(self.basic_information_window,
                      text="Completed On: " + str(job[6]),
+                     font=self.jobpage_font,
                      bg="#e0fcf4").grid(row=5, column=0, sticky=Tk.W)
 
     def update_job_information(self, job, archive=None):
@@ -151,6 +161,7 @@ class JobpageWindow(Tk.Frame):
         if job[5] == 0:
             Tk.Label(self.update_information_frame,
                      text="This Job is Incomplete.",
+                     font=self.jobpage_font,
                      bg="#e0fcf4").grid(row=1, column=0, sticky=Tk.W)
             if archive:
                 pass
@@ -161,6 +172,7 @@ class JobpageWindow(Tk.Frame):
         else:
             Tk.Label(self.update_information_frame,
                      text="This Job is Complete.",
+                     font=self.jobpage_font,
                      bg="#e0fcf4").grid(row=0, column=0, sticky=Tk.W)
             if archive:
                 pass
@@ -192,6 +204,7 @@ class JobpageWindow(Tk.Frame):
             if int(test[4]) == 0:
                 Tk.Label(self.test_display_frame,
                          text=self.test_converter[int(test[2])],
+                         font=self.jobpage_font,
                          bg="#e0fcf4").grid(row=row_count, column=0)
                 if archive:
                     pass
@@ -203,9 +216,11 @@ class JobpageWindow(Tk.Frame):
             else:
                 Tk.Label(self.test_display_frame,
                          text=self.test_converter[int(test[2])],
+                         font=self.jobpage_font,
                          bg="#e0fcf4").grid(row=row_count, column=0)
                 Tk.Label(self.test_display_frame,
                          text='Completed on: ' + str(test[5]),
+                         font=self.jobpage_font,
                          bg="#e0fcf4").grid(row=row_count, column=1)
                 if archive:
                     pass
@@ -335,5 +350,5 @@ class JobpageWindow(Tk.Frame):
             img.image = render
             picture_list.append([img, filename[-16:]])
         for item in picture_list:
-            Tk.Label(self.picture_sub_frame, text=item[1], bg="#e0fcf4").pack()
+            Tk.Label(self.picture_sub_frame, text=item[1], font=self.jobpage_font, bg="#e0fcf4").pack()
             item[0].pack()
