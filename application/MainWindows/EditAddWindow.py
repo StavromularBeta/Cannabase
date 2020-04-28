@@ -30,25 +30,45 @@ class EditAddWindow(Tk.Frame):
                                  wrap="word")
         # Checkboxes
         self.metals = Tk.IntVar()
-        self.metals_checkbox = Tk.Checkbutton(self.add_new_job_frame, text='2) metals', variable=self.metals)
+        self.metals_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                              text='2) metals',
+                                              variable=self.metals,
+                                              bg='#e0fcf4')
         self.basic_potency = Tk.IntVar()
         self.basic_potency_checkbox = Tk.Checkbutton(self.add_new_job_frame,
                                                      text='3) basic potency',
-                                                     variable=self.basic_potency)
+                                                     variable=self.basic_potency,
+                                                     bg='#e0fcf4')
         self.deluxe_potency = Tk.IntVar()
         self.deluxe_potency_checkbox = Tk.Checkbutton(self.add_new_job_frame,
                                                       text='3a) deluxe potency',
-                                                      variable=self.deluxe_potency)
+                                                      variable=self.deluxe_potency,
+                                                      bg='#e0fcf4')
         self.toxins = Tk.IntVar()
-        self.toxins_checkbox = Tk.Checkbutton(self.add_new_job_frame, text='4) Aflotoxins', variable=self.toxins)
+        self.toxins_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                              text='4) Aflotoxins',
+                                              variable=self.toxins,
+                                              bg='#e0fcf4')
         self.pesticides = Tk.IntVar()
-        self.pesticides_checkbox = Tk.Checkbutton(self.add_new_job_frame, text='5) Pesticides', variable=self.pesticides)
+        self.pesticides_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                                  text='5) Pesticides',
+                                                  variable=self.pesticides,
+                                                  bg='#e0fcf4')
         self.terpenes = Tk.IntVar()
-        self.terpenes_checkbox = Tk.Checkbutton(self.add_new_job_frame, text='7) Terpenes', variable=self.terpenes)
+        self.terpenes_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                                text='7) Terpenes',
+                                                variable=self.terpenes,
+                                                bg='#e0fcf4')
         self.solvents = Tk.IntVar()
-        self.solvents_checkbox = Tk.Checkbutton(self.add_new_job_frame, text='8) Solvents', variable=self.solvents)
+        self.solvents_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                                text='8) Solvents',
+                                                variable=self.solvents,
+                                                bg='#e0fcf4')
         self.other = Tk.IntVar()
-        self.other_checkbox = Tk.Checkbutton(self.add_new_job_frame, text='Other', variable=self.other)
+        self.other_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                             text='Other',
+                                             variable=self.other,
+                                             bg='#e0fcf4')
 
     def clear_edit_add_frame(self):
         for widget in self.winfo_children():
@@ -64,25 +84,45 @@ class EditAddWindow(Tk.Frame):
                                  wrap="word")
         # Checkboxes
         self.metals = Tk.IntVar()
-        self.metals_checkbox = Tk.Checkbutton(self.add_new_job_frame, text='2) metals', variable=self.metals)
+        self.metals_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                              text='2) metals',
+                                              variable=self.metals,
+                                              bg='#e0fcf4')
         self.basic_potency = Tk.IntVar()
         self.basic_potency_checkbox = Tk.Checkbutton(self.add_new_job_frame,
                                                      text='3) basic potency',
-                                                     variable=self.basic_potency)
+                                                     variable=self.basic_potency,
+                                                     bg='#e0fcf4')
         self.deluxe_potency = Tk.IntVar()
         self.deluxe_potency_checkbox = Tk.Checkbutton(self.add_new_job_frame,
                                                       text='3a) deluxe potency',
-                                                      variable=self.deluxe_potency)
+                                                      variable=self.deluxe_potency,
+                                                      bg='#e0fcf4')
         self.toxins = Tk.IntVar()
-        self.toxins_checkbox = Tk.Checkbutton(self.add_new_job_frame, text='4) Aflotoxins', variable=self.toxins)
+        self.toxins_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                              text='4) Aflotoxins',
+                                              variable=self.toxins,
+                                              bg='#e0fcf4')
         self.pesticides = Tk.IntVar()
-        self.pesticides_checkbox = Tk.Checkbutton(self.add_new_job_frame, text='5) Pesticides', variable=self.pesticides)
+        self.pesticides_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                                  text='5) Pesticides',
+                                                  variable=self.pesticides,
+                                                  bg='#e0fcf4')
         self.terpenes = Tk.IntVar()
-        self.terpenes_checkbox = Tk.Checkbutton(self.add_new_job_frame, text='7) Terpenes', variable=self.terpenes)
+        self.terpenes_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                                text='7) Terpenes',
+                                                variable=self.terpenes,
+                                                bg='#e0fcf4')
         self.solvents = Tk.IntVar()
-        self.solvents_checkbox = Tk.Checkbutton(self.add_new_job_frame, text='8) Solvents', variable=self.solvents)
+        self.solvents_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                                text='8) Solvents',
+                                                variable=self.solvents,
+                                                bg='#e0fcf4')
         self.other = Tk.IntVar()
-        self.other_checkbox = Tk.Checkbutton(self.add_new_job_frame, text='Other', variable=self.other)
+        self.other_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                             text='Other',
+                                             variable=self.other,
+                                             bg='#e0fcf4')
 
     def edit_add(self):
         new_job_entry_frame = self.generate_new_job_frame()
@@ -92,12 +132,22 @@ class EditAddWindow(Tk.Frame):
 
         # job number, receive date, tests, status
     def generate_new_job_frame(self):
-        Tk.Label(self.add_new_job_frame, text="New Job Entry", font=self.large_bold_font_choice).grid(row=0, columnspan=2, sticky= Tk.W)
-        Tk.Label(self.add_new_job_frame, text="Job Number").grid(row=1, sticky=Tk.W)
-        Tk.Label(self.add_new_job_frame, text="Client Name").grid(row=2, sticky=Tk.W)
+        Tk.Label(self.add_new_job_frame,
+                 text="New Job Entry",
+                 bg='#e0fcf4',
+                 font=self.large_bold_font_choice).grid(row=0, columnspan=2, sticky= Tk.W)
+        Tk.Label(self.add_new_job_frame,
+                 text="Job Number",
+                 bg='#e0fcf4').grid(row=1, sticky=Tk.W)
+        Tk.Label(self.add_new_job_frame,
+                 text="Client Name",
+                 bg='#e0fcf4').grid(row=2, sticky=Tk.W)
         self.jobnumber_entry.grid(row=1, column=1, columnspan=2, sticky=Tk.W)
         self.client_name_entry.grid(row=2, column=1, columnspan=2, sticky=Tk.W)
-        Tk.Label(self.add_new_job_frame, text="Requested Tests", font=self.large_bold_font_choice).grid(row=3, columnspan=2, sticky= Tk.W)
+        Tk.Label(self.add_new_job_frame,
+                 text="Requested Tests",
+                 font=self.large_bold_font_choice,
+                 bg='#e0fcf4').grid(row=3, columnspan=2, sticky= Tk.W)
         self.metals_checkbox.grid(row=4, column=0, sticky=Tk.W)
         self.basic_potency_checkbox.grid(row=5, column=0, sticky=Tk.W)
         self.deluxe_potency_checkbox.grid(row=6, column=0, sticky=Tk.W)
@@ -167,7 +217,10 @@ class EditAddWindow(Tk.Frame):
             return active_tests
 
     def generate_job_notes_frame(self):
-        Tk.Label(self.job_notes_frame, text='Job Notes', font=self.large_bold_font_choice).grid(row=0, column=0, sticky=Tk.W)
+        Tk.Label(self.job_notes_frame,
+                 text='Job Notes',
+                 font=self.large_bold_font_choice,
+                 bg='#e0fcf4').grid(row=0, column=0, sticky=Tk.W)
         self.job_notes.grid(row=1, column=0, padx=5, pady=5)
         start_note = 'Space for job notes!'
         self.job_notes.insert('end-1c', start_note)
