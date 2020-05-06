@@ -60,7 +60,7 @@ class Selection(Connector):
             return self.connector(query)
 
     def select_from_cannajobs_table_with_conditions(self, field_number, condition, print_view=None):
-        query = "SELECT * FROM cannajobs WHERE " + self.cannajobs_field_names[field_number] + " = (?)"
+        query = "SELECT * FROM cannajobs WHERE " + self.cannajobs_field_names[field_number] + " = (?) ORDER BY id DESC"
         if print_view:
             for item in self.connector(query, condition):
                 print(item)
@@ -68,7 +68,7 @@ class Selection(Connector):
             return self.connector(query, condition)
 
     def select_from_cannajobs_tests__table_with_conditions(self, field_number, condition, print_view=None):
-        query = "SELECT * FROM cannajobs_tests WHERE " + self.cannajobs_tests_field_names[field_number] + " = (?)"
+        query = "SELECT * FROM cannajobs_tests WHERE " + self.cannajobs_tests_field_names[field_number] + " = (?) ORDER BY id DESC"
         if print_view:
             for item in self.connector(query, condition):
                 print(item)
@@ -76,7 +76,7 @@ class Selection(Connector):
             return self.connector(query, condition)
 
     def select_from_cannajobs_archive_table_with_conditions(self, field_number, condition, print_view=None):
-        query = "SELECT * FROM cannajobs2020 WHERE " + self.cannajobs_archive_field_names[field_number] + " = (?)"
+        query = "SELECT * FROM cannajobs2020 WHERE " + self.cannajobs_archive_field_names[field_number] + " = (?) ORDER BY id DESC"
         if print_view:
             for item in self.connector(query, condition):
                 print(item)
@@ -85,7 +85,7 @@ class Selection(Connector):
 
     def select_from_cannajobs_tests_archive__table_with_conditions(self, year, field_number, condition, print_view=None):
         query = "SELECT * FROM cannajobs_tests" + year + " WHERE " +\
-                self.cannajobs_tests_archive_field_names[field_number] + " = (?)"
+                self.cannajobs_tests_archive_field_names[field_number] + " = (?) ORDER BY id DESC"
         if print_view:
             for item in self.connector(query, condition):
                 print(item)

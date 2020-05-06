@@ -36,9 +36,13 @@ class MainWindow(Tk.Frame):
 
     def display_searchpage(self, search=None, archive=None):
         self.clear_main_window()
-        if search:
+        if search and archive:
+            self.SearchWindow.display_all_jobs(search, archive=True)
+            self.SearchWindow.search_jobs(archive=True)
+        elif search:
             self.SearchWindow.display_all_jobs(search)
-        if archive:
+            self.SearchWindow.search_jobs()
+        elif archive:
             self.SearchWindow.display_all_jobs(archive=True)
             self.SearchWindow.search_jobs(archive=True)
         else:

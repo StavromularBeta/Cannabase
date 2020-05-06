@@ -95,7 +95,7 @@ class SearchWindow(Tk.Frame):
                  bg="#e0fcf4").grid(row=0, column=3, sticky=Tk.W, padx=2, pady=2)
         if search:
             self.return_jobs(search)
-        if archive:
+        elif archive:
             self.return_jobs(archive=True)
         else:
             self.return_jobs()
@@ -259,38 +259,67 @@ class SearchWindow(Tk.Frame):
                                            highlightbackground="#e0fcf4",
                                            font=self.search_table_results_font)
         self.search_entry_field.grid(row=0, column=1)
-        Tk.Button(search_result_frame,
-                  text="Archive Jobs",
-                  command=self.archive_jobs,
-                  highlightbackground="#e0fcf4",
-                  font=self.search_table_results_font).grid(row=0, column=2, sticky=Tk.E)
-        Tk.Button(search_result_frame,
-                  text="Delete Archived Jobs",
-                  command=self.delete_archived_jobs_from_current_table,
-                  highlightbackground="#e0fcf4",
-                  font=self.search_table_results_font).grid(row=0, column=3, sticky=Tk.W)
-        Tk.Button(search_result_frame,
-                  text="search",
-                  command=self.search_database_for_jobs,
-                  highlightbackground="#e0fcf4",
-                  font=self.search_table_results_font).grid(row=1, column=0, sticky=Tk.E)
-        Tk.Button(search_result_frame,
-                  text="all",
-                  command=self.parent.display_searchpage,
-                  highlightbackground="#e0fcf4",
-                  font=self.search_table_results_font).grid(row=1, column=1, sticky=Tk.W)
+        if archive:
+            pass
+        else:
+            Tk.Button(search_result_frame,
+                      text="Archive Jobs",
+                      command=self.archive_jobs,
+                      highlightbackground="#e0fcf4",
+                      font=self.search_table_results_font).grid(row=0, column=2, sticky=Tk.E)
+        if archive:
+            pass
+        else:
+            Tk.Button(search_result_frame,
+                      text="Delete Archived Jobs",
+                      command=self.delete_archived_jobs_from_current_table,
+                      highlightbackground="#e0fcf4",
+                      font=self.search_table_results_font).grid(row=0, column=3, sticky=Tk.W)
+        if archive:
+            Tk.Button(search_result_frame,
+                      text="search archives",
+                      command=lambda: self.search_database_for_jobs(archive=True),
+                      highlightbackground="#e0fcf4",
+                      font=self.search_table_results_font).grid(row=1, column=0, sticky=Tk.E)
+        else:
+            Tk.Button(search_result_frame,
+                      text="search active",
+                      command=self.search_database_for_jobs,
+                      highlightbackground="#e0fcf4",
+                      font=self.search_table_results_font).grid(row=1, column=0, sticky=Tk.E)
+        if archive:
+            Tk.Button(search_result_frame,
+                      text="all archives",
+                      command=lambda: self.parent.display_searchpage(archive=True),
+                      highlightbackground="#e0fcf4",
+                      font=self.search_table_results_font).grid(row=1, column=1, sticky=Tk.W)
+        else:
+            Tk.Button(search_result_frame,
+                      text="all active",
+                      command=self.parent.display_searchpage,
+                      highlightbackground="#e0fcf4",
+                      font=self.search_table_results_font).grid(row=1, column=1, sticky=Tk.W)
         self.search_frame.grid(row=0, column=0, sticky=Tk.NW)
 
-    def search_database_for_jobs(self):
+    def search_database_for_jobs(self, archive=None):
         search_type = self.option_variable.get()
         entry_field = self.search_entry_field.get()
-        if search_type == "Job Number":
-            search_results = self.selection.select_from_cannajobs_table_with_conditions(2, (entry_field,))
-        elif search_type == "Active":
-            search_results = self.selection.select_from_cannajobs_table_with_conditions(6, (entry_field,))
-        elif search_type == "Client Name":
-            search_results = self.selection.select_from_cannajobs_table_with_conditions(4, (entry_field,))
-        self.parent.display_searchpage(search_results)
+        if archive:
+            if search_type == "Job Number":
+                search_results = self.selection.select_from_cannajobs_archive_table_with_conditions(2, (entry_field,))
+            elif search_type == "Active":
+                search_results = self.selection.select_from_cannajobs_archive_table_with_conditions(6, (entry_field,))
+            elif search_type == "Client Name":
+                search_results = self.selection.select_from_cannajobs_archive_table_with_conditions(4, (entry_field,))
+            self.parent.display_searchpage(search_results, archive=True)
+        else:
+            if search_type == "Job Number":
+                search_results = self.selection.select_from_cannajobs_table_with_conditions(2, (entry_field,))
+            elif search_type == "Active":
+                search_results = self.selection.select_from_cannajobs_table_with_conditions(6, (entry_field,))
+            elif search_type == "Client Name":
+                search_results = self.selection.select_from_cannajobs_table_with_conditions(4, (entry_field,))
+            self.parent.display_searchpage(search_results)
 
     def convert_testnumber_to_string(self, tests):
         tests_list_numbers = tests.split(",")
