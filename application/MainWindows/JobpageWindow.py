@@ -323,7 +323,7 @@ class JobpageWindow(Tk.Frame):
                                             height=505,
                                             bg="#e0fcf4",
                                             highlightbackground = '#e0fcf4',
-                                            scrollregion=(0, 0, 0, 10000),)
+                                            scrollregion=(0, 0, 0, 15000),)
         all_entries_scroll = Tk.Scrollbar(self.picture_frame,
                                           orient="vertical",
                                           bg="#e0fcf4",
