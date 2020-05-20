@@ -31,7 +31,11 @@ class SearchWindow(Tk.Frame):
                                5: "Pests",
                                7: "Terps",
                                8: "Solv",
-                               9: "Oth"
+                               9: "Oth",
+                               1: "M.A",
+                               6: "M.B",
+                               10: "F.ID",
+                               11: "Mushrooms"
                                }
 
     def clear_search_window(self):

@@ -78,7 +78,11 @@ class JobpageWindow(Tk.Frame):
                                5: "Pesticides",
                                7: "Terpenes",
                                8: "Solvents",
-                               9: "Other Tests"
+                               9: "Other Tests",
+                               1: "Micro A",
+                               6: "Micro B",
+                               10: "Fungal ID",
+                               11: "Shrooms"
                                }
 
     def clear_jobpage_window(self):

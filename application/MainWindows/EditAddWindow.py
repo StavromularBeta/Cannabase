@@ -16,6 +16,7 @@ class EditAddWindow(Tk.Frame):
         self.parent = parent
         self.config(bg="#e0fcf4")
         self.large_bold_font_choice = tkFont.Font(size=16, weight='bold')
+        self.smaller_bold_font_choice = tkFont.Font(size=12, weight='bold')
         self.add_delete_query = ad.AdDel()
         self.add_new_job_frame = Tk.Frame(self,
                                           bg='#e0fcf4')
@@ -69,6 +70,26 @@ class EditAddWindow(Tk.Frame):
                                              text='Other',
                                              variable=self.other,
                                              bg='#e0fcf4')
+        self.micro_a = Tk.IntVar()
+        self.micro_a_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                               text='1) Micro A',
+                                               variable=self.micro_a,
+                                               bg='#e0fcf4')
+        self.micro_b = Tk.IntVar()
+        self.micro_b_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                               text='6) Micro B',
+                                               variable=self.micro_b,
+                                               bg='#e0fcf4')
+        self.fungal_id = Tk.IntVar()
+        self.fungal_id_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                                 text='Fungal ID',
+                                                 variable=self.fungal_id,
+                                                 bg='#e0fcf4')
+        self.mushrooms = Tk.IntVar()
+        self.mushrooms_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                                 text='Psilocybin',
+                                                 variable=self.mushrooms,
+                                                 bg='#e0fcf4')
 
     def clear_edit_add_frame(self):
         for widget in self.winfo_children():
@@ -123,6 +144,26 @@ class EditAddWindow(Tk.Frame):
                                              text='Other',
                                              variable=self.other,
                                              bg='#e0fcf4')
+        self.micro_a = Tk.IntVar()
+        self.micro_a_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                               text='1) Micro A',
+                                               variable=self.micro_a,
+                                               bg='#e0fcf4')
+        self.micro_b = Tk.IntVar()
+        self.micro_b_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                               text='2) Micro B',
+                                               variable=self.micro_b,
+                                               bg='#e0fcf4')
+        self.fungal_id = Tk.IntVar()
+        self.fungal_id_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                                 text='Fungal ID',
+                                                 variable=self.fungal_id,
+                                                 bg='#e0fcf4')
+        self.mushrooms = Tk.IntVar()
+        self.mushrooms_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                                 text='Psilocybin',
+                                                 variable=self.mushrooms,
+                                                 bg='#e0fcf4')
 
     def edit_add(self):
         new_job_entry_frame = self.generate_new_job_frame()
@@ -148,14 +189,26 @@ class EditAddWindow(Tk.Frame):
                  text="Requested Tests",
                  font=self.large_bold_font_choice,
                  bg='#e0fcf4').grid(row=3, columnspan=2, sticky= Tk.W)
-        self.metals_checkbox.grid(row=4, column=0, sticky=Tk.W)
-        self.basic_potency_checkbox.grid(row=5, column=0, sticky=Tk.W)
-        self.deluxe_potency_checkbox.grid(row=6, column=0, sticky=Tk.W)
-        self.toxins_checkbox.grid(row=7, column=0, sticky=Tk.W)
-        self.pesticides_checkbox.grid(row=8, column=0, sticky=Tk.W)
-        self.terpenes_checkbox.grid(row=9, column=0, sticky=Tk.W)
-        self.solvents_checkbox.grid(row=10, column=0, sticky=Tk.W)
-        self.other_checkbox.grid(row=11, column=0, sticky=Tk.W)
+        Tk.Label(self.add_new_job_frame,
+                 text="Health Canada Cannabis Tests",
+                 font=self.smaller_bold_font_choice,
+                 bg='#e0fcf4').grid(row=4, columnspan=2, sticky=Tk.W)
+        self.micro_a_checkbox.grid(row=5, column=0, sticky=Tk.W)
+        self.metals_checkbox.grid(row=6, column=0, sticky=Tk.W)
+        self.basic_potency_checkbox.grid(row=7, column=0, sticky=Tk.W)
+        self.deluxe_potency_checkbox.grid(row=8, column=0, sticky=Tk.W)
+        self.toxins_checkbox.grid(row=9, column=0, sticky=Tk.W)
+        self.pesticides_checkbox.grid(row=10, column=0, sticky=Tk.W)
+        self.micro_b_checkbox.grid(row=11, column=0, sticky=Tk.W)
+        self.terpenes_checkbox.grid(row=12, column=0, sticky=Tk.W)
+        self.solvents_checkbox.grid(row=13, column=0, sticky=Tk.W)
+        Tk.Label(self.add_new_job_frame,
+                 text="Other Tests",
+                 font=self.smaller_bold_font_choice,
+                 bg='#e0fcf4').grid(row=14, columnspan=2, sticky=Tk.W)
+        self.other_checkbox.grid(row=15, column=0, sticky=Tk.W)
+        self.fungal_id_checkbox.grid(row=16, column=0, sticky=Tk.W)
+        self.mushrooms_checkbox.grid(row=17, column=0, sticky=Tk.W)
         Tk.Button(self, text="Enter Job", command=self.input_entry).grid(row=2, column=0, pady=10, sticky=Tk.W)
         self.filler_canvas = Tk.Canvas(self, width=1100, height=600, bg="#e0fcf4", highlightbackground="#e0fcf4")
         self.filler_canvas.grid(row=3, column=1, columnspan=1, sticky=Tk.W)
@@ -194,7 +247,8 @@ class EditAddWindow(Tk.Frame):
 
     def generate_tests_list(self, string_return=None):
         counter = 0
-        test_number_list = [2,3,33,4,5,7,8,9]
+        test_number_list = [2, 3, 33, 4, 5, 7, 8, 9, 1, 6, 10, 11]
+#       1-9 correspond to health canada testing numbers, 10 is fungal ID, 11 is mushrooms.
         test_list = [self.metals.get(),
                      self.basic_potency.get(),
                      self.deluxe_potency.get(),
@@ -202,7 +256,11 @@ class EditAddWindow(Tk.Frame):
                      self.pesticides.get(),
                      self.terpenes.get(),
                      self.solvents.get(),
-                     self.other.get()]
+                     self.other.get(),
+                     self.micro_a.get(),
+                     self.micro_b.get(),
+                     self.fungal_id.get(),
+                     self.mushrooms.get()]
         active_tests = []
         for item in test_list:
             if item > 0:
