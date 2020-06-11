@@ -60,8 +60,9 @@ class Selection(Connector):
             return self.connector(query)
 
     def select_from_cannajobs_table_with_conditions(self, field_number, condition, print_view=None):
-        query = "SELECT * FROM cannajobs WHERE " + self.cannajobs_field_names[field_number] + " = (?) ORDER BY id DESC"
+        query = "SELECT * FROM cannajobs WHERE " + self.cannajobs_field_names[field_number] + " LIKE (?) ORDER BY id DESC"
         if print_view:
+            print("Query: " + query)
             for item in self.connector(query, condition):
                 print(item)
         else:
@@ -76,8 +77,9 @@ class Selection(Connector):
             return self.connector(query, condition)
 
     def select_from_cannajobs_archive_table_with_conditions(self, field_number, condition, print_view=None):
-        query = "SELECT * FROM cannajobs2020 WHERE " + self.cannajobs_archive_field_names[field_number] + " = (?) ORDER BY id DESC"
+        query = "SELECT * FROM cannajobs2020 WHERE " + self.cannajobs_archive_field_names[field_number] + " LIKE (?) ORDER BY id DESC"
         if print_view:
+            print("Query: " + query)
             for item in self.connector(query, condition):
                 print(item)
         else:

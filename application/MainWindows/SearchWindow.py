@@ -314,7 +314,7 @@ class SearchWindow(Tk.Frame):
             elif search_type == "Active":
                 search_results = self.selection.select_from_cannajobs_archive_table_with_conditions(6, (entry_field,))
             elif search_type == "Client Name":
-                search_results = self.selection.select_from_cannajobs_archive_table_with_conditions(4, (entry_field,))
+                search_results = self.selection.select_from_cannajobs_archive_table_with_conditions(4, ('%' + entry_field + '%',))
             self.parent.display_searchpage(search_results, archive=True)
         else:
             if search_type == "Job Number":
@@ -322,7 +322,7 @@ class SearchWindow(Tk.Frame):
             elif search_type == "Active":
                 search_results = self.selection.select_from_cannajobs_table_with_conditions(6, (entry_field,))
             elif search_type == "Client Name":
-                search_results = self.selection.select_from_cannajobs_table_with_conditions(4, (entry_field,))
+                search_results = self.selection.select_from_cannajobs_table_with_conditions(4, ('%' + entry_field + '%',))
             self.parent.display_searchpage(search_results)
 
     def convert_testnumber_to_string(self, tests):
