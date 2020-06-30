@@ -14,6 +14,11 @@ class AdDel(Connector):
         query = 'INSERT INTO cannajobs (job_number, tests, client_name, receive_date, status, complete_date) VALUES (?,?,?,?,?,?)'
         return self.connector(query, values_tuple)
 
+    def new_customer_entry(self, values):
+        values_tuple = (values[0], values[1], values[2])
+        query = 'INSERT INTO canna_customers (company_id, client_name, status) VALUES (?,?,?)'
+        return self.connector(query, values_tuple)
+
     def new_cannajobs_tests_entry(self, values):
         values_tuple = (values[0], values[1], values[2], values[3], values[4])
         query = 'INSERT INTO cannajobs_tests (job_number, test_type, submit_date, status, complete_date) VALUES (?,?,?,?,?)'
@@ -29,6 +34,10 @@ class AdDel(Connector):
 
     def delete_cannajob_entry(self, id):
         query = 'DELETE FROM cannajobs WHERE id = ?'
+        return self.connector(query, id)
+
+    def delete_canna_customer_entry(self, id):
+        query = 'DELETE FROM canna_customers WHERE id = ?'
         return self.connector(query, id)
 
     def delete_cannajob_tests(self, job_number):

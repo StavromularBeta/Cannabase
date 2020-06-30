@@ -11,7 +11,8 @@ class Selection(Connector):
                             3: 'cannajobs_test_notes',
                             4: 'cannajobs' + str(datetime.date.today().year),
                             5: 'cannajobs_tests' + str(datetime.date.today().year),
-                            6: 'cannajobs_test_notes' + str(datetime.date.today().year)}
+                            6: 'cannajobs_test_notes' + str(datetime.date.today().year),
+                            7: 'canna_customers'}
         self.cannajobs_field_names = {1: 'id',
                                       2: 'job_number',
                                       3: 'tests',
@@ -53,6 +54,14 @@ class Selection(Connector):
 
     def select_all_from_table_descending(self, table_number, print_view=None):
         query = "SELECT * FROM " + self.table_names[table_number] + " ORDER BY id DESC"
+        if print_view:
+            for item in self.connector(query):
+                print(item)
+        else:
+            return self.connector(query)
+
+    def select_all_from_customer_table_descending(self, table_number, print_view=None):
+        query = "SELECT * FROM " + self.table_names[table_number] + " ORDER BY client_name"
         if print_view:
             for item in self.connector(query):
                 print(item)
@@ -111,3 +120,12 @@ class Selection(Connector):
                 print(item)
         else:
             return self.connector(query, job)
+
+    def select_customer_list_from_cannajobs(self, print_view=None):
+        query = "SELECT DISTINCT client_name FROM cannajobs2020 "
+        if print_view:
+            for item in self.connector(query):
+                print(item)
+        else:
+            return self.connector(query)
+

@@ -45,7 +45,12 @@ class CreateTb(Connector):
                                                    id integer PRIMARY KEY,
                                                    job_number text,
                                                    note text,
-                                                   note_date date)"""
+                                                   note_date date)""",
+                                 7: """ CREATE TABLE IF NOT EXISTS canna_customers (
+                                                    id integer PRIMARY KEY,
+                                                    company_id text,
+                                                    client_name text,
+                                                    status int) """
                                  }
 
     def create_table(self, dictionary_index):
@@ -60,3 +65,4 @@ db.create_table(3)
 db.create_table(4)
 db.create_table(5)
 db.create_table(6)
+db.create_table(7)

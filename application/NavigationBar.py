@@ -13,6 +13,10 @@ class NavigationBar(Tk.Frame):
                                   text=" Current \n Jobs",
                                   command=self.parent.MainWindow.display_searchpage,
                                   font=self.nav_bar_button_font)
+        customer_button = Tk.Button(self,
+                                    text="Current\nClients",
+                                    command=self.parent.MainWindow.display_customerpage,
+                                    font=self.nav_bar_button_font)
         edit_add_button = Tk.Button(self,
                                     text="Enter\nNew Job",
                                     command=self.parent.MainWindow.display_editaddpage,
@@ -22,8 +26,9 @@ class NavigationBar(Tk.Frame):
                                    command=lambda: self.parent.MainWindow.display_searchpage(archive=True),
                                    font=self.nav_bar_button_font)
         search_button.grid(row=0, padx=5, pady=5)
-        edit_add_button.grid(row=1, padx=5)
-        archive_button.grid(row=2, padx=5, pady=5)
+        customer_button.grid(row=1, padx=5, pady=5, ipadx=5)
+        edit_add_button.grid(row=2, padx=5, pady=5)
+        archive_button.grid(row=3, padx=5, pady=5)
 
 
 

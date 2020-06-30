@@ -6,6 +6,7 @@ parentdir = os.path.dirname(currentdir)
 parentdir = os.path.dirname(parentdir)
 sys.path.insert(0, parentdir+'/sql_files/')
 import addel as ad
+import selection as sel
 import datetime
 from tkinter import font as tkFont
 
@@ -18,6 +19,88 @@ class EditAddWindow(Tk.Frame):
         self.large_bold_font_choice = tkFont.Font(size=16, weight='bold')
         self.smaller_bold_font_choice = tkFont.Font(size=12, weight='bold')
         self.add_delete_query = ad.AdDel()
+        self.select_query = sel.Selection()
+        self.add_new_job_frame = Tk.Frame(self,
+                                          bg='#e0fcf4')
+        self.job_notes_frame = Tk.Frame(self,
+                                        bg='#e0fcf4')
+        self.jobnumber_entry = Tk.Entry(self.add_new_job_frame)
+        self.client_name_entry = Tk.Entry(self.add_new_job_frame)
+        self.job_notes = Tk.Text(self.job_notes_frame,
+                                 borderwidth=1,
+                                 width=65,
+                                 height=20,
+                                 wrap="word")
+        # Checkboxes
+        self.metals = Tk.IntVar()
+        self.metals_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                              text='2) metals',
+                                              variable=self.metals,
+                                              bg='#e0fcf4')
+        self.basic_potency = Tk.IntVar()
+        self.basic_potency_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                                     text='3) basic potency',
+                                                     variable=self.basic_potency,
+                                                     bg='#e0fcf4')
+        self.deluxe_potency = Tk.IntVar()
+        self.deluxe_potency_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                                      text='3a) deluxe potency',
+                                                      variable=self.deluxe_potency,
+                                                      bg='#e0fcf4')
+        self.toxins = Tk.IntVar()
+        self.toxins_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                              text='4) Aflotoxins',
+                                              variable=self.toxins,
+                                              bg='#e0fcf4')
+        self.pesticides = Tk.IntVar()
+        self.pesticides_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                                  text='5) Pesticides',
+                                                  variable=self.pesticides,
+                                                  bg='#e0fcf4')
+        self.terpenes = Tk.IntVar()
+        self.terpenes_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                                text='7) Terpenes',
+                                                variable=self.terpenes,
+                                                bg='#e0fcf4')
+        self.solvents = Tk.IntVar()
+        self.solvents_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                                text='8) Solvents',
+                                                variable=self.solvents,
+                                                bg='#e0fcf4')
+        self.other = Tk.IntVar()
+        self.other_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                             text='Other',
+                                             variable=self.other,
+                                             bg='#e0fcf4')
+        self.micro_a = Tk.IntVar()
+        self.micro_a_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                               text='1) Micro A',
+                                               variable=self.micro_a,
+                                               bg='#e0fcf4')
+        self.micro_b = Tk.IntVar()
+        self.micro_b_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                               text='6) Micro B',
+                                               variable=self.micro_b,
+                                               bg='#e0fcf4')
+        self.fungal_id = Tk.IntVar()
+        self.fungal_id_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                                 text='Fungal ID',
+                                                 variable=self.fungal_id,
+                                                 bg='#e0fcf4')
+        self.mushrooms = Tk.IntVar()
+        self.mushrooms_checkbox = Tk.Checkbutton(self.add_new_job_frame,
+                                                 text='Psilocybin',
+                                                 variable=self.mushrooms,
+                                                 bg='#e0fcf4')
+        self.existing_client_list = ['New Client']
+        self.filter_list = ['#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+                            'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+        for item in self.select_query.select_all_from_customer_table_descending(7):
+            self.existing_client_list.append(item[2])
+
+    def clear_edit_add_frame(self):
+        for widget in self.winfo_children():
+            widget.destroy()
         self.add_new_job_frame = Tk.Frame(self,
                                           bg='#e0fcf4')
         self.job_notes_frame = Tk.Frame(self,
@@ -91,85 +174,11 @@ class EditAddWindow(Tk.Frame):
                                                  variable=self.mushrooms,
                                                  bg='#e0fcf4')
 
-    def clear_edit_add_frame(self):
-        for widget in self.winfo_children():
-            widget.destroy()
-        self.add_new_job_frame = Tk.Frame(self, borderwidth=1, relief='solid')
-        self.job_notes_frame = Tk.Frame(self, borderwidth=1, relief='solid')
-        self.jobnumber_entry = Tk.Entry(self.add_new_job_frame)
-        self.client_name_entry = Tk.Entry(self.add_new_job_frame)
-        self.job_notes = Tk.Text(self.job_notes_frame,
-                                 borderwidth=2,
-                                 width=65,
-                                 height=20,
-                                 wrap="word")
-        # Checkboxes
-        self.metals = Tk.IntVar()
-        self.metals_checkbox = Tk.Checkbutton(self.add_new_job_frame,
-                                              text='2) metals',
-                                              variable=self.metals,
-                                              bg='#e0fcf4')
-        self.basic_potency = Tk.IntVar()
-        self.basic_potency_checkbox = Tk.Checkbutton(self.add_new_job_frame,
-                                                     text='3) basic potency',
-                                                     variable=self.basic_potency,
-                                                     bg='#e0fcf4')
-        self.deluxe_potency = Tk.IntVar()
-        self.deluxe_potency_checkbox = Tk.Checkbutton(self.add_new_job_frame,
-                                                      text='3a) deluxe potency',
-                                                      variable=self.deluxe_potency,
-                                                      bg='#e0fcf4')
-        self.toxins = Tk.IntVar()
-        self.toxins_checkbox = Tk.Checkbutton(self.add_new_job_frame,
-                                              text='4) Aflotoxins',
-                                              variable=self.toxins,
-                                              bg='#e0fcf4')
-        self.pesticides = Tk.IntVar()
-        self.pesticides_checkbox = Tk.Checkbutton(self.add_new_job_frame,
-                                                  text='5) Pesticides',
-                                                  variable=self.pesticides,
-                                                  bg='#e0fcf4')
-        self.terpenes = Tk.IntVar()
-        self.terpenes_checkbox = Tk.Checkbutton(self.add_new_job_frame,
-                                                text='7) Terpenes',
-                                                variable=self.terpenes,
-                                                bg='#e0fcf4')
-        self.solvents = Tk.IntVar()
-        self.solvents_checkbox = Tk.Checkbutton(self.add_new_job_frame,
-                                                text='8) Solvents',
-                                                variable=self.solvents,
-                                                bg='#e0fcf4')
-        self.other = Tk.IntVar()
-        self.other_checkbox = Tk.Checkbutton(self.add_new_job_frame,
-                                             text='Other',
-                                             variable=self.other,
-                                             bg='#e0fcf4')
-        self.micro_a = Tk.IntVar()
-        self.micro_a_checkbox = Tk.Checkbutton(self.add_new_job_frame,
-                                               text='1) Micro A',
-                                               variable=self.micro_a,
-                                               bg='#e0fcf4')
-        self.micro_b = Tk.IntVar()
-        self.micro_b_checkbox = Tk.Checkbutton(self.add_new_job_frame,
-                                               text='2) Micro B',
-                                               variable=self.micro_b,
-                                               bg='#e0fcf4')
-        self.fungal_id = Tk.IntVar()
-        self.fungal_id_checkbox = Tk.Checkbutton(self.add_new_job_frame,
-                                                 text='Fungal ID',
-                                                 variable=self.fungal_id,
-                                                 bg='#e0fcf4')
-        self.mushrooms = Tk.IntVar()
-        self.mushrooms_checkbox = Tk.Checkbutton(self.add_new_job_frame,
-                                                 text='Psilocybin',
-                                                 variable=self.mushrooms,
-                                                 bg='#e0fcf4')
-
     def edit_add(self):
         new_job_entry_frame = self.generate_new_job_frame()
         new_job_entry_frame.grid(row=0, column=0, sticky=Tk.W, padx=5, ipadx=2, ipady=2)
         self.generate_job_notes_frame()
-        self.job_notes_frame.grid(row=0, column=1, rowspan=3, sticky=Tk.W)
+        self.job_notes_frame.grid(row=0, column=1, rowspan=3, sticky=Tk.NW)
 
         # job number, receive date, tests, status
     def generate_new_job_frame(self):
@@ -181,38 +190,64 @@ class EditAddWindow(Tk.Frame):
                  text="Job Number",
                  bg='#e0fcf4').grid(row=1, sticky=Tk.W)
         Tk.Label(self.add_new_job_frame,
-                 text="Client Name",
+                 text="New Client Name",
                  bg='#e0fcf4').grid(row=2, sticky=Tk.W)
         self.jobnumber_entry.grid(row=1, column=1, columnspan=2, sticky=Tk.W)
         self.client_name_entry.grid(row=2, column=1, columnspan=2, sticky=Tk.W)
         Tk.Label(self.add_new_job_frame,
+                 text="Existing Client Name",
+                 bg='#e0fcf4').grid(row=3, sticky=Tk.W)
+        self.filter_variable = Tk.StringVar(self.add_new_job_frame)
+        self.filter_variable.set(self.filter_list[0])
+        f = Tk.OptionMenu(self.add_new_job_frame, self.filter_variable, *self.filter_list)
+        f.grid(row=3, column=1, sticky=Tk.W)
+        Tk.Button(self.add_new_job_frame,
+                  text="Filter",
+                  command=lambda: self.filter_customer_list(self.filter_variable.get())).grid(row=3,
+                                                                                              column=2,
+                                                                                              sticky=Tk.W)
+        Tk.Label(self.add_new_job_frame,
                  text="Requested Tests",
                  font=self.large_bold_font_choice,
-                 bg='#e0fcf4').grid(row=3, columnspan=2, sticky= Tk.W)
+                 bg='#e0fcf4').grid(row=5, columnspan=2, sticky= Tk.W)
         Tk.Label(self.add_new_job_frame,
                  text="Health Canada Cannabis Tests",
                  font=self.smaller_bold_font_choice,
-                 bg='#e0fcf4').grid(row=4, columnspan=2, sticky=Tk.W)
-        self.micro_a_checkbox.grid(row=5, column=0, sticky=Tk.W)
-        self.metals_checkbox.grid(row=6, column=0, sticky=Tk.W)
-        self.basic_potency_checkbox.grid(row=7, column=0, sticky=Tk.W)
-        self.deluxe_potency_checkbox.grid(row=8, column=0, sticky=Tk.W)
-        self.toxins_checkbox.grid(row=9, column=0, sticky=Tk.W)
-        self.pesticides_checkbox.grid(row=10, column=0, sticky=Tk.W)
-        self.micro_b_checkbox.grid(row=11, column=0, sticky=Tk.W)
-        self.terpenes_checkbox.grid(row=12, column=0, sticky=Tk.W)
-        self.solvents_checkbox.grid(row=13, column=0, sticky=Tk.W)
+                 bg='#e0fcf4').grid(row=6, columnspan=2, sticky=Tk.W)
+        self.micro_a_checkbox.grid(row=7, column=0, sticky=Tk.W)
+        self.metals_checkbox.grid(row=8, column=0, sticky=Tk.W)
+        self.basic_potency_checkbox.grid(row=9, column=0, sticky=Tk.W)
+        self.deluxe_potency_checkbox.grid(row=10, column=0, sticky=Tk.W)
+        self.toxins_checkbox.grid(row=11, column=0, sticky=Tk.W)
+        self.pesticides_checkbox.grid(row=12, column=0, sticky=Tk.W)
+        self.micro_b_checkbox.grid(row=13, column=0, sticky=Tk.W)
+        self.terpenes_checkbox.grid(row=14, column=0, sticky=Tk.W)
+        self.solvents_checkbox.grid(row=15, column=0, sticky=Tk.W)
         Tk.Label(self.add_new_job_frame,
                  text="Other Tests",
                  font=self.smaller_bold_font_choice,
-                 bg='#e0fcf4').grid(row=14, columnspan=2, sticky=Tk.W)
-        self.other_checkbox.grid(row=15, column=0, sticky=Tk.W)
-        self.fungal_id_checkbox.grid(row=16, column=0, sticky=Tk.W)
-        self.mushrooms_checkbox.grid(row=17, column=0, sticky=Tk.W)
+                 bg='#e0fcf4').grid(row=16, columnspan=2, sticky=Tk.W)
+        self.other_checkbox.grid(row=17, column=0, sticky=Tk.W)
+        self.fungal_id_checkbox.grid(row=18, column=0, sticky=Tk.W)
+        self.mushrooms_checkbox.grid(row=19, column=0, sticky=Tk.W)
         Tk.Button(self, text="Enter Job", command=self.input_entry).grid(row=2, column=0, pady=10, sticky=Tk.W)
         self.filler_canvas = Tk.Canvas(self, width=1100, height=600, bg="#e0fcf4", highlightbackground="#e0fcf4")
         self.filler_canvas.grid(row=3, column=1, columnspan=1, sticky=Tk.W)
         return self.add_new_job_frame
+
+    def filter_customer_list(self, letter):
+        self.clear_edit_add_frame()
+        self.edit_add()
+        if letter == '#':
+            self.filtered_client_list = [item for item in self.existing_client_list if not item[0] in self.filter_list]
+        else:
+            self.filtered_client_list = [item for item in self.existing_client_list if str(item[0]) == str(letter)]
+        if len(self.filtered_client_list) == 0:
+            self.filtered_client_list.insert(0, "No Clients")
+        self.existing_client_variable = Tk.StringVar(self.add_new_job_frame)
+        self.existing_client_variable.set(self.filtered_client_list[0])
+        w = Tk.OptionMenu(self.add_new_job_frame, self.existing_client_variable, *self.filtered_client_list)
+        w.grid(row=4, column=0, columnspan=2, sticky=Tk.W)
 
     def input_entry(self):
         job_number = self.jobnumber_entry.get()
@@ -221,7 +256,10 @@ class EditAddWindow(Tk.Frame):
             self.clear_edit_add_frame()
             self.edit_add()
             return False
-        client_name = self.client_name_entry.get()
+        if self.existing_client_variable == 'New Client':
+            client_name = self.client_name_entry.get()
+        else:
+            client_name = self.existing_client_variable.get()
         current_job_note = self.job_notes.get("1.0", 'end-1c')
         test_list = self.generate_tests_list(True)
         job_entry = (job_number,
