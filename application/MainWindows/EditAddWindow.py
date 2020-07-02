@@ -31,6 +31,8 @@ class EditAddWindow(Tk.Frame):
                                  width=65,
                                  height=20,
                                  wrap="word")
+        self.existing_client_variable = Tk.StringVar(self.add_new_job_frame)
+        self.existing_client_variable.set("New Client")
         # Checkboxes
         self.metals = Tk.IntVar()
         self.metals_checkbox = Tk.Checkbutton(self.add_new_job_frame,
@@ -244,8 +246,6 @@ class EditAddWindow(Tk.Frame):
             self.filtered_client_list = [item for item in self.existing_client_list if str(item[0]) == str(letter)]
         if len(self.filtered_client_list) == 0:
             self.filtered_client_list.insert(0, "No Clients")
-        self.existing_client_variable = Tk.StringVar(self.add_new_job_frame)
-        self.existing_client_variable.set(self.filtered_client_list[0])
         w = Tk.OptionMenu(self.add_new_job_frame, self.existing_client_variable, *self.filtered_client_list)
         w.grid(row=4, column=0, columnspan=2, sticky=Tk.W)
 
@@ -256,8 +256,9 @@ class EditAddWindow(Tk.Frame):
             self.clear_edit_add_frame()
             self.edit_add()
             return False
-        if self.existing_client_variable == 'New Client':
+        if self.existing_client_variable.get() == "New Client" or len(self.client_name_entry.get()) != 0:
             client_name = self.client_name_entry.get()
+            self.add_delete_query.new_customer_entry((0, client_name, 1))
         else:
             client_name = self.existing_client_variable.get()
         current_job_note = self.job_notes.get("1.0", 'end-1c')
