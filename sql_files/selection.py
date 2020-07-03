@@ -43,6 +43,11 @@ class Selection(Connector):
                                                     5: 'status',
                                                     6: 'complete_date',
                                                     }
+        self.canna_customers_field_names = {1: 'id',
+                                            2: 'company_id',
+                                            3: 'client_name',
+                                            4: 'status'
+                                            }
 
     def select_all_from_table(self, table_number, print_view=None):
         query = "SELECT * FROM " + self.table_names[table_number]
@@ -77,6 +82,24 @@ class Selection(Connector):
         else:
             return self.connector(query, condition)
 
+    def select_from_cannajobs_table_with_conditions_equals(self, field_number, condition, print_view=None):
+        query = "SELECT * FROM cannajobs WHERE " + self.cannajobs_field_names[field_number] + " = (?) ORDER BY id DESC"
+        if print_view:
+            print("Query: " + query)
+            for item in self.connector(query, condition):
+                print(item)
+        else:
+            return self.connector(query, condition)
+
+    def select_from_canna_customers_table_with_conditions_equals(self, field_number, condition, print_view=None):
+        query = "SELECT * FROM canna_customers WHERE " + self.canna_customers_field_names[field_number] + " = (?) LIMIT 1 "
+        if print_view:
+            print("Query: " + query)
+            for item in self.connector(query, condition):
+                print(item)
+        else:
+            return self.connector(query, condition)
+
     def select_from_cannajobs_tests__table_with_conditions(self, field_number, condition, print_view=None):
         query = "SELECT * FROM cannajobs_tests WHERE " + self.cannajobs_tests_field_names[field_number] + " = (?) ORDER BY id DESC"
         if print_view:
@@ -87,6 +110,15 @@ class Selection(Connector):
 
     def select_from_cannajobs_archive_table_with_conditions(self, field_number, condition, print_view=None):
         query = "SELECT * FROM cannajobs2020 WHERE " + self.cannajobs_archive_field_names[field_number] + " LIKE (?) ORDER BY id DESC"
+        if print_view:
+            print("Query: " + query)
+            for item in self.connector(query, condition):
+                print(item)
+        else:
+            return self.connector(query, condition)
+
+    def select_from_cannajobs_archive_table_with_conditions_equals(self, field_number, condition, print_view=None):
+        query = "SELECT * FROM cannajobs2020 WHERE " + self.cannajobs_archive_field_names[field_number] + " = (?) ORDER BY id DESC"
         if print_view:
             print("Query: " + query)
             for item in self.connector(query, condition):
@@ -122,7 +154,7 @@ class Selection(Connector):
             return self.connector(query, job)
 
     def select_customer_list_from_cannajobs(self, print_view=None):
-        query = "SELECT DISTINCT client_name FROM cannajobs2020 "
+        query = "SELECT DISTINCT client_name FROM cannajobs "
         if print_view:
             for item in self.connector(query):
                 print(item)

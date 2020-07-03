@@ -4,7 +4,8 @@ from MainWindows import HomepageWindow as Hpw,\
                         SearchWindow as Srw,\
                         EditAddWindow as Eaw,\
                         JobpageWindow as Jpw,\
-                        CustomerWindow as Ctw
+                        CustomerWindow as Ctw,\
+                        CustomerPageWindow as Cpw
 
 
 class MainWindow(Tk.Frame):
@@ -16,6 +17,7 @@ class MainWindow(Tk.Frame):
         self.EditAddWindow = Eaw.EditAddWindow(self)
         self.JobpageWindow = Jpw.JobpageWindow(self, bg="#e0fcf4")
         self.CustomerWindow = Ctw.CustomerWindow(self)
+        self.CustomerPageWindow = Cpw.CustomerpageWindow(self)
 
     def clear_main_window(self):
         for widget in self.winfo_children():
@@ -26,6 +28,7 @@ class MainWindow(Tk.Frame):
         self.EditAddWindow = Eaw.EditAddWindow(self)
         self.JobpageWindow = Jpw.JobpageWindow(self, bg="#e0fcf4")
         self.CustomerWindow = Ctw.CustomerWindow(self)
+        self.CustomerPageWindow = Cpw.CustomerpageWindow(self)
 
     def display_homepage(self):
         self.clear_main_window()
@@ -77,3 +80,9 @@ class MainWindow(Tk.Frame):
             self.JobpageWindow.display_job_notes(customer)
             self.JobpageWindow.display_tests(customer)
         self.JobpageWindow.grid(padx=5, pady=5)
+
+    def display_client_page(self, client):
+        self.clear_main_window()
+        self.CustomerPageWindow.generate_customerpage(client)
+        self.CustomerPageWindow.grid()
+

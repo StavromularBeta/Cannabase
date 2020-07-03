@@ -16,7 +16,7 @@ class AdDel(Connector):
 
     def new_customer_entry(self, values):
         values_tuple = (values[0], values[1], values[2])
-        query = 'INSERT INTO canna_customers (company_id, client_name, status) VALUES (?,?,?)'
+        query = 'INSERT OR IGNORE INTO canna_customers (company_id, client_name, status) VALUES (?,?,?)'
         return self.connector(query, values_tuple)
 
     def new_cannajobs_tests_entry(self, values):

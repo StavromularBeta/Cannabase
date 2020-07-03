@@ -141,10 +141,13 @@ class JobpageWindow(Tk.Frame):
             Tk.Button(self.basic_information_window,
                       text="Delete Job",
                       command=lambda: self.delete_job(job[0], job[1])).grid(row=1, column=3, sticky=Tk.W)
-        Tk.Label(self.basic_information_window,
-                 text="Client: " + str(job[3]),
-                 font=self.jobpage_font,
-                 bg="#e0fcf4").grid(row=3, column=0, sticky=Tk.W)
+        client = self.selection.select_from_canna_customers_table_with_conditions_equals(3, (str(job[3]),))
+        client = [item for item in client]
+        Tk.Button(self.basic_information_window,
+                  text="Client: " + str(job[3]),
+                  command=lambda: self.parent.display_client_page(client[0]),
+                  font=self.jobpage_font,
+                  bg="#e0fcf4").grid(row=3, column=0, sticky=Tk.W)
         Tk.Label(self.basic_information_window,
                  text="Recieve Date: " + str(job[4]),
                  font=self.jobpage_font,

@@ -11,4 +11,6 @@ cannajobs_selection = Selection()
 #cannajobs_selection.select_all_from_table(4, True)
 #print('----')
 #cannajobs_entry.delete_canna_customer_entry((191,))
-cannajobs_selection.select_all_from_customer_table_descending(7, True)
+customer_list = ['Ray Ketabi', 'Whistler Medical Marijuana Corp', 'Ethos Logistics', 'CanLabs', 'Grassroots Cannabis Growers', 'Eric Smith', 'Eagle Logistics', 'Christine Mareike Klem', 'Brandon Grieve-Heringa', 'Meg Ragarim', 'Nathaniel Simpson']
+for item in customer_list:
+    cannajobs_entry.new_customer_entry((0,item,1))
