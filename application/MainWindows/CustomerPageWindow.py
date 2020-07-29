@@ -46,11 +46,14 @@ class CustomerpageWindow(Tk.Frame):
         self.customer_scroll_frame = Tk.Frame(self)
         self.main_customerpage_frame = Tk.Frame(self)
 
-    def generate_customerpage(self, client):
+    def generate_customerpage(self, client, view=None):
         self.clear_customerpage_window()
         self.create_scrolling_window()
         self.populate_customer_information_box(client)
-        self.gather_customer_jobs(client)
+        if view:
+            self.gather_customer_jobs(client, view=True)
+        else:
+            self.gather_customer_jobs(client)
         self.main_customerpage_frame.grid(row=0, sticky=Tk.W)
         self.customer_scroll_frame.grid(row=1)
 
@@ -82,18 +85,25 @@ class CustomerpageWindow(Tk.Frame):
                  font=self.search_table_field_font,
                  bg='#e0fcf4').grid(sticky=Tk.W)
 
-    def gather_customer_jobs(self, client):
+    def gather_customer_jobs(self, client, view=None):
         Tk.Label(self.customer_scroll_frame_canvas,
                  text="Active Jobs",
                  font=self.search_table_field_font,
                  bg='#e0fcf4').grid(row=0, columnspan=3, sticky=Tk.W)
         rowcounter = 1
         for item in self.selection.select_from_cannajobs_table_with_conditions_equals(4, (client[2],)):
-            Tk.Button(self.customer_scroll_frame_canvas,
-                      text=item[1],
-                      command=lambda item=item: self.parent.display_jobpage(item),
-                      font=self.search_table_results_font,
-                      bg='#e0fcf4').grid(row=rowcounter, column=0)
+            if view:
+                Tk.Button(self.customer_scroll_frame_canvas,
+                          text=item[1],
+                          command=lambda item=item: self.parent.display_jobpage(item, view=True),
+                          font=self.search_table_results_font,
+                          bg='#e0fcf4').grid(row=rowcounter, column=0)
+            else:
+                Tk.Button(self.customer_scroll_frame_canvas,
+                          text=item[1],
+                          command=lambda item=item: self.parent.display_jobpage(item),
+                          font=self.search_table_results_font,
+                          bg='#e0fcf4').grid(row=rowcounter, column=0)
             testlist = []
             for subitem in item[2].split(","):
                 testlist.append(self.test_converter[int(subitem)])
@@ -112,11 +122,18 @@ class CustomerpageWindow(Tk.Frame):
                  bg='#e0fcf4').grid(row=rowcounter, columnspan=3, sticky=Tk.W)
         rowcounter += 1
         for item in self.selection.select_from_cannajobs_archive_table_with_conditions_equals(4, (client[2],)):
-            Tk.Button(self.customer_scroll_frame_canvas,
-                      text=item[1],
-                      command=lambda item=item: self.parent.display_jobpage(item, archive=True),
-                      font=self.search_table_results_font,
-                      bg='#e0fcf4').grid(row=rowcounter, column=0)
+            if view:
+                Tk.Button(self.customer_scroll_frame_canvas,
+                          text=item[1],
+                          command=lambda item=item: self.parent.display_jobpage(item, archive=True, view=True),
+                          font=self.search_table_results_font,
+                          bg='#e0fcf4').grid(row=rowcounter, column=0)
+            else:
+                Tk.Button(self.customer_scroll_frame_canvas,
+                          text=item[1],
+                          command=lambda item=item: self.parent.display_jobpage(item, archive=True),
+                          font=self.search_table_results_font,
+                          bg='#e0fcf4').grid(row=rowcounter, column=0)
             testlist = []
             for subitem in item[2].split(","):
                 testlist.append(self.test_converter[int(subitem)])

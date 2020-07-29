@@ -127,27 +127,37 @@ class JobpageWindow(Tk.Frame):
                                     font=self.jobpage_text_font,
                                     wrap="word")
 
-    def generate_jobpage(self, job, archive=None):
+    def generate_jobpage(self, job, archive=None, view=None):
         self.basic_information_window.grid(row=0, column=0, sticky=Tk.NW, padx=2, pady=5, ipadx=2, ipady=2)
         Tk.Label(self.basic_information_window,
                  text="Job Number: " + str(job[1]),
                  font=self.job_number_font,
                  bg="#e0fcf4").grid(row=1, column=0, sticky=Tk.W)
-        if archive:
-            Tk.Button(self.basic_information_window,
-                      text="Delete Job",
-                      command=lambda: self.delete_job(job[0], job[1], archive=True)).grid(row=1, column=3, sticky=Tk.W)
+        if view:
+            pass
         else:
-            Tk.Button(self.basic_information_window,
-                      text="Delete Job",
-                      command=lambda: self.delete_job(job[0], job[1])).grid(row=1, column=3, sticky=Tk.W)
+            if archive:
+                Tk.Button(self.basic_information_window,
+                          text="Delete Job",
+                          command=lambda: self.delete_job(job[0], job[1], archive=True)).grid(row=1, column=3, sticky=Tk.W)
+            else:
+                Tk.Button(self.basic_information_window,
+                          text="Delete Job",
+                          command=lambda: self.delete_job(job[0], job[1])).grid(row=1, column=3, sticky=Tk.W)
         client = self.selection.select_from_canna_customers_table_with_conditions_equals(3, (str(job[3]),))
         client = [item for item in client]
-        Tk.Button(self.basic_information_window,
-                  text="Client: " + str(job[3]),
-                  command=lambda: self.parent.display_client_page(client[0]),
-                  font=self.jobpage_font,
-                  bg="#e0fcf4").grid(row=3, column=0, sticky=Tk.W)
+        if view:
+            Tk.Button(self.basic_information_window,
+                      text="Client: " + str(job[3]),
+                      command=lambda: self.parent.display_client_page(client[0], view=True),
+                      font=self.jobpage_font,
+                      bg="#e0fcf4").grid(row=3, column=0, sticky=Tk.W)
+        else:
+            Tk.Button(self.basic_information_window,
+                      text="Client: " + str(job[3]),
+                      command=lambda: self.parent.display_client_page(client[0]),
+                      font=self.jobpage_font,
+                      bg="#e0fcf4").grid(row=3, column=0, sticky=Tk.W)
         Tk.Label(self.basic_information_window,
                  text="Recieve Date: " + str(job[4]),
                  font=self.jobpage_font,
@@ -163,14 +173,14 @@ class JobpageWindow(Tk.Frame):
                      font=self.jobpage_font,
                      bg="#e0fcf4").grid(row=5, column=0, sticky=Tk.W)
 
-    def update_job_information(self, job, archive=None):
+    def update_job_information(self, job, archive=None, view=None):
         self.update_information_frame.grid(row=0, column=1, sticky=Tk.W, padx=2, pady=5, ipadx=15, ipady=25)
         if job[5] == 0:
             Tk.Label(self.update_information_frame,
                      text="This Job is Incomplete.",
                      font=self.jobpage_font,
                      bg="#e0fcf4").grid(row=1, column=0, sticky=Tk.W)
-            if archive:
+            if archive or view:
                 pass
             else:
                 Tk.Button(self.update_information_frame,
@@ -181,7 +191,7 @@ class JobpageWindow(Tk.Frame):
                      text="This Job is Complete.",
                      font=self.jobpage_font,
                      bg="#e0fcf4").grid(row=0, column=0, sticky=Tk.W)
-            if archive:
+            if archive or view:
                 pass
             else:
                 Tk.Button(self.update_information_frame,
@@ -190,7 +200,7 @@ class JobpageWindow(Tk.Frame):
         self.filler_canvas = Tk.Canvas(self, bg="#e0fcf4", highlightbackground="#e0fcf4", width=1100, height=600)
         self.filler_canvas.grid(row=3, column=3, columnspan=1)
 
-    def display_tests(self, job, archive=None):
+    def display_tests(self, job, archive=None, view=None):
         self.test_display_frame.grid(row=1, column=3, sticky=Tk.NW, padx=5, pady=5, ipadx=2, ipady=2)
         if archive:
             years = ['2020']
@@ -213,7 +223,7 @@ class JobpageWindow(Tk.Frame):
                          text=self.test_converter[int(test[2])],
                          font=self.jobpage_font,
                          bg="#e0fcf4").grid(row=row_count, column=0)
-                if archive:
+                if archive or view:
                     pass
                 else:
                     Tk.Button(self.test_display_frame,
@@ -229,7 +239,7 @@ class JobpageWindow(Tk.Frame):
                          text='Completed on: ' + str(test[5]),
                          font=self.jobpage_font,
                          bg="#e0fcf4").grid(row=row_count, column=1)
-                if archive:
+                if archive or view:
                     pass
                 else:
                     Tk.Button(self.test_display_frame,
@@ -237,7 +247,7 @@ class JobpageWindow(Tk.Frame):
                               command=lambda i=[test[0], job]: self.reset_test_db(i[0], i[1])).grid(row=row_count, column=2)
                 row_count += 1
 
-    def display_job_notes(self, job, archive=None):
+    def display_job_notes(self, job, archive=None, view=None):
         self.notes_for_job_frame.grid(row=1, column=0, columnspan=2, sticky=Tk.NW, pady=5,  padx=2, ipadx=2, ipady=2)
         try:
             if archive:

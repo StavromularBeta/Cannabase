@@ -15,7 +15,7 @@ class MainWindow(Tk.Frame):
         self.GraphsWindow = Grw.GraphsWindow(self)
         self.SearchWindow = Srw.SearchWindow(self)
         self.EditAddWindow = Eaw.EditAddWindow(self)
-        self.JobpageWindow = Jpw.JobpageWindow(self, bg="#e0fcf4")
+        self.JobpageWindow = Jpw.JobpageWindow(self, bg='#e0fcf4')
         self.CustomerWindow = Ctw.CustomerWindow(self)
         self.CustomerPageWindow = Cpw.CustomerpageWindow(self)
 
@@ -26,7 +26,7 @@ class MainWindow(Tk.Frame):
         self.GraphsWindow = Grw.GraphsWindow(self)
         self.SearchWindow = Srw.SearchWindow(self)
         self.EditAddWindow = Eaw.EditAddWindow(self)
-        self.JobpageWindow = Jpw.JobpageWindow(self, bg="#e0fcf4")
+        self.JobpageWindow = Jpw.JobpageWindow(self, bg='#e0fcf4')
         self.CustomerWindow = Ctw.CustomerWindow(self)
         self.CustomerPageWindow = Cpw.CustomerpageWindow(self)
 

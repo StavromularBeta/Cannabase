@@ -30,9 +30,12 @@ class CustomerWindow(Tk.Frame):
         self.customer_list_display_frame = Tk.Frame(self)
         self.customer_search_info_box = Tk.Frame(self)
 
-    def customers(self):
+    def customers(self, view=None):
         self.clear_customer_window()
-        self.get_full_customer_list()
+        if view:
+            self.get_full_customer_list(view=True)
+        else:
+            self.get_full_customer_list()
         self.create_info_box()
 
     def create_info_box(self):
@@ -54,7 +57,7 @@ class CustomerWindow(Tk.Frame):
                  font=self.search_table_field_font).grid(row=0, column=1, sticky=Tk.W, padx=15)
         self.customer_search_info_box.grid(row=0, column=0, sticky=Tk.W)
 
-    def get_full_customer_list(self):
+    def get_full_customer_list(self, view=None):
         display_all_customers_canvas = Tk.Canvas(self.customer_page_main_frame,
                                                  width=1180,
                                                  height=750,
@@ -77,12 +80,20 @@ class CustomerWindow(Tk.Frame):
                                                    anchor='nw')
         row_counter = 1
         for item in self.Selection.select_all_from_customer_table_descending(7):
-            Tk.Button(self.customer_list_display_frame,
-                      text=item[2],
-                      bg="#e0fcf4",
-                      font=self.search_table_results_font,
-                      command=lambda item=item: self.parent.display_client_page(item),
-                      ).grid(row=row_counter, column=0, sticky=Tk.W)
+            if view:
+                Tk.Button(self.customer_list_display_frame,
+                          text=item[2],
+                          bg="#e0fcf4",
+                          font=self.search_table_results_font,
+                          command=lambda item=item: self.parent.display_client_page(item, view=True),
+                          ).grid(row=row_counter, column=0, sticky=Tk.W)
+            else:
+                Tk.Button(self.customer_list_display_frame,
+                          text=item[2],
+                          bg="#e0fcf4",
+                          font=self.search_table_results_font,
+                          command=lambda item=item: self.parent.display_client_page(item),
+                          ).grid(row=row_counter, column=0, sticky=Tk.W)
             if item[1] == str(0):
                 pass
             else:

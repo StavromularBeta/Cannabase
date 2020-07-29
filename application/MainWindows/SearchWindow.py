@@ -45,7 +45,7 @@ class SearchWindow(Tk.Frame):
         self.search_frame = Tk.Frame(self, borderwidth=1, relief='solid', bg='#e0fcf4')
         self.all_jobs_display_frame = Tk.Frame(self, bg="#7afdd6")
 
-    def display_all_jobs(self, search=None, archive=None):
+    def display_all_jobs(self, search=None, archive=None, view=None):
         self.clear_search_window()
         display_all_jobs_canvas = Tk.Canvas(self.jobs_display_frame,
                                             width=1180,
@@ -98,14 +98,23 @@ class SearchWindow(Tk.Frame):
                  highlightbackground="#e0fcf4",
                  bg="#e0fcf4").grid(row=0, column=3, sticky=Tk.W, padx=2, pady=2)
         if search:
-            self.return_jobs(search)
+            if view:
+                self.return_jobs(search, view=True)
+            else:
+                self.return_jobs(search)
         elif archive:
-            self.return_jobs(archive=True)
+            if view:
+                self.return_jobs(archive=True, view=True)
+            else:
+                self.return_jobs(archive=True)
         else:
-            self.return_jobs()
+            if view:
+                self.return_jobs(view=True)
+            else:
+                self.return_jobs()
         self.jobs_display_frame.grid(row=1, column=0, pady=5)
 
-    def return_jobs(self, search=None, archive=None):
+    def return_jobs(self, search=None, archive=None, view=None):
         if search:
             all_jobs_data = search
         elif archive:
@@ -125,27 +134,51 @@ class SearchWindow(Tk.Frame):
                 complete_date = item[6]
             if (first_customer_row % 2) == 1:
                 if archive:
-                    Tk.Button(self.all_jobs_display_frame,
-                              text=job_number,
-                              command=lambda item=item: self.parent.display_jobpage(item, archive=True),
-                              highlightbackground="#e0fcf4",
-                              font=self.search_table_results_font,
-                              bg="#e0fcf4").grid(row=first_customer_row,
-                                                 column=0,
-                                                 sticky=Tk.W,
-                                                 padx=2,
-                                                 pady=2)
+                    if view:
+                        Tk.Button(self.all_jobs_display_frame,
+                                  text=job_number,
+                                  command=lambda item=item: self.parent.display_jobpage(item, archive=True, view=True),
+                                  highlightbackground="#e0fcf4",
+                                  font=self.search_table_results_font,
+                                  bg="#e0fcf4").grid(row=first_customer_row,
+                                                     column=0,
+                                                     sticky=Tk.W,
+                                                     padx=2,
+                                                     pady=2)
+                    else:
+                        Tk.Button(self.all_jobs_display_frame,
+                                text=job_number,
+                                command=lambda item=item: self.parent.display_jobpage(item, archive=True),
+                                highlightbackground="#e0fcf4",
+                                font=self.search_table_results_font,
+                                bg="#e0fcf4").grid(row=first_customer_row,
+                                                    column=0,
+                                                    sticky=Tk.W,
+                                                    padx=2,
+                                                    pady=2)
                 else:
-                    Tk.Button(self.all_jobs_display_frame,
-                              text=job_number,
-                              command=lambda item=item: self.parent.display_jobpage(item),
-                              highlightbackground="#e0fcf4",
-                              font=self.search_table_results_font,
-                              bg="#e0fcf4").grid(row=first_customer_row,
-                                                 column=0,
-                                                 sticky=Tk.W,
-                                                 padx=2,
-                                                 pady=2)
+                    if view:
+                        Tk.Button(self.all_jobs_display_frame,
+                                  text=job_number,
+                                  command=lambda item=item: self.parent.display_jobpage(item, view=True),
+                                  highlightbackground="#e0fcf4",
+                                  font=self.search_table_results_font,
+                                  bg="#e0fcf4").grid(row=first_customer_row,
+                                                     column=0,
+                                                     sticky=Tk.W,
+                                                     padx=2,
+                                                     pady=2)
+                    else:
+                        Tk.Button(self.all_jobs_display_frame,
+                                  text=job_number,
+                                  command=lambda item=item: self.parent.display_jobpage(item),
+                                  highlightbackground="#e0fcf4",
+                                  font=self.search_table_results_font,
+                                  bg="#e0fcf4").grid(row=first_customer_row,
+                                                     column=0,
+                                                     sticky=Tk.W,
+                                                     padx=2,
+                                                     pady=2)
                 Tk.Label(self.all_jobs_display_frame,
                          text=tests,
                          highlightbackground="#e0fcf4",
@@ -177,29 +210,55 @@ class SearchWindow(Tk.Frame):
                 first_customer_row += 1
             else:
                 if archive:
-                    Tk.Button(self.all_jobs_display_frame,
-                              text=job_number,
-                              command=lambda item=item: self.parent.display_jobpage(item, archive=True),
-                              fg='#613a3a',
-                              highlightbackground="#e0fcf4",
-                              font=self.search_table_results_font,
-                              bg="#e0fcf4").grid(row=first_customer_row,
-                                                 column=0,
-                                                 sticky=Tk.W,
-                                                 padx=2,
-                                                 pady=2)
+                    if view:
+                        Tk.Button(self.all_jobs_display_frame,
+                                  text=job_number,
+                                  command=lambda item=item: self.parent.display_jobpage(item, archive=True, view=True),
+                                  fg='#613a3a',
+                                  highlightbackground="#e0fcf4",
+                                  font=self.search_table_results_font,
+                                  bg="#e0fcf4").grid(row=first_customer_row,
+                                                     column=0,
+                                                     sticky=Tk.W,
+                                                     padx=2,
+                                                     pady=2)
+                    else:
+                        Tk.Button(self.all_jobs_display_frame,
+                                  text=job_number,
+                                  command=lambda item=item: self.parent.display_jobpage(item, archive=True),
+                                  fg='#613a3a',
+                                  highlightbackground="#e0fcf4",
+                                  font=self.search_table_results_font,
+                                  bg="#e0fcf4").grid(row=first_customer_row,
+                                                     column=0,
+                                                     sticky=Tk.W,
+                                                     padx=2,
+                                                     pady=2)
                 else:
-                    Tk.Button(self.all_jobs_display_frame,
-                              text=job_number,
-                              command=lambda item=item: self.parent.display_jobpage(item),
-                              fg='#613a3a',
-                              highlightbackground="#e0fcf4",
-                              font=self.search_table_results_font,
-                              bg="#e0fcf4").grid(row=first_customer_row,
-                                                 column=0,
-                                                 sticky=Tk.W,
-                                                 padx=2,
-                                                 pady=2)
+                    if view:
+                        Tk.Button(self.all_jobs_display_frame,
+                                  text=job_number,
+                                  command=lambda item=item: self.parent.display_jobpage(item, view=True),
+                                  fg='#613a3a',
+                                  highlightbackground="#e0fcf4",
+                                  font=self.search_table_results_font,
+                                  bg="#e0fcf4").grid(row=first_customer_row,
+                                                     column=0,
+                                                     sticky=Tk.W,
+                                                     padx=2,
+                                                     pady=2)
+                    else:
+                        Tk.Button(self.all_jobs_display_frame,
+                                  text=job_number,
+                                  command=lambda item=item: self.parent.display_jobpage(item),
+                                  fg='#613a3a',
+                                  highlightbackground="#e0fcf4",
+                                  font=self.search_table_results_font,
+                                  bg="#e0fcf4").grid(row=first_customer_row,
+                                                     column=0,
+                                                     sticky=Tk.W,
+                                                     padx=2,
+                                                     pady=2)
                 Tk.Label(self.all_jobs_display_frame,
                          text=tests,
                          fg='#613a3a',
@@ -234,7 +293,7 @@ class SearchWindow(Tk.Frame):
                              bg="#e0fcf4").grid(row=first_customer_row, column=3, sticky=Tk.W, padx=2, pady=2)
                 first_customer_row += 1
 
-    def search_jobs(self, archive=None):
+    def search_jobs(self, archive=None, view=None):
         self.search_frame = Tk.Frame(self, bg='#e0fcf4')
         if archive:
             Tk.Label(self.search_frame,
@@ -263,7 +322,7 @@ class SearchWindow(Tk.Frame):
                                            highlightbackground="#e0fcf4",
                                            font=self.search_table_results_font)
         self.search_entry_field.grid(row=0, column=1)
-        if archive:
+        if archive or view:
             pass
         else:
             Tk.Button(search_result_frame,
@@ -271,7 +330,7 @@ class SearchWindow(Tk.Frame):
                       command=self.archive_jobs,
                       highlightbackground="#e0fcf4",
                       font=self.search_table_results_font).grid(row=0, column=2, sticky=Tk.E)
-        if archive:
+        if archive or view:
             pass
         else:
             Tk.Button(search_result_frame,

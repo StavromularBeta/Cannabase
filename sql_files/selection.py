@@ -161,3 +161,12 @@ class Selection(Connector):
         else:
             return self.connector(query)
 
+    def odd_name_check(self, print_view=None):
+        query = "SELECT * FROM cannajobs2020 WHERE client_name not in (SELECT client_name FROM canna_customers)"
+        if print_view:
+            print("Query: " + query)
+            for item in self.connector(query):
+                print(item)
+        else:
+            return self.connector(query)
+
