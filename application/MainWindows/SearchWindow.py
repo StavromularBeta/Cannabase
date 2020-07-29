@@ -97,7 +97,12 @@ class SearchWindow(Tk.Frame):
                  font=self.search_table_field_font,
                  highlightbackground="#e0fcf4",
                  bg="#e0fcf4").grid(row=0, column=3, sticky=Tk.W, padx=2, pady=2)
-        if search:
+        if search and archive:
+            if view:
+                self.return_jobs(search, archive=True, view=True)
+            else:
+                self.return_jobs(search, archive=True)
+        elif search:
             if view:
                 self.return_jobs(search, view=True)
             else:
