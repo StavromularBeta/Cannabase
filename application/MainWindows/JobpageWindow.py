@@ -280,10 +280,20 @@ class JobpageWindow(Tk.Frame):
                 self.text_reports.insert("current", f.read())
         except FileNotFoundError:
             pass
-        Tk.Button(self.notes_for_job_frame, text="Update Notes", command=lambda: self.update_notes(job)).grid(row=2,
-                                                                                                              column=0,
-                                                                                                              pady=5,
-                                                                                                              sticky=Tk.W)
+        if view:
+            Tk.Button(self.notes_for_job_frame,
+                      text="Update Notes",
+                      command=lambda: self.update_notes(job, view=True)).grid(row=2,
+                                                                              column=0,
+                                                                              pady=5,
+                                                                              sticky=Tk.W)
+        else:
+            Tk.Button(self.notes_for_job_frame,
+                      text="Update Notes",
+                      command=lambda: self.update_notes(job)).grid(row=2,
+                                                                   column=0,
+                                                                   pady=5,
+                                                                   sticky=Tk.W)
         self.job_notes.grid(row=1, column=0, columnspan=3, sticky=Tk.W, padx=2, pady=2)
         Tk.Label(self.notes_for_job_frame,
                  text="Analytical Reports",
@@ -325,12 +335,15 @@ class JobpageWindow(Tk.Frame):
             self.addel.delete_cannajob_test_notes((job,))
         self.parent.display_searchpage()
 
-    def update_notes(self, job):
+    def update_notes(self, job, view=None):
         entry = (job[1],
                  self.job_notes.get("1.0", 'end-1c'),
                  datetime.date.today())
         self.addel.new_cannajobs_test_notes_entry(entry)
-        self.parent.display_jobpage(job)
+        if view:
+            self.parent.display_jobpage(job, view=True)
+        else:
+            self.parent.display_jobpage(job)
 
     def get_relevant_intake_photos(self, job):
         self.picture_frame.grid(row=1, column=2, sticky=Tk.NW, pady=5,  padx=2, ipadx=2, ipady=2)
