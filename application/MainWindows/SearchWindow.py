@@ -44,6 +44,7 @@ class SearchWindow(Tk.Frame):
         self.jobs_display_frame = Tk.Frame(self, bg="#7afdd6")
         self.search_frame = Tk.Frame(self, borderwidth=1, relief='solid', bg='#e0fcf4')
         self.all_jobs_display_frame = Tk.Frame(self, bg="#7afdd6")
+        self.test_filter_frame = Tk.Frame(self.search_frame, bg="#e0fcf4")
 
     def display_all_jobs(self, search=None, archive=None, view=None):
         self.clear_search_window()
@@ -367,6 +368,77 @@ class SearchWindow(Tk.Frame):
                       command=self.parent.display_searchpage,
                       highlightbackground="#e0fcf4",
                       font=self.search_table_results_font).grid(row=1, column=1, sticky=Tk.W)
+        filter_checkboxes_frame = Tk.Frame(self.search_frame, bg='#e0fcf4')
+        filter_checkboxes_frame.grid(row=2, column=0, columnspan=3, padx=5, ipadx=2, ipady=2, pady=5)
+        #Checkboxes
+        self.metals = Tk.IntVar()
+        self.metals_checkbox = Tk.Checkbutton(filter_checkboxes_frame,
+                                              text='2) metals',
+                                              variable=self.metals,
+                                              bg='#e0fcf4').grid(row=0, column=1)
+        self.basic_potency = Tk.IntVar()
+        self.basic_potency_checkbox = Tk.Checkbutton(filter_checkboxes_frame,
+                                                     text='3) basic potency',
+                                                     variable=self.basic_potency,
+                                                     bg='#e0fcf4').grid(row=0, column=2)
+        self.deluxe_potency = Tk.IntVar()
+        self.deluxe_potency_checkbox = Tk.Checkbutton(filter_checkboxes_frame,
+                                                      text='3a) deluxe potency',
+                                                      variable=self.deluxe_potency,
+                                                      bg='#e0fcf4').grid(row=0, column=3)
+        self.toxins = Tk.IntVar()
+        self.toxins_checkbox = Tk.Checkbutton(filter_checkboxes_frame,
+                                              text='4) Aflotoxins',
+                                              variable=self.toxins,
+                                              bg='#e0fcf4').grid(row=0, column=4)
+        self.pesticides = Tk.IntVar()
+        self.pesticides_checkbox = Tk.Checkbutton(filter_checkboxes_frame,
+                                                  text='5) Pesticides',
+                                                  variable=self.pesticides,
+                                                  bg='#e0fcf4').grid(row=0, column=5)
+        self.terpenes = Tk.IntVar()
+        self.terpenes_checkbox = Tk.Checkbutton(filter_checkboxes_frame,
+                                                text='7) Terpenes',
+                                                variable=self.terpenes,
+                                                bg='#e0fcf4').grid(row=1, column=1)
+        self.solvents = Tk.IntVar()
+        self.solvents_checkbox = Tk.Checkbutton(filter_checkboxes_frame,
+                                                text='8) Solvents',
+                                                variable=self.solvents,
+                                                bg='#e0fcf4').grid(row=1, column=2)
+        self.other = Tk.IntVar()
+        self.other_checkbox = Tk.Checkbutton(filter_checkboxes_frame,
+                                             text='Other',
+                                             variable=self.other,
+                                             bg='#e0fcf4').grid(row=1, column=3)
+        self.micro_a = Tk.IntVar()
+        self.micro_a_checkbox = Tk.Checkbutton(filter_checkboxes_frame,
+                                               text='1) Micro A',
+                                               variable=self.micro_a,
+                                               bg='#e0fcf4').grid(row=0, column=0)
+        self.micro_b = Tk.IntVar()
+        self.micro_b_checkbox = Tk.Checkbutton(filter_checkboxes_frame,
+                                               text='6) Micro B',
+                                               variable=self.micro_b,
+                                               bg='#e0fcf4').grid(row=1, column=0)
+        self.fungal_id = Tk.IntVar()
+        self.fungal_id_checkbox = Tk.Checkbutton(filter_checkboxes_frame,
+                                                 text='Fungal ID',
+                                                 variable=self.fungal_id,
+                                                 bg='#e0fcf4').grid(row=1, column=4)
+        self.mushrooms = Tk.IntVar()
+        self.mushrooms_checkbox = Tk.Checkbutton(filter_checkboxes_frame,
+                                                 text='Psilocybin',
+                                                 variable=self.mushrooms,
+                                                 bg='#e0fcf4').grid(row=1, column=5)
+        if archive:
+            Tk.Button(filter_checkboxes_frame,
+                      text="Filter by Test",
+                      command=lambda: self.filter_jobs_by_test(archive=True)).grid(row=2, column=0, columnspan=3)
+        else:
+            Tk.Button(filter_checkboxes_frame,
+                      text="Filter by Test",
+                      command=self.filter_jobs_by_test).grid(row=2, column=0, columnspan=3)
         self.search_frame.grid(row=0, column=0, sticky=Tk.NW)
 
     def search_database_for_jobs(self, archive=None):
@@ -405,5 +477,37 @@ class SearchWindow(Tk.Frame):
         self.add_delete.delete_archived_cannjob_entry_from_current()
         self.add_delete.delete_archived_cannjob_test__entry_from_current()
         self.add_delete.delete_archived_cannjob_test_notes_entry_from_current()
+
+    def filter_jobs_by_test(self, archive=None):
+        jobs_to_display = []
+        filter_dictionary = {1: self.micro_a.get(),
+                             2: self.metals.get(),
+                             3: self.basic_potency.get(),
+                             33: self.deluxe_potency.get(),
+                             4: self.toxins.get(),
+                             5: self.pesticides.get(),
+                             6: self.micro_b.get(),
+                             7: self.terpenes.get(),
+                             8: self.solvents.get(),
+                             9: self.other.get(),
+                             10: self.fungal_id.get(),
+                             11: self.mushrooms.get()}
+        if archive:
+            jobs_to_filter = self.selection.select_all_from_table_descending(4)
+        else:
+            jobs_to_filter = self.selection.select_all_from_table_descending(1)
+        for item in jobs_to_filter:
+            tests_string = item[2]
+            tests_list = tests_string.split(',')
+            for subitem in tests_list:
+                if filter_dictionary[int(subitem)] == 1:
+                    jobs_to_display.append(item)
+        jobs_to_display = list(dict.fromkeys(jobs_to_display))
+        if archive:
+            self.parent.display_searchpage(search=jobs_to_display, archive=True)
+        else:
+            self.parent.display_searchpage(search=jobs_to_display)
+
+
 
 
