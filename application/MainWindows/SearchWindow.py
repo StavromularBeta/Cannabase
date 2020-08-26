@@ -433,12 +433,26 @@ class SearchWindow(Tk.Frame):
                                                  bg='#e0fcf4').grid(row=1, column=5)
         if archive:
             Tk.Button(filter_checkboxes_frame,
-                      text="Filter by Test",
-                      command=lambda: self.filter_jobs_by_test(archive=True)).grid(row=2, column=0, columnspan=3)
+                      text="Filter by Test (ONLY)",
+                      command=lambda: self.filter_jobs_by_test(archive=True,
+                                                               and_or_status="ONLY")).grid(row=2, column=0)
+            Tk.Button(filter_checkboxes_frame,
+                      text="Filter by Test (AND)",
+                      command=lambda: self.filter_jobs_by_test(archive=True,
+                                                               and_or_status="AND")).grid(row=2, column=1)
+            Tk.Button(filter_checkboxes_frame,
+                      text="Filter by Test (OR)",
+                      command=lambda: self.filter_jobs_by_test(archive=True)).grid(row=2, column=2)
         else:
             Tk.Button(filter_checkboxes_frame,
-                      text="Filter by Test",
-                      command=self.filter_jobs_by_test).grid(row=2, column=0, columnspan=3)
+                      text="Filter by Test (ONLY)",
+                      command=lambda: self.filter_jobs_by_test(and_or_status="ONLY")).grid(row=2, column=0)
+            Tk.Button(filter_checkboxes_frame,
+                      text="Filter by Test (AND)",
+                      command=lambda: self.filter_jobs_by_test(and_or_status="AND")).grid(row=2, column=1)
+            Tk.Button(filter_checkboxes_frame,
+                      text="Filter by Test (OR)",
+                      command= self.filter_jobs_by_test).grid(row=2, column=2)
         self.search_frame.grid(row=0, column=0, sticky=Tk.NW)
 
     def search_database_for_jobs(self, archive=None):
@@ -478,7 +492,7 @@ class SearchWindow(Tk.Frame):
         self.add_delete.delete_archived_cannjob_test__entry_from_current()
         self.add_delete.delete_archived_cannjob_test_notes_entry_from_current()
 
-    def filter_jobs_by_test(self, archive=None):
+    def filter_jobs_by_test(self, archive=None, and_or_status=None):
         jobs_to_display = []
         filter_dictionary = {1: self.micro_a.get(),
                              2: self.metals.get(),
@@ -499,9 +513,29 @@ class SearchWindow(Tk.Frame):
         for item in jobs_to_filter:
             tests_string = item[2]
             tests_list = tests_string.split(',')
-            for subitem in tests_list:
-                if filter_dictionary[int(subitem)] == 1:
+            if and_or_status == "ONLY":
+                number_of_tests = len(tests_list)
+                number_of_hits = 0
+                checked_box_count = sum(filter_dictionary.values())
+                for subitem in tests_list:
+                    if filter_dictionary[int(subitem)] == 1:
+                        number_of_hits += 1
+                if number_of_tests == number_of_hits == checked_box_count:
+                    print('match!')
                     jobs_to_display.append(item)
+            elif and_or_status == "AND":
+                number_of_hits = 0
+                checked_box_count = sum(filter_dictionary.values())
+                for subitem in tests_list:
+                    if filter_dictionary[int(subitem)] == 1:
+                        number_of_hits += 1
+                if number_of_hits == checked_box_count:
+                    print('match!')
+                    jobs_to_display.append(item)
+            else:
+                for subitem in tests_list:
+                    if filter_dictionary[int(subitem)] == 1:
+                        jobs_to_display.append(item)
         jobs_to_display = list(dict.fromkeys(jobs_to_display))
         if archive:
             self.parent.display_searchpage(search=jobs_to_display, archive=True)
