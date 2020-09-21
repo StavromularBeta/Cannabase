@@ -60,6 +60,11 @@ class JobpageWindow(Tk.Frame):
                                            highlightbackground='#613a3a',
                                            highlightcolor='#613a3a',
                                            highlightthickness=2)
+        self.links_display_frame = Tk.Frame(self,
+                                            bg="#e0fcf4",
+                                            highlightbackground='#613a3a',
+                                            highlightcolor='#613a3a',
+                                            highlightthickness=2)
         self.update_entry = Tk.Entry(self.update_information_frame)
         self.job_number_font = tkFont.Font(size=16, weight='bold')
         self.edit_entry = editentry.EditEntry()
@@ -109,6 +114,11 @@ class JobpageWindow(Tk.Frame):
                                            highlightbackground='#613a3a',
                                            highlightcolor='#613a3a',
                                            highlightthickness=2)
+        self.links_display_frame = Tk.Frame(self,
+                                            bg="#e0fcf4",
+                                            highlightbackground='#613a3a',
+                                            highlightcolor='#613a3a',
+                                            highlightthickness=2)
         self.notes_for_job_frame = Tk.Frame(self,
                                             bg="#e0fcf4",
                                             highlightbackground='#613a3a',
@@ -248,7 +258,7 @@ class JobpageWindow(Tk.Frame):
                 row_count += 1
 
     def display_job_notes(self, job, archive=None, view=None):
-        self.notes_for_job_frame.grid(row=1, column=0, columnspan=2, sticky=Tk.NW, pady=5,  padx=2, ipadx=2, ipady=2)
+        self.notes_for_job_frame.grid(row=1,  rowspan=2, column=0, columnspan=2, sticky=Tk.NW, pady=5,  padx=2, ipadx=2, ipady=2)
         try:
             if archive:
                 years = ['2020']
@@ -346,7 +356,7 @@ class JobpageWindow(Tk.Frame):
             self.parent.display_jobpage(job)
 
     def get_relevant_intake_photos(self, job):
-        self.picture_frame.grid(row=1, column=2, sticky=Tk.NW, pady=5,  padx=2, ipadx=2, ipady=2)
+        self.picture_frame.grid(row=1, column=2, rowspan=2, sticky=Tk.NW, pady=5,  padx=2, ipadx=2, ipady=2)
         self.picture_sub_frame.pack()
         display_all_jobs_canvas = Tk.Canvas(self.picture_frame,
                                             width=330,
@@ -382,3 +392,29 @@ class JobpageWindow(Tk.Frame):
         for item in picture_list:
             Tk.Label(self.picture_sub_frame, text=item[1], font=self.jobpage_font, bg="#e0fcf4").pack()
             item[0].pack()
+
+    def get_relevant_exit_pdf_links(self, job):
+        self.links_display_frame.grid(row=2, column=3, sticky=Tk.NW, padx=5, pady=5, ipadx=2, ipady=2)
+        path = r"""U:\COPY\Cannabis Benchsheets\ """
+        path = path[:-1]
+        link_search_token = path + r"**\* " + job[1][-4:] + ".pdf"
+        self.link_list = []
+        self.brief_link_list = []
+        for infile in glob.glob(link_search_token, recursive=True):
+            self.link_list.append(infile)
+            self.brief_link_list.append(infile[-40:])
+        self.link_list_variable = Tk.StringVar(self.links_display_frame)
+        try:
+            self.link_list_variable.set(self.brief_link_list[0])
+            f = Tk.OptionMenu(self.links_display_frame, self.link_list_variable, *self.brief_link_list)
+            f.grid(row=1, column=1, sticky=Tk.W)
+            Tk.Button(self.links_display_frame,
+                      text="View pdf file",
+                      command=lambda: self.open_link_using_preferred_software(self.link_list_variable.get())).grid(row=2,
+                                                                                                                   column=1,
+                                                                                                                   sticky=Tk.W)
+        except IndexError:
+            Tk.Label(self.links_display_frame, text="no scanned bench sheets found.").grid()
+
+    def open_link_using_preferred_software(self, link):
+        os.startfile(self.link_list[self.brief_link_list.index(link)])
