@@ -51,7 +51,7 @@ class SearchWindow(Tk.Frame):
         display_all_jobs_canvas = Tk.Canvas(self.jobs_display_frame,
                                             width=1180,
                                             height=700,
-                                            scrollregion=(0, 0, 0, 20000),
+                                            scrollregion=(0, 0, 0, 50000),
                                             bg="#e0fcf4",
                                             highlightbackground="#e0fcf4")
         all_entries_scroll = Tk.Scrollbar(self.jobs_display_frame,

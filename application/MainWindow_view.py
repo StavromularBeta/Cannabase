@@ -54,6 +54,8 @@ class MainWindow(Tk.Frame):
     def display_jobpage(self, customer, archive=None, view=None):
         self.clear_main_window()
         self.JobpageWindow.get_relevant_intake_photos(customer)
+        self.JobpageWindow.get_relevant_exit_pdf_links(customer)
+        #self.JobpageWindow.get_relevant_customer_good_copies(customer)
         if archive:
             if view:
                 self.JobpageWindow.generate_jobpage(customer, archive=True, view=True)
