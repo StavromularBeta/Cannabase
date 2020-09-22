@@ -450,13 +450,17 @@ class JobpageWindow(Tk.Frame):
 
     def get_relevant_customer_good_copies(self, job):
         self.good_copies_display_frame.grid(row=3, column=3, sticky=Tk.NW, padx=5, pady=5, ipadx=2, ipady=2)
-        path = r"""U:\CLIENT GOOD COPIES\ """
+        path = r"""U:\CLIENT GOOD COPIES\CANNABIS + DRUGS\ """
         path = path[:-1]
         link_search_token = path + r"**\* " + job[1][-4:] + ".pdf"
-        print(link_search_token)
         self.good_copy_list = []
         self.brief_good_copy_list = []
         for infile in glob.glob(link_search_token, recursive=True):
+            self.filter_and_append_good_copies_to_list(infile, job)
+        path = r"""U:\CLIENT GOOD COPIES\ """
+        path = path[:-1]
+        link_search_token = path + r"**\* " + job[1][-4:] + ".pdf"
+        for infile in glob.glob(link_search_token):
             self.filter_and_append_good_copies_to_list(infile, job)
         self.good_copy_variable = Tk.StringVar(self.good_copies_display_frame)
         Tk.Label(self.good_copies_display_frame,
