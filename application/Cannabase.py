@@ -22,6 +22,8 @@ class MainApplication(Tk.Frame):
 
 
 root = Tk.Tk()
-root.geometry('1335x900')
+height = root.winfo_screenheight() - 80
+width = root.winfo_screenwidth() - 15
+root.geometry(f'{width}x{height}+0-40')
 MainApplication(root).grid()
 root.mainloop()

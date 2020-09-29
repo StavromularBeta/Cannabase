@@ -50,7 +50,7 @@ class SearchWindow(Tk.Frame):
         self.clear_search_window()
         display_all_jobs_canvas = Tk.Canvas(self.jobs_display_frame,
                                             width=1180,
-                                            height=700,
+                                            height=500,
                                             scrollregion=(0, 0, 0, 50000),
                                             bg="#e0fcf4",
                                             highlightbackground="#e0fcf4")
@@ -119,6 +119,8 @@ class SearchWindow(Tk.Frame):
             else:
                 self.return_jobs()
         self.jobs_display_frame.grid(row=1, column=0, pady=5)
+        self.filler_canvas = Tk.Canvas(self, bg="#e0fcf4", highlightbackground="#e0fcf4", width=1100, height=600)
+        self.filler_canvas.grid(row=4, column=4, columnspan=1)
 
     def return_jobs(self, search=None, archive=None, view=None):
         if search:

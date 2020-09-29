@@ -37,6 +37,8 @@ class CustomerWindow(Tk.Frame):
         else:
             self.get_full_customer_list()
         self.create_info_box()
+        self.filler_canvas = Tk.Canvas(self, bg="#e0fcf4", highlightbackground="#e0fcf4", width=1100, height=600)
+        self.filler_canvas.grid(row=4, column=4, columnspan=1)
 
     def create_info_box(self):
         self.customer_search_info_box = Tk.Frame(self)
@@ -60,7 +62,7 @@ class CustomerWindow(Tk.Frame):
     def get_full_customer_list(self, view=None):
         display_all_customers_canvas = Tk.Canvas(self.customer_page_main_frame,
                                                  width=1180,
-                                                 height=750,
+                                                 height=650,
                                                  scrollregion=(0, 0, 0, 20000),
                                                  bg="#e0fcf4",
                                                  highlightbackground="#e0fcf4")

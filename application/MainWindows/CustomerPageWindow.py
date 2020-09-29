@@ -56,11 +56,13 @@ class CustomerpageWindow(Tk.Frame):
             self.gather_customer_jobs(client)
         self.main_customerpage_frame.grid(row=0, sticky=Tk.W)
         self.customer_scroll_frame.grid(row=1)
+        self.filler_canvas = Tk.Canvas(self, bg="#e0fcf4", highlightbackground="#e0fcf4", width=1100, height=600)
+        self.filler_canvas.grid(row=4, column=4, columnspan=1)
 
     def create_scrolling_window(self):
         display_all_customers_canvas = Tk.Canvas(self.customer_scroll_frame,
                                                  width=1180,
-                                                 height=750,
+                                                 height=650,
                                                  scrollregion=(0, 0, 0, 20000),
                                                  bg="#e0fcf4",
                                                  highlightbackground="#e0fcf4")

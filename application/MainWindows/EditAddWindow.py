@@ -181,6 +181,8 @@ class EditAddWindow(Tk.Frame):
         new_job_entry_frame.grid(row=0, column=0, sticky=Tk.W, padx=5, ipadx=2, ipady=2)
         self.generate_job_notes_frame()
         self.job_notes_frame.grid(row=0, column=1, rowspan=3, sticky=Tk.NW)
+        self.filler_canvas = Tk.Canvas(self, bg="#e0fcf4", highlightbackground="#e0fcf4", width=1100, height=600)
+        self.filler_canvas.grid(row=4, column=4, columnspan=1)
 
         # job number, receive date, tests, status
     def generate_new_job_frame(self):

@@ -459,7 +459,7 @@ class JobpageWindow(Tk.Frame):
             self.filter_and_append_good_copies_to_list(infile, job)
         path = r"""U:\CLIENT GOOD COPIES\ """
         path = path[:-1]
-        link_search_token = path + r"**\* " + job[1][-4:] + ".pdf"
+        link_search_token = path + r"* " + job[1][-4:] + ".pdf"
         for infile in glob.glob(link_search_token):
             self.filter_and_append_good_copies_to_list(infile, job)
         self.good_copy_variable = Tk.StringVar(self.good_copies_display_frame)
