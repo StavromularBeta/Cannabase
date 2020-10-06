@@ -489,7 +489,7 @@ class JobpageWindow(Tk.Frame):
         split_file = infile.split(splitter[:-1])
         file_id = infile.split(splitter[:-1])[-2][1:4]
         job_id = job[1][0:3]
-        if file_id in ['LIE', 'EMP']:
+        if file_id in ['LIE', 'EMP', '-Z ']:
             self.good_copy_list.append(infile)
             self.brief_good_copy_list.append(split_file[-1])
         elif str(file_id) == str(job_id):
