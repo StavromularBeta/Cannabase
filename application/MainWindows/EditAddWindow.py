@@ -260,6 +260,11 @@ class EditAddWindow(Tk.Frame):
             return False
         if self.existing_client_variable.get() == "New Client" or len(self.client_name_entry.get()) != 0:
             client_name = self.client_name_entry.get()
+            if self.test_for_blank_client_name(client_name) is True:
+                #This prevents you from entering a blank client.
+                self.clear_edit_add_frame()
+                self.edit_add()
+                return False
             self.add_delete_query.new_customer_entry((0, client_name, 1))
         else:
             client_name = self.existing_client_variable.get()
@@ -326,6 +331,10 @@ class EditAddWindow(Tk.Frame):
 
     def test_for_blank_job(self, job_number):
         if len(job_number) == 0:
+            return True
+
+    def test_for_blank_client_name(self, client_name):
+        if len(client_name) == 0:
             return True
 
 
