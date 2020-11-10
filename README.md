@@ -12,8 +12,22 @@ The following is tracked for each work order:
 * Job Status (Complete or Incomplete)
 * Job Notes
     * Can be added to throughout the analytical process.
+* Photos of the sample being analyzed
+* Analytical data
+    * View basic, text based potency reports at the job page level
+    * Links to scanned bench sheet pdf's, which open in your default PDF viewer
+    * Links to scanned report good copies, which open in your default PDF viewer
 
-There is a view for the jobs currently being worked on that is connected to a working jobs table in the Cannabase, and a system to archive those jobs to long term archive tables.
+Work orders are placed into an "active jobs" table. When they have been marked as complete, they are archived. Both active and archived jobs 
+can be searched independently.
+
+Customers are tracked by the database - you can search through all customers, and view all of a customer's jobs on a given "customer page".
+You can click on the individual jobs to go to their "job pages", and can click on the customer name on the "job page" to go back to the 
+"customer page".
+
+
+
+
 
 
 [Home](http://StavromularBeta.github.io)
