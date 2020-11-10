@@ -20,6 +20,8 @@ The following is tracked for each work order:
 
 Work orders are placed into an "active jobs" table. When they have been marked as complete, they are archived. Both active and archived jobs 
 can be searched independently.
+    * You can search by Customer Name or Jobnumber. Additionally, there are a series of filters for the various tests - can select whatever tests 
+    you want, and then hit (ONLY/OR/AND) to search. 
 
 Customers are tracked by the database - you can search through all customers, and view all of a customer's jobs on a given "customer page".
 You can click on the individual jobs to go to their "job pages", and can click on the customer name on the "job page" to go back to the 
