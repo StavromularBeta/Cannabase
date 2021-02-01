@@ -123,29 +123,30 @@ class CustomerpageWindow(Tk.Frame):
                  font=self.search_table_field_font,
                  bg='#e0fcf4').grid(row=rowcounter, columnspan=3, sticky=Tk.W)
         rowcounter += 1
-        for item in self.selection.select_from_cannajobs_archive_table_with_conditions_equals(4, (client[2],)):
-            if view:
-                Tk.Button(self.customer_scroll_frame_canvas,
-                          text=item[1],
-                          command=lambda item=item: self.parent.display_jobpage(item, archive=True, view=True),
-                          font=self.search_table_results_font,
-                          bg='#e0fcf4').grid(row=rowcounter, column=0)
-            else:
-                Tk.Button(self.customer_scroll_frame_canvas,
-                          text=item[1],
-                          command=lambda item=item: self.parent.display_jobpage(item, archive=True),
-                          font=self.search_table_results_font,
-                          bg='#e0fcf4').grid(row=rowcounter, column=0)
-            testlist = []
-            for subitem in item[2].split(","):
-                testlist.append(self.test_converter[int(subitem)])
+        for year in ['2021', '2020']:
+            for item in self.selection.select_from_cannajobs_archive_table_with_conditions_equals_year(year, 4, (client[2],)):
+                if view:
+                    Tk.Button(self.customer_scroll_frame_canvas,
+                              text=item[1],
+                              command=lambda item=item: self.parent.display_jobpage(item, archive=True, view=True),
+                              font=self.search_table_results_font,
+                              bg='#e0fcf4').grid(row=rowcounter, column=0)
+                else:
+                    Tk.Button(self.customer_scroll_frame_canvas,
+                              text=item[1],
+                              command=lambda item=item: self.parent.display_jobpage(item, archive=True),
+                              font=self.search_table_results_font,
+                              bg='#e0fcf4').grid(row=rowcounter, column=0)
+                testlist = []
+                for subitem in item[2].split(","):
+                    testlist.append(self.test_converter[int(subitem)])
+                    Tk.Label(self.customer_scroll_frame_canvas,
+                             text=", ".join(testlist),
+                             font=self.search_table_results_font,
+                             bg='#e0fcf4').grid(row=rowcounter, column=1)
                 Tk.Label(self.customer_scroll_frame_canvas,
-                         text=", ".join(testlist),
+                         text=str(item[4]),
                          font=self.search_table_results_font,
-                         bg='#e0fcf4').grid(row=rowcounter, column=1)
-            Tk.Label(self.customer_scroll_frame_canvas,
-                     text=str(item[4]),
-                     font=self.search_table_results_font,
-                     bg='#e0fcf4').grid(row=rowcounter, column=2)
-            rowcounter += 1
+                         bg='#e0fcf4').grid(row=rowcounter, column=2)
+                rowcounter += 1
 

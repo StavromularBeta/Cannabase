@@ -223,13 +223,19 @@ class JobpageWindow(Tk.Frame):
     def display_tests(self, job, archive=None, view=None):
         self.test_display_frame.grid(row=1, column=3, sticky=Tk.NW, padx=5, pady=5, ipadx=2, ipady=2)
         if archive:
-            years = ['2020']
+            years = ['2020', '2021']
+            active_tests = ""
             for item in years:
                 active_tests = self.selection.select_from_cannajobs_tests_archive__table_with_conditions(item,
                                                                                                          2,
                                                                                                          (str(job[1]),))
-                if active_tests:
+                if len(active_tests.fetchall()) >= 1:
+                    active_tests = self.selection.select_from_cannajobs_tests_archive__table_with_conditions(item,
+                                                                                                             2,
+                                                                                                             (str(job[1]),))
                     break
+                else:
+                    continue
         else:
             active_tests = self.selection.select_from_cannajobs_tests__table_with_conditions(2, (str(job[1]),))
         Tk.Label(self.test_display_frame,
@@ -271,7 +277,7 @@ class JobpageWindow(Tk.Frame):
         self.notes_for_job_frame.grid(row=1,  rowspan=3, column=0, columnspan=2, sticky=Tk.NW, pady=5,  padx=2, ipadx=2, ipady=2)
         try:
             if archive:
-                years = ['2020']
+                years = ['2020', '2021']
                 for year in years:
                     for item in self.selection.select_from_archive_cannajob_test_notes(year, job[1]):
                         latest_job_note = item[2]
@@ -344,7 +350,7 @@ class JobpageWindow(Tk.Frame):
 
     def delete_job(self, id, job, archive=None):
         if archive:
-            archive_years = ['2020']
+            archive_years = ['2020','2021']
             for item in archive_years:
                 self.addel.delete_cannajob_entry_archive((id,), item)
                 self.addel.delete_cannajob_tests_archive((job,), item)

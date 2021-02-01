@@ -126,6 +126,24 @@ class Selection(Connector):
         else:
             return self.connector(query, condition)
 
+    def select_from_cannajobs_archive_table_with_conditions_year(self, year, field_number, condition, print_view=None):
+        query = "SELECT * FROM cannajobs" + year + " WHERE " + self.cannajobs_archive_field_names[field_number] + " LIKE (?) ORDER BY id DESC"
+        if print_view:
+            print("Query: " + query)
+            for item in self.connector(query, condition):
+                print(item)
+        else:
+            return self.connector(query, condition)
+
+    def select_from_cannajobs_archive_table_with_conditions_equals_year(self, year, field_number, condition, print_view=None):
+        query = "SELECT * FROM cannajobs" + year + " WHERE " + self.cannajobs_archive_field_names[field_number] + " = (?) ORDER BY id DESC"
+        if print_view:
+            print("Query: " + query)
+            for item in self.connector(query, condition):
+                print(item)
+        else:
+            return self.connector(query, condition)
+
     def select_from_cannajobs_tests_archive__table_with_conditions(self, year, field_number, condition, print_view=None):
         query = "SELECT * FROM cannajobs_tests" + year + " WHERE " +\
                 self.cannajobs_tests_archive_field_names[field_number] + " = (?) ORDER BY id DESC"

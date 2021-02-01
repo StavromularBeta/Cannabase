@@ -49,7 +49,7 @@ class SearchWindow(Tk.Frame):
     def display_all_jobs(self, search=None, archive=None, view=None):
         self.clear_search_window()
         display_all_jobs_canvas = Tk.Canvas(self.jobs_display_frame,
-                                            width=1180,
+                                            width=1200,
                                             height=500,
                                             scrollregion=(0, 0, 0, 50000),
                                             bg="#e0fcf4",
