@@ -126,11 +126,15 @@ class SearchWindow(Tk.Frame):
     def return_jobs(self, search=None, archive=None, view=None):
         all_jobs_data_list = []
         years_list = ['2021', '2020']
+        if search:
+            all_jobs_data = search
+            all_jobs_data_list.append(all_jobs_data)
         for item in years_list:
-            if search:
-                all_jobs_data = search
-                all_jobs_data_list.append(all_jobs_data)
-            elif archive:
+            # Moved this above the for loop, so that anything searched doesn't get displayed twice. 23Apr21
+            # if search:
+            #    all_jobs_data = search
+            #    all_jobs_data_list.append(all_jobs_data)
+            if archive:
                 all_jobs_data = self.selection.select_from_cannajobs_archive_table_year(item)
                 all_jobs_data_list.append(all_jobs_data)
             else:
