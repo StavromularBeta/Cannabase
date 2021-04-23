@@ -129,14 +129,14 @@ class SearchWindow(Tk.Frame):
         for item in years_list:
             if search:
                 all_jobs_data = search
-                if len(all_jobs_data_list) < 1:
-                    all_jobs_data_list.append(all_jobs_data)
+                all_jobs_data_list.append(all_jobs_data)
             elif archive:
                 all_jobs_data = self.selection.select_from_cannajobs_archive_table_year(item)
                 all_jobs_data_list.append(all_jobs_data)
             else:
                 all_jobs_data = self.selection.select_all_from_table_descending(1)
-                all_jobs_data_list.append(all_jobs_data)
+                if len(all_jobs_data_list) < 1:
+                    all_jobs_data_list.append(all_jobs_data)
         first_customer_row = 1
         for all_jobs_data in all_jobs_data_list:
             for item in all_jobs_data:
