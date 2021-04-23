@@ -47,7 +47,7 @@ class SearchWindow(Tk.Frame):
         self.all_jobs_display_frame = Tk.Frame(self, bg="#7afdd6")
         self.test_filter_frame = Tk.Frame(self.search_frame, bg="#e0fcf4")
 
-    def display_all_jobs(self, search=None, archive=None, view=None):
+    def display_all_jobs(self, search=None, archive=None, view=None, want_full_archives=None):
         self.clear_search_window()
         display_all_jobs_canvas = Tk.Canvas(self.jobs_display_frame,
                                             width=1200,
@@ -109,11 +109,13 @@ class SearchWindow(Tk.Frame):
                 self.return_jobs(search, view=True)
             else:
                 self.return_jobs(search)
-        elif archive:
+        elif archive and want_full_archives:
             if view:
                 self.return_jobs(archive=True, view=True)
             else:
                 self.return_jobs(archive=True)
+        elif archive:
+            pass
         else:
             if view:
                 self.return_jobs(view=True)
@@ -134,7 +136,9 @@ class SearchWindow(Tk.Frame):
             # if search:
             #    all_jobs_data = search
             #    all_jobs_data_list.append(all_jobs_data)
-            if archive:
+            if archive and search:
+                break
+            elif archive:
                 all_jobs_data = self.selection.select_from_cannajobs_archive_table_year(item)
                 all_jobs_data_list.append(all_jobs_data)
             else:
@@ -373,8 +377,8 @@ class SearchWindow(Tk.Frame):
                       font=self.search_table_results_font).grid(row=1, column=0, sticky=Tk.E)
         if archive:
             Tk.Button(search_result_frame,
-                      text="all archives",
-                      command=lambda: self.parent.display_searchpage(archive=True),
+                      text="all archives (SLOW)",
+                      command=lambda: self.parent.display_searchpage(archive=True, want_full_archives=True),
                       highlightbackground="#e0fcf4",
                       font=self.search_table_results_font).grid(row=1, column=1, sticky=Tk.W)
         else:

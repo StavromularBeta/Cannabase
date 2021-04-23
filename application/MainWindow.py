@@ -45,7 +45,7 @@ class MainWindow(Tk.Frame):
         self.CustomerWindow.customers()
         self.CustomerWindow.grid(padx=5, pady=5)
 
-    def display_searchpage(self, search=None, archive=None):
+    def display_searchpage(self, search=None, archive=None, want_full_archives=None):
         self.clear_main_window()
         if search and archive:
             self.SearchWindow.display_all_jobs(search, archive=True)
@@ -53,6 +53,9 @@ class MainWindow(Tk.Frame):
         elif search:
             self.SearchWindow.display_all_jobs(search)
             self.SearchWindow.search_jobs()
+        elif archive and want_full_archives:
+            self.SearchWindow.display_all_jobs(archive=True, want_full_archives=True)
+            self.SearchWindow.search_jobs(archive=True)
         elif archive:
             self.SearchWindow.display_all_jobs(archive=True)
             self.SearchWindow.search_jobs(archive=True)
