@@ -129,8 +129,9 @@ class SearchWindow(Tk.Frame):
         all_jobs_data_list = []
         years_list = ['2021', '2020']
         if search:
-            all_jobs_data = search
-            all_jobs_data_list.append(all_jobs_data)
+            for item in search:
+                all_jobs_data = item
+                all_jobs_data_list.append(all_jobs_data)
         for item in years_list:
             # Moved this above the for loop, so that anything searched doesn't get displayed twice. 23Apr21
             # if search:
@@ -478,14 +479,17 @@ class SearchWindow(Tk.Frame):
         search_type = self.option_variable.get()
         entry_field = self.search_entry_field.get()
         if archive:
-            if search_type == "Job Number":
-                search_results = self.selection.select_from_cannajobs_archive_table_with_conditions(2, (entry_field,))
-            elif search_type == "Active":
-                search_results = self.selection.select_from_cannajobs_archive_table_with_conditions(6, (entry_field,))
-            elif search_type == "Client Name":
-                search_results = self.selection.select_from_cannajobs_archive_table_with_conditions(4, (
-                '%' + entry_field + '%',))
-            self.parent.display_searchpage(search_results, archive=True)
+            search_results_list = []
+            for item in ['2020','2021']:
+                if search_type == "Job Number":
+                    search_results = self.selection.select_from_cannajobs_archive_table_with_conditions_year(item, 2, (entry_field,))
+                elif search_type == "Active":
+                    search_results = self.selection.select_from_cannajobs_archive_table_with_conditions_year(item, 6, (entry_field,))
+                elif search_type == "Client Name":
+                    search_results = self.selection.select_from_cannajobs_archive_table_with_conditions_year(item, 4, (
+                    '%' + entry_field + '%',))
+                search_results_list.append(search_results)
+            self.parent.display_searchpage(search_results_list, archive=True)
         else:
             if search_type == "Job Number":
                 search_results = self.selection.select_from_cannajobs_table_with_conditions(2, (entry_field,))
@@ -494,7 +498,7 @@ class SearchWindow(Tk.Frame):
             elif search_type == "Client Name":
                 search_results = self.selection.select_from_cannajobs_table_with_conditions(4,
                                                                                             ('%' + entry_field + '%',))
-            self.parent.display_searchpage(search_results)
+            self.parent.display_searchpage([search_results])
 
     def convert_testnumber_to_string(self, tests):
         tests_list_numbers = tests.split(",")
@@ -528,36 +532,40 @@ class SearchWindow(Tk.Frame):
                              10: self.fungal_id.get(),
                              11: self.mushrooms.get()}
         if archive:
-            jobs_to_filter = self.selection.select_all_from_table_descending(4)
+            jobs_to_filter = []
+            for item in ['2021','2020']:
+                jobs_to_filter.append(self.selection.select_from_cannajobs_archive_table_year(item))
         else:
-            jobs_to_filter = self.selection.select_all_from_table_descending(1)
-        for item in jobs_to_filter:
-            tests_string = item[2]
-            tests_list = tests_string.split(',')
-            if and_or_status == "ONLY":
-                number_of_tests = len(tests_list)
-                number_of_hits = 0
-                checked_box_count = sum(filter_dictionary.values())
-                for subitem in tests_list:
-                    if filter_dictionary[int(subitem)] == 1:
-                        number_of_hits += 1
-                if number_of_tests == number_of_hits == checked_box_count:
-                    print('match!')
-                    jobs_to_display.append(item)
-            elif and_or_status == "AND":
-                number_of_hits = 0
-                checked_box_count = sum(filter_dictionary.values())
-                for subitem in tests_list:
-                    if filter_dictionary[int(subitem)] == 1:
-                        number_of_hits += 1
-                if number_of_hits == checked_box_count:
-                    print('match!')
-                    jobs_to_display.append(item)
-            else:
-                for subitem in tests_list:
-                    if filter_dictionary[int(subitem)] == 1:
+            jobs_to_filter = [self.selection.select_all_from_table_descending(1)]
+        for jobs_list in jobs_to_filter:
+            for item in jobs_list:
+                tests_string = item[2]
+                tests_list = tests_string.split(',')
+                if and_or_status == "ONLY":
+                    number_of_tests = len(tests_list)
+                    number_of_hits = 0
+                    checked_box_count = sum(filter_dictionary.values())
+                    for subitem in tests_list:
+                        if filter_dictionary[int(subitem)] == 1:
+                            number_of_hits += 1
+                    if number_of_tests == number_of_hits == checked_box_count:
+                        print('match!')
                         jobs_to_display.append(item)
+                elif and_or_status == "AND":
+                    number_of_hits = 0
+                    checked_box_count = sum(filter_dictionary.values())
+                    for subitem in tests_list:
+                        if filter_dictionary[int(subitem)] == 1:
+                            number_of_hits += 1
+                    if number_of_hits == checked_box_count:
+                        print('match!')
+                        jobs_to_display.append(item)
+                else:
+                    for subitem in tests_list:
+                        if filter_dictionary[int(subitem)] == 1:
+                            jobs_to_display.append(item)
         jobs_to_display = list(dict.fromkeys(jobs_to_display))
+        jobs_to_display = [[item] for item in jobs_to_display]
         if archive:
             self.parent.display_searchpage(search=jobs_to_display, archive=True)
         else:
