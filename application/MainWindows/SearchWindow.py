@@ -17,6 +17,7 @@ from tkinter import font as tkFont
 class SearchWindow(Tk.Frame):
     def __init__(self, parent, **kwargs):
         Tk.Frame.__init__(self, parent, **kwargs)
+        self.print_filter_jobs = []
         self.parent = parent
         self.config(bg="#e0fcf4")
         self.jobs_display_frame = Tk.Frame(self, bg="#7afdd6")
@@ -395,6 +396,11 @@ class SearchWindow(Tk.Frame):
                       command=self.print_active_jobs_list,
                       highlightbackground="#e0fcf4",
                       font=self.search_table_results_font).grid(row=1, column=2, sticky=Tk.W)
+            Tk.Button(search_result_frame,
+                      text="print filtered",
+                      command=self.print_filtered_active_jobs_list,
+                      highlightbackground="#e0fcf4",
+                      font=self.search_table_results_font).grid(row=1, column=3, sticky=Tk.W)
         filter_checkboxes_frame = Tk.Frame(self.search_frame, bg='#e0fcf4')
         filter_checkboxes_frame.grid(row=2, column=0, columnspan=3, padx=5, ipadx=2, ipady=2, pady=5)
         # Checkboxes
@@ -576,17 +582,37 @@ class SearchWindow(Tk.Frame):
         if archive:
             self.parent.display_searchpage(search=jobs_to_display, archive=True)
         else:
-            self.parent.display_searchpage(search=jobs_to_display)
+            self.parent.display_searchpage(search=jobs_to_display, print_filter=jobs_to_display)
 
     def print_active_jobs_list(self):
         filename = tempfile.mktemp(".txt")
         active_jobs = self.selection.select_all_from_table_descending(1)
         file_string = "ACTIVE CANNABIS JOBS LIST (Generated on: " + datetime.date.today().strftime("%d/%m/%Y") + ")\n\n"
+        file_string += "JOB       RECEIVED       CLIENT                                                 TESTS\n\n"
         for item in active_jobs:
-            file_string += "W" + str(item[1]) + ")" + '\n' +\
-                           "     Received On: " + str(item[4]) + '\n' +\
-                           "     Client: " + str(item[3]) + '\n' +\
-                           "     Tests: " + str(item[2]) + '\n\n'
+            client_padding = 55 - len(item[3])
+            file_string += "W" + str(item[1]) + "   " + str(item[4]) + "     " + str(item[3]) +\
+                           (" "*client_padding) + str(item[2]) + '\n\n'
+        print(file_string)
+        open(filename, "w").write(file_string)
+        win32api.ShellExecute(
+            0,
+            "print",
+            filename,
+            '/d:"%s"' % win32print.GetDefaultPrinter(),
+            ".",
+           0
+       )
+
+    def print_filtered_active_jobs_list(self):
+        filename = tempfile.mktemp(".txt")
+        file_string = "ACTIVE (FILTERED) CANNABIS JOBS LIST (Generated on: " + datetime.date.today().strftime("%d/%m/%Y") + ")\n\n"
+        file_string += "JOB       RECEIVED       CLIENT                                                 TESTS\n\n"
+        for subitem in self.print_filter_jobs:
+            for item in subitem:
+                client_padding = 55 - len(item[3])
+                file_string += "W" + str(item[1]) + "   " + str(item[4]) + "     " + str(item[3]) +\
+                               (" "*client_padding) + str(item[2]) + '\n\n'
         open(filename, "w").write(file_string)
         win32api.ShellExecute(
             0,
