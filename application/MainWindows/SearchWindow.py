@@ -1,7 +1,9 @@
 import tkinter as Tk
 import datetime
 import os, sys, inspect
-
+import tempfile
+import win32api
+import win32print
 # below 3 lines add the parent directory to the path, so that SQL_functions can be found.
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
@@ -388,6 +390,11 @@ class SearchWindow(Tk.Frame):
                       command=self.parent.display_searchpage,
                       highlightbackground="#e0fcf4",
                       font=self.search_table_results_font).grid(row=1, column=1, sticky=Tk.W)
+            Tk.Button(search_result_frame,
+                      text="print active",
+                      command=self.print_active_jobs_list,
+                      highlightbackground="#e0fcf4",
+                      font=self.search_table_results_font).grid(row=1, column=2, sticky=Tk.W)
         filter_checkboxes_frame = Tk.Frame(self.search_frame, bg='#e0fcf4')
         filter_checkboxes_frame.grid(row=2, column=0, columnspan=3, padx=5, ipadx=2, ipady=2, pady=5)
         # Checkboxes
@@ -570,3 +577,22 @@ class SearchWindow(Tk.Frame):
             self.parent.display_searchpage(search=jobs_to_display, archive=True)
         else:
             self.parent.display_searchpage(search=jobs_to_display)
+
+    def print_active_jobs_list(self):
+        filename = tempfile.mktemp(".txt")
+        active_jobs = self.selection.select_all_from_table_descending(1)
+        file_string = "ACTIVE CANNABIS JOBS LIST (Generated on: " + datetime.date.today().strftime("%d/%m/%Y") + ")\n\n"
+        for item in active_jobs:
+            file_string += "W" + str(item[1]) + ")" + '\n' +\
+                           "     Received On: " + str(item[4]) + '\n' +\
+                           "     Client: " + str(item[3]) + '\n' +\
+                           "     Tests: " + str(item[2]) + '\n\n'
+        open(filename, "w").write(file_string)
+        win32api.ShellExecute(
+            0,
+            "print",
+            filename,
+            '/d:"%s"' % win32print.GetDefaultPrinter(),
+            ".",
+           0
+        )
